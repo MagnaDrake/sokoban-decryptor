@@ -25,7 +25,7 @@ import { Entity } from "../objects/Entity";
 import { CommandManager } from "./CommandManager";
 import { CommandBatch } from "../commands/CommandBatch";
 import { RotateCommand } from "../commands/RotateCommand";
-import { Emitter } from "../objects/Emitter";
+import { Emitter, EmitterTypes } from "../objects/Emitter";
 import { StepRotationCommand } from "../commands/StepRotationCommand";
 const { ccclass, property } = _decorator;
 
@@ -81,11 +81,68 @@ export class GameManager extends Component {
     GridManager.Instance.addEntityToTile(this.player, 0, 0);
 
     const emitter = instantiate(this.emitterPrefab);
+    emitter.getComponent(Emitter).setOutputDirections(EmitterTypes.SINGLE);
     emitter.setParent(GridManager.Instance.grid.node);
     GridManager.Instance.moveEntityTo(emitter.getComponent(Entity), 1, 1);
     emitter.getComponent(Emitter).changeDirection(0, 1);
+    // todo create a level reader/editor for this
     GridManager.Instance.addEntityToTile(emitter.getComponent(Entity), 1, 1);
     GridManager.Instance.grid.addEmitter(emitter.getComponent(Emitter));
+
+    const emitterDouble = instantiate(this.emitterPrefab);
+    emitterDouble
+      .getComponent(Emitter)
+      .setOutputDirections(EmitterTypes.DOUBLE);
+    emitterDouble.setParent(GridManager.Instance.grid.node);
+    GridManager.Instance.moveEntityTo(emitterDouble.getComponent(Entity), 5, 2);
+    emitterDouble.getComponent(Emitter).changeDirection(0, 1);
+    // todo create a level reader/editor for this
+    GridManager.Instance.addEntityToTile(
+      emitterDouble.getComponent(Entity),
+      5,
+      2
+    );
+    GridManager.Instance.grid.addEmitter(emitterDouble.getComponent(Emitter));
+
+    const emitterT = instantiate(this.emitterPrefab);
+    emitterT.getComponent(Emitter).setOutputDirections(EmitterTypes.T_JUNCTION);
+    emitterT.setParent(GridManager.Instance.grid.node);
+    GridManager.Instance.moveEntityTo(emitterT.getComponent(Entity), 1, 2);
+    emitterT.getComponent(Emitter).changeDirection(0, 1);
+    // todo create a level reader/editor for this
+    GridManager.Instance.addEntityToTile(emitterT.getComponent(Entity), 1, 2);
+    GridManager.Instance.grid.addEmitter(emitterT.getComponent(Emitter));
+
+    const emitterL = instantiate(this.emitterPrefab);
+    emitterL.getComponent(Emitter).setOutputDirections(EmitterTypes.L_CURVE);
+    emitterL.setParent(GridManager.Instance.grid.node);
+    GridManager.Instance.moveEntityTo(emitterL.getComponent(Entity), 1, 4);
+    emitterL.getComponent(Emitter).changeDirection(0, 1);
+    // todo create a level reader/editor for this
+    GridManager.Instance.addEntityToTile(emitterL.getComponent(Entity), 1, 4);
+    GridManager.Instance.grid.addEmitter(emitterL.getComponent(Emitter));
+
+    const emitterJ = instantiate(this.emitterPrefab);
+    emitterJ.getComponent(Emitter).setOutputDirections(EmitterTypes.J_CURVE);
+    emitterJ.setParent(GridManager.Instance.grid.node);
+    GridManager.Instance.moveEntityTo(emitterJ.getComponent(Entity), 3, 4);
+    emitterJ.getComponent(Emitter).changeDirection(0, 1);
+    // todo create a level reader/editor for this
+    GridManager.Instance.addEntityToTile(emitterJ.getComponent(Entity), 3, 4);
+    GridManager.Instance.grid.addEmitter(emitterJ.getComponent(Emitter));
+
+    const emitterQuad = instantiate(this.emitterPrefab);
+    emitterQuad.getComponent(Emitter).setOutputDirections(EmitterTypes.QUAD);
+    emitterQuad.setParent(GridManager.Instance.grid.node);
+    GridManager.Instance.moveEntityTo(emitterQuad.getComponent(Entity), 4, 4);
+    emitterQuad.getComponent(Emitter).changeDirection(0, 1);
+    // todo create a level reader/editor for this
+    GridManager.Instance.addEntityToTile(
+      emitterQuad.getComponent(Entity),
+      4,
+      4
+    );
+    GridManager.Instance.grid.addEmitter(emitterQuad.getComponent(Emitter));
   }
 
   onUndoKeyInput() {
