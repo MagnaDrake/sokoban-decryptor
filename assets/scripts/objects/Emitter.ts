@@ -36,10 +36,10 @@ export class Emitter extends Entity {
 
   constructor() {
     super(Direction.UP);
-    this.lastDirection = this.direction;
-    this.lastPosition = this.position;
+    this.lastDirection = undefined;
+    this.lastPosition = undefined;
     this.outputDirections = [Direction.UP];
-    this.lastOutputDirections = [...this.outputDirections];
+    this.lastOutputDirections = [];
   }
 
   setOutputDirections(type: EmitterTypes) {
