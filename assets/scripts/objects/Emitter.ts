@@ -75,19 +75,30 @@ export class Emitter extends Entity {
     });
   }
 
+  changeDirection(x: number, y: number): void {
+    super.changeDirection(x, y);
+    const degrees = getRotationFromDirection(this.direction);
+    for (let i = 0; i < this.outputDirections.length; i++) {
+      const oldRot = getRotationFromDirection(this.outputDirections[i]);
+      //console.log("old dir", i, this.outputDirections[i]);
+      this.outputDirections[i] = getDirectionFromRotation(oldRot + degrees);
+      // console.log("new rot", i, this.outputDirections[i]);
+    }
+  }
+
   rotate(degrees: RotateDirection) {
-    console.log("current dir", this.direction);
-    console.log("last dir old", this.lastDirection);
+    // console.log("current dir", this.direction);
+    // console.log("last dir old", this.lastDirection);
     this.lastDirection = this.direction;
     this.lastOutputDirections = [...this.outputDirections];
     super.rotate(degrees);
-    console.log("new dir", this.direction);
-    console.log("last dir new", this.lastDirection);
+    // console.log("new dir", this.direction);
+    // console.log("last dir new", this.lastDirection);
     for (let i = 0; i < this.outputDirections.length; i++) {
       const oldRot = getRotationFromDirection(this.outputDirections[i]);
-      console.log("old dir", i, this.outputDirections[i]);
+      //console.log("old dir", i, this.outputDirections[i]);
       this.outputDirections[i] = getDirectionFromRotation(oldRot + degrees);
-      console.log("new rot", i, this.outputDirections[i]);
+      // console.log("new rot", i, this.outputDirections[i]);
     }
     console.log("update last output directions", this.lastOutputDirections);
   }

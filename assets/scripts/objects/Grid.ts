@@ -18,17 +18,23 @@ export class Grid extends Component {
   public emitters: Array<Emitter>;
 
   onLoad() {
-    this.tiles = [...Array(this.width)].map((e) => Array(this.height));
+    this.tiles = [...Array(this.height)].map((e) => Array(this.width));
     this.emitters = new Array<Emitter>();
   }
 
   getTile(x: number, y: number) {
     // console.log(`${x},${y}`);
-    if (!(x in this.tiles) || !(y in this.tiles[x])) {
+    if (!(y in this.tiles && x in this.tiles[y])) {
       return false;
     } else {
       return this.tiles[y][x];
     }
+  }
+
+  setSize(width: number, height: number) {
+    this.width = width;
+    this.height = height;
+    this.tiles = [...Array(this.height)].map((e) => Array(this.width));
   }
 
   setTile(x: number, y: number, tile: Tile) {

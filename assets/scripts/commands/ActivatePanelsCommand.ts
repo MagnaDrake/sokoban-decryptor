@@ -28,9 +28,9 @@ export class ActivatePanelsCommand implements Command {
       this.activatedPanels.push(...panels);
     });
 
-    this.activatedPanels.forEach((panel) => {
-      console.log(panel.position);
-    });
+    // this.activatedPanels.forEach(panel=>{
+    //     console.log(panel.position);
+    // })
 
     this.activatedPanels.forEach((panel) => {
       panel.active = true;

@@ -27,6 +27,7 @@ import { CommandBatch } from "../commands/CommandBatch";
 import { RotateCommand } from "../commands/RotateCommand";
 import { Emitter, EmitterTypes } from "../objects/Emitter";
 import { StepRotationCommand } from "../commands/StepRotationCommand";
+import { LevelManager } from "./LevelManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("GameManager")
@@ -65,7 +66,8 @@ export class GameManager extends Component {
 
   start() {
     this.scheduleOnce(() => {
-      this.setupDummyGrid();
+      // this.setupDummyGrid();
+      this.loadLevelData(0);
     }, 0.2);
   }
 
@@ -290,5 +292,12 @@ export class GameManager extends Component {
     // todo
     // i dont really like this approach because this makes the command batch execution segmented
     GridManager.Instance.updateGridState();
+  }
+
+  loadLevelData(id: number) {
+    const levelData = LevelManager.Instance.levelData[id];
+    if (levelData) {
+      GridManager.Instance.createLevel(levelData);
+    }
   }
 }

@@ -9,13 +9,31 @@ import {
 import { Grid } from "../objects/Grid";
 import { Tile } from "../objects/Tile";
 import { Entity } from "../objects/Entity";
-import { Direction, getDirectionVector, IPoint } from "../interfaces/IPoint";
+import {
+  Direction,
+  getDirectionFromRotation,
+  getDirectionVector,
+  getRotationFromDirection,
+  IPoint,
+} from "../interfaces/IPoint";
 import { Panel } from "../objects/Panel";
 import { ActivatePanelsCommand } from "../commands/ActivatePanelsCommand";
 import { DeactivatePanelsCommand } from "../commands/DeactivatePanelsCommand";
 import { CommandManager } from "./CommandManager";
 import { CommandBatch } from "../commands/CommandBatch";
 import { SyncPositionCommand } from "../commands/SyncPositionCommand";
+import {
+  convertEmitterDataTypeToRealData,
+  EmitterData,
+  EntityListData,
+  LevelData,
+  PlayerData,
+  TileData,
+  TileTypeData,
+} from "../utils/LevelReader";
+import { GameManager } from "./GameManager";
+import { Player } from "../objects/Player";
+import { Emitter } from "../objects/Emitter";
 const { ccclass, property } = _decorator;
 
 @ccclass("GridManager")
@@ -28,6 +46,12 @@ export class GridManager extends Component {
 
   @property(Prefab)
   panelPrefab: Prefab;
+
+  @property(Prefab)
+  playerPrefab: Prefab;
+
+  @property(Prefab)
+  emitterPrefab: Prefab;
 
   @property(Grid)
   grid: Grid;
@@ -54,9 +78,7 @@ export class GridManager extends Component {
     }
   }
 
-  start() {
-    this.setupTiles();
-  }
+  start() {}
 
   public static get Instance(): GridManager | undefined {
     const instance = this._instance;
@@ -65,6 +87,88 @@ export class GridManager extends Component {
 
   public static set Instance(value: GridManager) {
     this._instance = value;
+  }
+
+  createGrid(width: number, height: number) {
+    this.grid.setSize(width, height);
+  }
+
+  createLevel(levelData: LevelData) {
+    this.createGrid(levelData.levelSize.width, levelData.levelSize.height);
+    this.createTiles(levelData.terrain);
+    this.createEntities(levelData.entities);
+  }
+
+  createTiles(data: TileData[]) {
+    data.forEach((tileData) => {
+      let tileObject;
+
+      if (tileData.type === TileTypeData.Floor) {
+        tileObject = instantiate(this.floorPrefab);
+      } else if (tileData.type === TileTypeData.Panel) {
+        tileObject = instantiate(this.panelPrefab);
+      }
+
+      tileObject.setParent(this.grid.node);
+      const wPos = this.getTileWorldPosition(
+        tileData.position.x,
+        tileData.position.y,
+        this.grid.width,
+        this.grid.height
+      );
+      tileObject.setPosition(wPos.x, wPos.y);
+      this.grid.setTile(
+        tileData.position.x,
+        tileData.position.y,
+        tileObject.getComponent(Tile)
+      );
+    });
+  }
+
+  createEntities(data: EntityListData) {
+    this.createPlayer(data.player);
+    this.createEmitters(data.emitters);
+    //this.createObstacles();
+  }
+
+  createPlayer(data: PlayerData) {
+    console.log("create player");
+    console.log("init pos", data.position.x, data.position.y);
+    const player = instantiate(this.playerPrefab);
+    const playerEntity = player.getComponent(Player);
+    GameManager.Instance.player = playerEntity;
+    player.setParent(this.grid.node);
+    this.initEntityToGrid(playerEntity, data.position.x, data.position.y);
+    const dir = getDirectionFromRotation(data.rotation);
+    const dirVec = getDirectionVector(dir);
+    playerEntity.changeDirection(dirVec.x, dirVec.y);
+  }
+
+  createEmitters(data: EmitterData[]) {
+    data.forEach((emitter) => {
+      const emitterObject = instantiate(this.emitterPrefab);
+      const emitterEntity = emitterObject.getComponent(Emitter);
+      emitterObject.setParent(this.grid.node);
+      this.grid.addEmitter(emitterEntity);
+      emitterEntity.setOutputDirections(
+        convertEmitterDataTypeToRealData(emitter.type)
+      );
+      this.initEntityToGrid(
+        emitterEntity,
+        emitter.position.x,
+        emitter.position.y
+      );
+      console.log("emitter position");
+      console.log(emitter.position.x, emitter.position.y);
+      const dir = getDirectionFromRotation(emitter.rotation);
+      const dirVec = getDirectionVector(dir);
+      emitterEntity.changeDirection(dirVec.x, dirVec.y);
+    });
+  }
+
+  initEntityToGrid(entity: Entity, x: number, y: number) {
+    this.moveEntityTo(entity, x, y);
+    this.addEntityToTile(entity, x, y);
   }
 
   setupTiles() {
@@ -128,8 +232,6 @@ export class GridManager extends Component {
       this.grid.width,
       this.grid.height
     );
-    //console.log("target world pos", targetWorldPos);
-    //console.log("entity", entity);
     entity.moveToWorldPos(targetWorldPos.x, targetWorldPos.y);
   }
 
@@ -150,7 +252,6 @@ export class GridManager extends Component {
   }
 
   getPanelsInDirection(source: IPoint, direction: Direction) {
-    console.log(direction, source);
     const originTile = this.getTileInGrid(source.x, source.y);
 
     if (!(originTile instanceof Panel) || !originTile) {
@@ -199,10 +300,10 @@ export class GridManager extends Component {
     console.log(emitters);
     let hasChanged = false;
     emitters.forEach((emitter) => {
-      console.log("loop emitters");
-      console.log(emitter.direction, emitter.lastDirection);
-      console.log(emitter.position !== emitter.lastPosition);
-      console.log(emitter.direction !== emitter.lastDirection);
+      //   console.log("loop emitters");
+      //   console.log(emitter.direction, emitter.lastDirection);
+      //   console.log(emitter.position !== emitter.lastPosition);
+      //   console.log(emitter.direction !== emitter.lastDirection);
       if (
         emitter.position !== emitter.lastPosition ||
         emitter.direction !== emitter.lastDirection
