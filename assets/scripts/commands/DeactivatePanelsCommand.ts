@@ -27,9 +27,10 @@ export class DeactivatePanelsCommand implements Command {
       const panels = gridManager.getPanelsInDirection(this.position, direction);
       this.activatedPanels.push(...panels);
     });
-    this.activatedPanels.forEach((panel) => {
-      console.log(panel.position);
-    });
+
+    // this.activatedPanels.forEach((panel) => {
+    //   console.log(panel.position);
+    // });
 
     this.activatedPanels.forEach((panel) => {
       panel.active = false;

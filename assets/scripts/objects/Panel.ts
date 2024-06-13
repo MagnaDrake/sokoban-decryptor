@@ -12,7 +12,7 @@ export class Panel extends Tile {
   onSignal: Node;
 
   set active(value: boolean) {
-    console.log("set panel", this.position, value);
+    // console.log("set panel", this.position, value);
     this._active = value;
     if (this.onSignal.isValid) this.onSignal.active = value;
   }
