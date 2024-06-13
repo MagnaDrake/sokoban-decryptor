@@ -143,6 +143,8 @@ export class GameManager extends Component {
       4
     );
     GridManager.Instance.grid.addEmitter(emitterQuad.getComponent(Emitter));
+
+    GridManager.Instance.updateGridState();
   }
 
   onUndoKeyInput() {

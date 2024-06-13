@@ -90,8 +90,6 @@ export class GridManager extends Component {
         tileCount++;
       }
     }
-
-    this.updateGridState();
   }
 
   getXWorldPos(x: number, width: number) {
@@ -188,11 +186,20 @@ export class GridManager extends Component {
 
   updateGridState() {
     console.log("update grid state");
+    // jank inefficient code
+    // i cant for the love of god figure out how to just disable the old panels and turn on new ones
+    // because there are cases of overlapping emitters
+    // will figure out later
+    // for now brute forcing the entire grid works
+
+    if (!this.activePanels) this.activePanels = new Array<Panel>();
+    if (!this.lastActivePanels) this.lastActivePanels = new Array<Panel>();
+
     const emitters = this.grid.getEmitters();
-    //const batch = new CommandBatch();
-    const newActivePanels = new Array<Panel>();
+    console.log(emitters);
     let hasChanged = false;
     emitters.forEach((emitter) => {
+      console.log("loop emitters");
       console.log(emitter.direction, emitter.lastDirection);
       console.log(emitter.position !== emitter.lastPosition);
       console.log(emitter.direction !== emitter.lastDirection);
@@ -200,57 +207,43 @@ export class GridManager extends Component {
         emitter.position !== emitter.lastPosition ||
         emitter.direction !== emitter.lastDirection
       ) {
-        if (!this.lastActivePanels || this.lastActivePanels.length < 1)
-          this.lastActivePanels = [];
+        console.log("got some change in position");
         hasChanged = true;
-
-        console.log("masuk update grid state");
-
-        const outputDirections = emitter.outputDirections;
-
-        outputDirections.forEach((direction) => {
-          const panels = this.getPanelsInDirection(emitter.position, direction);
-          newActivePanels.push(...panels);
-        });
-
-        // const activatePanelsCommand = new ActivatePanelsCommand(emitter);
-        // const deactivatePanelsCommand = new DeactivatePanelsCommand(emitter);
-        // // jank code, side effect of the segmented command execution
-        // const syncPositionCommand = new SyncPositionCommand(emitter);
-        // batch.add(syncPositionCommand);
-        // batch.add(deactivatePanelsCommand);
-        // batch.add(activatePanelsCommand);
         emitter.lastPosition = emitter.position;
         emitter.lastDirection = emitter.direction;
       }
     });
 
     if (hasChanged) {
-      const deadPanels = this.filterDeadPanels(
-        this.activePanels,
-        newActivePanels
-      );
-
-      newActivePanels.forEach((panel) => {
-        panel.active = true;
-      });
-
-      deadPanels.forEach((panel) => {
-        //console.log(panel.position);
-        panel.active = false;
-      });
-
-      this.lastActivePanels = this.activePanels;
-      this.activePanels = [...newActivePanels];
+      console.log("update active panels");
+      this.updateActivePanels();
     }
-
-    //  CommandManager.Instance.appendAndExecuteCommandBatch(batch);
   }
 
-  filterDeadPanels(oldPanels: Array<Panel>, newPanels: Array<Panel>) {
-    if (!oldPanels || !newPanels) return [];
-    return oldPanels.filter((panel) => {
-      return newPanels.indexOf(panel) == -1;
+  updateActivePanels() {
+    const emitters = this.grid.getEmitters();
+
+    console.log("masuk update grid state");
+    const newActivePanels = new Array<Panel>();
+
+    this.lastActivePanels = [...this.activePanels];
+
+    this.lastActivePanels.forEach((panel) => {
+      panel.active = false;
+    });
+
+    emitters.forEach((emitter) => {
+      const outputDirections = emitter.outputDirections;
+
+      outputDirections.forEach((direction) => {
+        const panels = this.getPanelsInDirection(emitter.position, direction);
+        newActivePanels.push(...panels);
+      });
+    });
+
+    this.activePanels = [...newActivePanels];
+    this.activePanels.forEach((panel) => {
+      panel.active = true;
     });
   }
 }
