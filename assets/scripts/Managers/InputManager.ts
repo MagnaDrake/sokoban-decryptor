@@ -24,6 +24,7 @@ export class InputManager extends Component {
 
   onLoad() {
     input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
+    input.on(Input.EventType.KEY_PRESSING, this.onKeyHold, this);
   }
 
   onKeyDown(event: EventKeyboard) {
@@ -47,6 +48,29 @@ export class InputManager extends Component {
         return;
       case KeyCode.KEY_R:
         GameManager.Instance.onRestartLevelKeyInput();
+      default:
+        return;
+    }
+  }
+
+  onKeyHold(event: EventKeyboard) {
+    console.log(event.keyCode);
+    switch (event.keyCode) {
+      case KeyCode.ARROW_UP:
+      case KeyCode.ARROW_DOWN:
+      case KeyCode.ARROW_LEFT:
+      case KeyCode.ARROW_RIGHT:
+        GameManager.Instance.onMovementKeyInput(event.keyCode);
+        return;
+      case KeyCode.KEY_Q:
+      case KeyCode.KEY_E:
+        GameManager.Instance.onInteractInput(event.keyCode);
+        return;
+      case KeyCode.KEY_Z:
+        GameManager.Instance.onUndoKeyInput();
+        return;
+      case KeyCode.KEY_R:
+      // GameManager.Instance.onRestartLevelKeyInput();
       default:
         return;
     }

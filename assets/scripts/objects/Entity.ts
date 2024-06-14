@@ -15,12 +15,19 @@ export class Entity extends Component {
   direction: Direction;
   moveable: boolean;
   rotatetable: boolean;
+  blocksPanel: boolean;
 
-  constructor(direction = Direction.RIGHT, moveable = true, rotatable = true) {
+  constructor(
+    direction = Direction.RIGHT,
+    moveable = true,
+    rotatable = true,
+    blocksPanel = false
+  ) {
     super();
     this.direction = direction;
     this.moveable = moveable;
     this.rotatetable = rotatable;
+    this.blocksPanel = blocksPanel;
   }
 
   moveToWorldPos(x: number, y: number) {
