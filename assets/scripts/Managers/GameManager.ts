@@ -84,7 +84,7 @@ export class GameManager extends Component {
       case KeyCode.KEY_Q:
         this.rotateEntityOnGrid(RotateDirection.COUNTER_CLOCKWISE);
         return;
-      case KeyCode.KEY_R:
+      case KeyCode.KEY_E:
         this.rotateEntityOnGrid(RotateDirection.CLOCKWISE);
         return;
     }
