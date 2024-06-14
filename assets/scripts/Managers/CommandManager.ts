@@ -70,4 +70,8 @@ export class CommandManager extends Component {
       this.commandMemory[this.commandMemory.length - 1].getCommands();
     lastBatch.push(...batch.getCommands());
   }
+
+  clearCommands() {
+    this.commandMemory = new Array<CommandBatch>();
+  }
 }

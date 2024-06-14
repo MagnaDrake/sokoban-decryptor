@@ -70,7 +70,7 @@ export class Emitter extends Entity {
         break;
     }
     this.outputDirections.forEach((dir) => {
-      console.log(dir);
+      //console.log(dir);
       this.emitterProngs[dir].active = true;
     });
   }
@@ -100,6 +100,6 @@ export class Emitter extends Entity {
       this.outputDirections[i] = getDirectionFromRotation(oldRot + degrees);
       // console.log("new rot", i, this.outputDirections[i]);
     }
-    console.log("update last output directions", this.lastOutputDirections);
+    // console.log("update last output directions", this.lastOutputDirections);
   }
 }

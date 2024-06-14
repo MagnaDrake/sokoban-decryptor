@@ -6,7 +6,6 @@ import {
   getRotationFromDirection,
   IPoint,
   RotateDirection,
-  VECTOR_RIGHT,
 } from "../interfaces/IPoint";
 const { ccclass, property } = _decorator;
 
@@ -14,10 +13,14 @@ const { ccclass, property } = _decorator;
 export class Entity extends Component {
   position: IPoint;
   direction: Direction;
+  moveable: boolean;
+  rotatetable: boolean;
 
-  constructor(direction = Direction.RIGHT) {
+  constructor(direction = Direction.RIGHT, moveable = true, rotatable = true) {
     super();
     this.direction = direction;
+    this.moveable = moveable;
+    this.rotatetable = rotatable;
   }
 
   moveToWorldPos(x: number, y: number) {
@@ -35,7 +38,8 @@ export class Entity extends Component {
 
   rotate(degrees: RotateDirection) {
     const zRot = this.node.eulerAngles.z;
-    this.node.setRotationFromEuler(0, 0, zRot + degrees);
-    this.direction = getDirectionFromRotation(degrees + zRot);
+    const newRot = (zRot + degrees + 360) % 360;
+    this.node.setRotationFromEuler(0, 0, newRot);
+    this.direction = getDirectionFromRotation(newRot);
   }
 }

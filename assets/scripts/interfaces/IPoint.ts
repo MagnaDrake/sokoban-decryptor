@@ -70,7 +70,7 @@ export function getRotationFromDirection(dir: Direction) {
 }
 
 export function getDirectionFromRotation(rot: number) {
-  console.log("get dir from rot", rot);
+  // console.log("get dir from rot", rot);
   if (rot < 0) rot += 360;
   switch ((rot / 90) % 4) {
     case 0:
