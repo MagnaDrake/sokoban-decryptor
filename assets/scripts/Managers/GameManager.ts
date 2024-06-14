@@ -62,96 +62,21 @@ export class GameManager extends Component {
   @property(Prefab)
   emitterPrefab: Prefab;
 
+  @property(Node)
+  gameWinScren: Node;
+
   player: Player;
 
   start() {
     this.scheduleOnce(() => {
-      // this.setupDummyGrid();
       this.loadLevelData(0);
     }, 0.2);
-  }
-
-  setupDummyGrid() {
-    this.player = instantiate(this.playerPrefab).getComponent(Player);
-    this.player.node.setParent(GridManager.Instance.grid.node);
-    GridManager.Instance.moveEntityTo(this.player, 0, 0);
-    this.player.node.setRotationFromEuler(
-      0,
-      0,
-      getRotationFromDirection(Direction.RIGHT)
-    );
-    GridManager.Instance.addEntityToTile(this.player, 0, 0);
-
-    const emitter = instantiate(this.emitterPrefab);
-    emitter.getComponent(Emitter).setOutputDirections(EmitterTypes.SINGLE);
-    emitter.setParent(GridManager.Instance.grid.node);
-    GridManager.Instance.moveEntityTo(emitter.getComponent(Entity), 1, 1);
-    emitter.getComponent(Emitter).changeDirection(0, 1);
-    // todo create a level reader/editor for this
-    GridManager.Instance.addEntityToTile(emitter.getComponent(Entity), 1, 1);
-    GridManager.Instance.grid.addEmitter(emitter.getComponent(Emitter));
-
-    const emitterDouble = instantiate(this.emitterPrefab);
-    emitterDouble
-      .getComponent(Emitter)
-      .setOutputDirections(EmitterTypes.DOUBLE);
-    emitterDouble.setParent(GridManager.Instance.grid.node);
-    GridManager.Instance.moveEntityTo(emitterDouble.getComponent(Entity), 5, 2);
-    emitterDouble.getComponent(Emitter).changeDirection(0, 1);
-    // todo create a level reader/editor for this
-    GridManager.Instance.addEntityToTile(
-      emitterDouble.getComponent(Entity),
-      5,
-      2
-    );
-    GridManager.Instance.grid.addEmitter(emitterDouble.getComponent(Emitter));
-
-    const emitterT = instantiate(this.emitterPrefab);
-    emitterT.getComponent(Emitter).setOutputDirections(EmitterTypes.T_JUNCTION);
-    emitterT.setParent(GridManager.Instance.grid.node);
-    GridManager.Instance.moveEntityTo(emitterT.getComponent(Entity), 1, 2);
-    emitterT.getComponent(Emitter).changeDirection(0, 1);
-    // todo create a level reader/editor for this
-    GridManager.Instance.addEntityToTile(emitterT.getComponent(Entity), 1, 2);
-    GridManager.Instance.grid.addEmitter(emitterT.getComponent(Emitter));
-
-    const emitterL = instantiate(this.emitterPrefab);
-    emitterL.getComponent(Emitter).setOutputDirections(EmitterTypes.L_CURVE);
-    emitterL.setParent(GridManager.Instance.grid.node);
-    GridManager.Instance.moveEntityTo(emitterL.getComponent(Entity), 1, 4);
-    emitterL.getComponent(Emitter).changeDirection(0, 1);
-    // todo create a level reader/editor for this
-    GridManager.Instance.addEntityToTile(emitterL.getComponent(Entity), 1, 4);
-    GridManager.Instance.grid.addEmitter(emitterL.getComponent(Emitter));
-
-    const emitterJ = instantiate(this.emitterPrefab);
-    emitterJ.getComponent(Emitter).setOutputDirections(EmitterTypes.J_CURVE);
-    emitterJ.setParent(GridManager.Instance.grid.node);
-    GridManager.Instance.moveEntityTo(emitterJ.getComponent(Entity), 3, 4);
-    emitterJ.getComponent(Emitter).changeDirection(0, 1);
-    // todo create a level reader/editor for this
-    GridManager.Instance.addEntityToTile(emitterJ.getComponent(Entity), 3, 4);
-    GridManager.Instance.grid.addEmitter(emitterJ.getComponent(Emitter));
-
-    const emitterQuad = instantiate(this.emitterPrefab);
-    emitterQuad.getComponent(Emitter).setOutputDirections(EmitterTypes.QUAD);
-    emitterQuad.setParent(GridManager.Instance.grid.node);
-    GridManager.Instance.moveEntityTo(emitterQuad.getComponent(Entity), 4, 4);
-    emitterQuad.getComponent(Emitter).changeDirection(0, 1);
-    // todo create a level reader/editor for this
-    GridManager.Instance.addEntityToTile(
-      emitterQuad.getComponent(Entity),
-      4,
-      4
-    );
-    GridManager.Instance.grid.addEmitter(emitterQuad.getComponent(Emitter));
-
-    GridManager.Instance.updateGridState();
   }
 
   onUndoKeyInput() {
     CommandManager.Instance.undoCommandBatch();
     GridManager.Instance.updateGridState();
+    // should not have to check for win if its undoing
   }
 
   onInteractInput(keyCode: KeyCode) {
@@ -291,7 +216,32 @@ export class GameManager extends Component {
     CommandManager.Instance.executeCommandBatch(batch);
     // todo
     // i dont really like this approach because this makes the command batch execution segmented
-    GridManager.Instance.updateGridState();
+    const win = GridManager.Instance.updateGridState();
+    console.log("has won", win);
+
+    if (win) {
+      this.onWinLevel();
+    }
+  }
+
+  onWinLevel() {
+    console.log("win level");
+    this.gameWinScren.active = true;
+  }
+
+  onRestartLevelKeyInput() {
+    // gotta think if its faster/easier to just reload the gameplay scene or undo all commands
+    // for now lets just reload gamescene
+    // on second thought maybe not
+    // flush all grid and entities and commands from memory
+    // then reinit the level
+    // might need object pooling in the future
+    GridManager.Instance.clearGrid();
+    CommandManager.Instance.clearCommands();
+    this.player.node.destroy();
+    this.player = undefined;
+    this.loadLevelData(0);
+    this.gameWinScren.active = false;
   }
 
   loadLevelData(id: number) {

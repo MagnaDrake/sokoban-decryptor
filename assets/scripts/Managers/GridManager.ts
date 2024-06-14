@@ -132,8 +132,8 @@ export class GridManager extends Component {
   }
 
   createPlayer(data: PlayerData) {
-    console.log("create player");
-    console.log("init pos", data.position.x, data.position.y);
+    //console.log("create player");
+    //console.log("init pos", data.position.x, data.position.y);
     const player = instantiate(this.playerPrefab);
     const playerEntity = player.getComponent(Player);
     GameManager.Instance.player = playerEntity;
@@ -158,8 +158,8 @@ export class GridManager extends Component {
         emitter.position.x,
         emitter.position.y
       );
-      console.log("emitter position");
-      console.log(emitter.position.x, emitter.position.y);
+      //console.log("emitter position");
+      //console.log(emitter.position.x, emitter.position.y);
       const dir = getDirectionFromRotation(emitter.rotation);
       const dirVec = getDirectionVector(dir);
       emitterEntity.changeDirection(dirVec.x, dirVec.y);
@@ -286,7 +286,7 @@ export class GridManager extends Component {
   }
 
   updateGridState() {
-    console.log("update grid state");
+    //console.log("update grid state");
     // jank inefficient code
     // i cant for the love of god figure out how to just disable the old panels and turn on new ones
     // because there are cases of overlapping emitters
@@ -297,7 +297,7 @@ export class GridManager extends Component {
     if (!this.lastActivePanels) this.lastActivePanels = new Array<Panel>();
 
     const emitters = this.grid.getEmitters();
-    console.log(emitters);
+    // console.log(emitters);
     let hasChanged = false;
     emitters.forEach((emitter) => {
       //   console.log("loop emitters");
@@ -308,7 +308,7 @@ export class GridManager extends Component {
         emitter.position !== emitter.lastPosition ||
         emitter.direction !== emitter.lastDirection
       ) {
-        console.log("got some change in position");
+        //console.log("got some change in position");
         hasChanged = true;
         emitter.lastPosition = emitter.position;
         emitter.lastDirection = emitter.direction;
@@ -316,15 +316,28 @@ export class GridManager extends Component {
     });
 
     if (hasChanged) {
-      console.log("update active panels");
+      // console.log("update active panels");
       this.updateActivePanels();
     }
+
+    return this.checkWin();
+  }
+
+  checkWin() {
+    let hasWon = true;
+
+    this.grid.getPanels().forEach((panel) => {
+      console.log(panel.active);
+      if (!panel.active) hasWon = false;
+    });
+
+    return hasWon;
   }
 
   updateActivePanels() {
     const emitters = this.grid.getEmitters();
 
-    console.log("masuk update grid state");
+    //    console.log("masuk update grid state");
     const newActivePanels = new Array<Panel>();
 
     this.lastActivePanels = [...this.activePanels];
@@ -346,5 +359,11 @@ export class GridManager extends Component {
     this.activePanels.forEach((panel) => {
       panel.active = true;
     });
+  }
+
+  clearGrid() {
+    this.grid.clear();
+    this.activePanels = undefined;
+    this.lastActivePanels = undefined;
   }
 }

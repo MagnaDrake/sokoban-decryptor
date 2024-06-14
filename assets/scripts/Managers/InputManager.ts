@@ -39,12 +39,14 @@ export class InputManager extends Component {
         GameManager.Instance.onMovementKeyInput(event.keyCode);
         return;
       case KeyCode.KEY_Q:
-      case KeyCode.KEY_R:
+      case KeyCode.KEY_E:
         GameManager.Instance.onInteractInput(event.keyCode);
         return;
       case KeyCode.KEY_Z:
         GameManager.Instance.onUndoKeyInput();
         return;
+      case KeyCode.KEY_R:
+        GameManager.Instance.onRestartLevelKeyInput();
       default:
         return;
     }

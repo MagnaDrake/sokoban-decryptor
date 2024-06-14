@@ -53,7 +53,7 @@ export class Grid extends Component {
     return this.emitters;
   }
 
-  getPanels() {
+  getPanels(): Panel[] {
     let panels = [];
     for (let y = 0; y < this.tiles.length; y++) {
       for (let x = 0; x < this.tiles[y].length; x++) {
@@ -71,5 +71,18 @@ export class Grid extends Component {
         }
       }
     }
+  }
+
+  clear() {
+    this.emitters.forEach((emitter) => {
+      emitter.node.destroy();
+    });
+    this.emitters.length = 0;
+
+    this.tiles.forEach((column) => {
+      column.forEach((tile) => {
+        tile.node.destroy();
+      });
+    });
   }
 }

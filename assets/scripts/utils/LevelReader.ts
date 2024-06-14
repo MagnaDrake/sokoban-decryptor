@@ -99,8 +99,8 @@ export function readRawLevelData(json: any) {
 
   console.log(json);
   const { width, height, layers } = json;
-  console.log("reading width and height");
-  console.log(width, height);
+  //console.log("reading width and height");
+  //console.log(width, height);
 
   let terrainLayer;
   let entityLayer;
@@ -108,16 +108,15 @@ export function readRawLevelData(json: any) {
   layers.forEach((layer) => {
     const { name } = layer;
     if (name === LayerGroupName.Terrain) {
-      console.log(layer);
       terrainLayer = layer.layers[0].data;
     } else if (name === LayerGroupName.Entities) {
       entityLayer = layer.layers;
     }
   });
 
-  console.log(terrainLayer);
+  //  console.log(terrainLayer);
 
-  console.log(entityLayer);
+  //console.log(entityLayer);
 
   let playerData;
   let emitterData;
@@ -132,8 +131,8 @@ export function readRawLevelData(json: any) {
       emitterData = layer.objects;
     }
   }
-  console.log(playerData);
-  console.log(emitterData);
+  //console.log(playerData);
+  //console.log(emitterData);
 
   let tileData: TileData[] = [];
   let index = 0;
@@ -150,13 +149,13 @@ export function readRawLevelData(json: any) {
   let emitterParsedData = [];
 
   emitterData.forEach((emitter) => {
-    console.log(emitter.class);
-    console.log(emitter.x, emitter.y);
+    // console.log(emitter.class);
+    //console.log(emitter.x, emitter.y);
     const posRotOffset = getRotationOffset(emitter.rotation);
 
     const emitterPos: IPoint = {
       x: emitter.x / 64 + posRotOffset.x,
-      y: Math.abs(emitter.y / 64 - 1 - 9) + posRotOffset.y,
+      y: Math.abs(emitter.y / 64 - 1 - (height - 1)) + posRotOffset.y,
     };
 
     const fixRot =
@@ -183,7 +182,7 @@ export function readRawLevelData(json: any) {
     player: {
       position: {
         x: playerData.x / 64 + posRotOffset.x,
-        y: Math.abs(playerData.y / 64 - 1) - 9 + posRotOffset.y,
+        y: Math.abs(playerData.y / 64 - 1 - (height - 1)) + posRotOffset.y,
       },
       rotation: playerDataFixRot,
     },
