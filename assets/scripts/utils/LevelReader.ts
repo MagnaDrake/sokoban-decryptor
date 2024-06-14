@@ -16,6 +16,15 @@ export enum EmitterDataType {
   QUAD = 33,
 }
 
+export enum SplitterDataType {
+  // todo
+  // figure out a way to more cleanly separate obstacle types in the level editor
+  // for some reason class and type from the tiled map editor doesnt work
+  // simplest way is to have an enum that reads all individual GID
+  // then map the GID into specific objects
+  QUAD = 31,
+}
+
 export function convertEmitterDataTypeToRealData(type: EmitterDataType) {
   switch (type) {
     case EmitterDataType.SINGLE:
@@ -116,7 +125,7 @@ export function readRawLevelData(json: any) {
 
   //  console.log(terrainLayer);
 
-  //console.log(entityLayer);
+  console.log(entityLayer);
 
   let playerData;
   let emitterData;

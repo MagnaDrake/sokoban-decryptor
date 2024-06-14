@@ -34,8 +34,8 @@ export class Emitter extends Entity {
   @property([Node])
   emitterProngs: Node[] = [];
 
-  constructor() {
-    super(Direction.UP);
+  constructor(blocksPanel = false) {
+    super(Direction.UP, true, true, blocksPanel);
     this.lastDirection = undefined;
     this.lastPosition = undefined;
     this.outputDirections = [Direction.UP];

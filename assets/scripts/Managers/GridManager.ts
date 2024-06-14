@@ -276,12 +276,22 @@ export class GridManager extends Component {
     if (!(adjacentPanel instanceof Panel) || !adjacentPanel) {
       return tail;
     } else {
-      tail.push(adjacentPanel);
-      return this.getAdjacentPanelInDirectionRecursive(
-        adjacentPoint,
-        direction,
-        tail
-      );
+      // seems weird
+      const entityOnPanel =
+        adjacentPanel.entities.length > 0
+          ? adjacentPanel.entities[0]
+          : undefined;
+
+      if (entityOnPanel?.blocksPanel) {
+        return tail;
+      } else {
+        tail.push(adjacentPanel);
+        return this.getAdjacentPanelInDirectionRecursive(
+          adjacentPoint,
+          direction,
+          tail
+        );
+      }
     }
   }
 
