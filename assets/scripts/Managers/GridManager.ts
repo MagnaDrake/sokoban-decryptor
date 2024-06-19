@@ -312,7 +312,7 @@ export class GridManager extends Component {
   }
 
   updateGridState() {
-    //console.log("update grid state");
+    console.log("update grid state");
     // jank inefficient code
     // i cant for the love of god figure out how to just disable the old panels and turn on new ones
     // because there are cases of overlapping emitters
@@ -322,17 +322,29 @@ export class GridManager extends Component {
     if (!this.activePanels) this.activePanels = new Array<Panel>();
     if (!this.lastActivePanels) this.lastActivePanels = new Array<Panel>();
 
+    // why do i have to do this?
+    this.lastActivePanels = [...this.activePanels];
+
+    this.lastActivePanels.forEach((panel) => {
+      panel.active = false;
+    });
+
     const splitters = this.grid.getSplitters();
 
     splitters.forEach((splitter) => {
+      console.log("deactivate splitter");
       splitter.active = false;
     });
 
     // jank implementation due to splitters turning on in a grid state update but not included in the active panel state check
     // definitely need to rework the panel turning on system
     // but this should be fine for a game jam
+    console.log("first update active panel");
     const splitterUpdate = this.updateActivePanels();
+    console.log("second update active panel");
     if (splitterUpdate) this.updateActivePanels();
+
+    // but why do i have to do this?
 
     // const emitters = this.grid.getEmitters();
     // // console.log(emitters);
@@ -366,12 +378,15 @@ export class GridManager extends Component {
 
     this.grid.getPanels().forEach((panel) => {
       // console.log(panel.active);
+      console.log("panel status", panel.position, panel.active);
       if (!panel.active) hasWon = false;
     });
 
     return hasWon;
   }
 
+  // the entire active panel checking has turn to shit due to splitters
+  // i will refrain in adding more features for now
   updateActivePanels() {
     console.log("update active panels");
     let splitterUpdate = false;
@@ -382,12 +397,6 @@ export class GridManager extends Component {
     //    console.log("masuk update grid state");
     const newActivePanels = new Array<Panel>();
 
-    this.lastActivePanels = [...this.activePanels];
-
-    this.lastActivePanels.forEach((panel) => {
-      panel.active = false;
-    });
-
     emitters.forEach((emitter) => {
       // if (emitter instanceof Splitter && !emitter.active) {
       //   console.log("emitter is not active");
@@ -395,9 +404,11 @@ export class GridManager extends Component {
       // }
 
       const outputDirections = emitter.outputDirections;
+      console.log("emitter position", emitter.position);
 
       outputDirections.forEach((direction) => {
         const panels = this.getPanelsInDirection(emitter.position, direction);
+        console.log("emitter panels", panels);
         newActivePanels.push(...panels);
       });
     });
@@ -414,17 +425,22 @@ export class GridManager extends Component {
 
       outputDirections.forEach((direction) => {
         const panels = this.getPanelsInDirection(emitter.position, direction);
+        console.log("new splitter panels", panels);
         newActivePanels.push(...panels);
       });
     });
 
     this.activePanels = [...newActivePanels];
+    // why do i have to do this?
     this.activePanels.forEach((panel) => {
       if (panel.entities.length > 0) {
         const entity = panel.entities[0];
         console.log("update active check entity");
         console.log(entity);
-        if (entity instanceof Splitter) {
+        console.log("panel position", panel.position);
+        if (entity instanceof Emitter) {
+          panel.active = true;
+        } else if (entity instanceof Splitter) {
           console.log("activate emitter");
           panel.active = true;
           splitterUpdate = true;

@@ -18,7 +18,7 @@ export class Panel extends Tile {
     if (this.onSignal.isValid) this.onSignal.active = value;
 
     const entity = this.entities[0];
-    if (entity instanceof Splitter) entity.active = true;
+    if (entity instanceof Splitter) entity.active = value;
   }
 
   get active() {
