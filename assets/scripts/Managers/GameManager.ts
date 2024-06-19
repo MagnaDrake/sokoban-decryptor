@@ -67,6 +67,8 @@ export class GameManager extends Component {
 
   player: Player;
 
+  hasShownWin = false;
+
   start() {
     this.scheduleOnce(() => {
       this.loadLevelData(0);
@@ -226,7 +228,9 @@ export class GameManager extends Component {
 
   onWinLevel() {
     console.log("win level");
+    if (this.hasShownWin) return;
     this.gameWinScren.active = true;
+    this.hasShownWin = true;
   }
 
   onRestartLevelKeyInput() {
@@ -250,4 +254,12 @@ export class GameManager extends Component {
       GridManager.Instance.createLevel(levelData);
     }
   }
+
+  // protected update(dt: number): void {
+  //   const win = GridManager.Instance.updateGridState();
+  //   if (win) {
+  //     //console.log("has won", win);
+  //     this.onWinLevel();
+  //   }
+  // }
 }

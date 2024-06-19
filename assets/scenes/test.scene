@@ -522,6 +522,10 @@
       "__uuid__": "cac52524-c3d4-483d-a0f5-499a9cc57301",
       "__expectedType__": "cc.Prefab"
     },
+    "splitterPrefab": {
+      "__uuid__": "ac9ba145-e019-4257-acac-6525ac4f6ce3",
+      "__expectedType__": "cc.Prefab"
+    },
     "grid": {
       "__id__": 11
     },

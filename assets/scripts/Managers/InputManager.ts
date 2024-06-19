@@ -54,7 +54,7 @@ export class InputManager extends Component {
   }
 
   onKeyHold(event: EventKeyboard) {
-    console.log(event.keyCode);
+    //console.log(event.keyCode);
     switch (event.keyCode) {
       case KeyCode.ARROW_UP:
       case KeyCode.ARROW_DOWN:

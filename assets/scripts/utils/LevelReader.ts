@@ -7,15 +7,6 @@ export enum TileTypeData {
   Panel = 43,
 }
 
-export enum EmitterDataType {
-  SINGLE = 25,
-  J_CURVE = 20,
-  T_JUNCTION = 30,
-  L_CURVE = 52,
-  DOUBLE = 40,
-  QUAD = 33,
-}
-
 export enum SplitterDataType {
   // todo
   // figure out a way to more cleanly separate obstacle types in the level editor
@@ -23,23 +14,6 @@ export enum SplitterDataType {
   // simplest way is to have an enum that reads all individual GID
   // then map the GID into specific objects
   QUAD = 31,
-}
-
-export function convertEmitterDataTypeToRealData(type: EmitterDataType) {
-  switch (type) {
-    case EmitterDataType.SINGLE:
-      return EmitterTypes.SINGLE;
-    case EmitterDataType.J_CURVE:
-      return EmitterTypes.J_CURVE;
-    case EmitterDataType.T_JUNCTION:
-      return EmitterTypes.T_JUNCTION;
-    case EmitterDataType.L_CURVE:
-      return EmitterTypes.L_CURVE;
-    case EmitterDataType.DOUBLE:
-      return EmitterTypes.DOUBLE;
-    case EmitterDataType.QUAD:
-      return EmitterTypes.QUAD;
-  }
 }
 
 export function getRotationOffset(rot: number) {
@@ -57,11 +31,14 @@ export function getRotationOffset(rot: number) {
 
 // probably dont need this?
 // nanti dipikir ulang
+// for now lump splitter into data class
+// perhaps in the future if we want to have a fixed/static/heavy splitter we will handle in the future
 export enum EmitterDataClass {
-  NORMAL,
-  HEAVY,
-  STATIC,
-  FIXED,
+  Basic,
+  Heavy,
+  Static,
+  Fixed,
+  Splitter,
 }
 
 export interface EntityListData {
@@ -77,8 +54,8 @@ export interface EntityData {
 export interface PlayerData extends EntityData {}
 
 export interface EmitterData extends EntityData {
-  type: EmitterDataType;
-  class: EmitterDataClass;
+  outputType: string;
+  subtype: string;
 }
 
 export interface TileData {
@@ -106,7 +83,7 @@ export function readRawLevelData(json: any) {
   //definitly can optimize/abstract this even further
   // do it later
 
-  console.log(json);
+  //console.log(json);
   const { width, height, layers } = json;
   //console.log("reading width and height");
   //console.log(width, height);
@@ -125,7 +102,7 @@ export function readRawLevelData(json: any) {
 
   //  console.log(terrainLayer);
 
-  console.log(entityLayer);
+  //console.log(entityLayer);
 
   let playerData;
   let emitterData;
@@ -167,14 +144,20 @@ export function readRawLevelData(json: any) {
       y: Math.abs(emitter.y / 64 - 1 - (height - 1)) + posRotOffset.y,
     };
 
+    console.log("read");
+    const emitterProps = emitter.properties;
+
+    const outputType = emitterProps[0].value;
+    const emitterType = emitterProps[1].value;
+
     const fixRot =
       Math.abs(emitter.rotation) === 90 ? -emitter.rotation : emitter.rotation;
 
     const data: EmitterData = {
-      type: emitter.gid,
+      outputType: outputType,
       position: emitterPos,
       rotation: fixRot,
-      class: EmitterDataClass.NORMAL,
+      subtype: emitterType,
     };
 
     emitterParsedData.push(data);
