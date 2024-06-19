@@ -3,6 +3,7 @@ import { Tile } from "./Tile";
 import { IPoint } from "../interfaces/IPoint";
 import { Emitter } from "./Emitter";
 import { Panel } from "./Panel";
+import { Splitter } from "./Splitter";
 const { ccclass, property } = _decorator;
 
 @ccclass("Grid")
@@ -17,9 +18,12 @@ export class Grid extends Component {
 
   public emitters: Array<Emitter>;
 
+  public splitters: Array<Splitter>;
+
   onLoad() {
     this.tiles = [...Array(this.height)].map((e) => Array(this.width));
     this.emitters = new Array<Emitter>();
+    this.splitters = new Array<Splitter>();
   }
 
   getTile(x: number, y: number) {
@@ -51,6 +55,14 @@ export class Grid extends Component {
 
   getEmitters() {
     return this.emitters;
+  }
+
+  getSplitters() {
+    return this.splitters;
+  }
+
+  addSplitter(splitter: Splitter) {
+    this.splitters.push(splitter);
   }
 
   getPanels(): Panel[] {

@@ -61,7 +61,7 @@ export class VirtualDpad extends Component {
       if (this.holdCounter >= this.holdThreshold) {
         this.tickCounter += delta;
         if (this.tickCounter >= this.tickThreshold) {
-          console.log("masuk ke update delta");
+          // console.log("masuk ke update delta");
           this.node.emit(VirtualDPadEvents.DPAD_PRESS, this.type);
           this.tickCounter = 0;
         }

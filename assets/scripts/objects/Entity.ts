@@ -32,6 +32,7 @@ export class Entity extends Component {
 
   moveToWorldPos(x: number, y: number) {
     this.node.setPosition(new Vec3(x, y, 0));
+    this.onMove();
   }
 
   changeDirection(x: number, y: number) {
@@ -41,6 +42,7 @@ export class Entity extends Component {
       0,
       getRotationFromDirection(this.direction)
     );
+    this.onRotate();
   }
 
   rotate(degrees: RotateDirection) {
@@ -48,5 +50,10 @@ export class Entity extends Component {
     const newRot = (zRot + degrees + 360) % 360;
     this.node.setRotationFromEuler(0, 0, newRot);
     this.direction = getDirectionFromRotation(newRot);
+    this.onRotate();
   }
+
+  onMove() {}
+
+  onRotate() {}
 }

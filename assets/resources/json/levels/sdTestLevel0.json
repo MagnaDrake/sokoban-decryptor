@@ -69,8 +69,21 @@
                          "height":64,
                          "id":3,
                          "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"T_JUNCTION"
+                                }, 
+                                {
+                                 "name":"EmitterSubtype",
+                                 "propertytype":"EmitterSubtype",
+                                 "type":"string",
+                                 "value":"Basic"
+                                }],
                          "rotation":0,
-                         "type":"",
+                         "type":"EmitterEntity",
                          "visible":true,
                          "width":64,
                          "x":640,
@@ -81,8 +94,21 @@
                          "height":64,
                          "id":4,
                          "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"T_JUNCTION"
+                                }, 
+                                {
+                                 "name":"EmitterSubtype",
+                                 "propertytype":"EmitterSubtype",
+                                 "type":"string",
+                                 "value":"Basic"
+                                }],
                          "rotation":180,
-                         "type":"",
+                         "type":"EmitterEntity",
                          "visible":true,
                          "width":64,
                          "x":320,
@@ -93,8 +119,21 @@
                          "height":64,
                          "id":5,
                          "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"L_CURVE"
+                                }, 
+                                {
+                                 "name":"EmitterSubtype",
+                                 "propertytype":"EmitterSubtype",
+                                 "type":"string",
+                                 "value":"Basic"
+                                }],
                          "rotation":90,
-                         "type":"",
+                         "type":"EmitterEntity",
                          "visible":true,
                          "width":64,
                          "x":448,
@@ -105,8 +144,21 @@
                          "height":64,
                          "id":7,
                          "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"DOUBLE"
+                                }, 
+                                {
+                                 "name":"EmitterSubtype",
+                                 "propertytype":"EmitterSubtype",
+                                 "type":"string",
+                                 "value":"Basic"
+                                }],
                          "rotation":-90,
-                         "type":"",
+                         "type":"EmitterEntity",
                          "visible":true,
                          "width":64,
                          "x":512,
@@ -117,8 +169,21 @@
                          "height":64,
                          "id":8,
                          "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"SINGLE"
+                                }, 
+                                {
+                                 "name":"EmitterSubtype",
+                                 "propertytype":"EmitterSubtype",
+                                 "type":"string",
+                                 "value":"Basic"
+                                }],
                          "rotation":-90,
-                         "type":"",
+                         "type":"EmitterEntity",
                          "visible":true,
                          "width":64,
                          "x":832,
@@ -129,8 +194,21 @@
                          "height":64,
                          "id":9,
                          "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"QUAD"
+                                }, 
+                                {
+                                 "name":"EmitterSubtype",
+                                 "propertytype":"EmitterSubtype",
+                                 "type":"string",
+                                 "value":"Basic"
+                                }],
                          "rotation":0,
-                         "type":"",
+                         "type":"EmitterEntity",
                          "visible":true,
                          "width":64,
                          "x":128,
@@ -141,23 +219,49 @@
                          "height":64,
                          "id":15,
                          "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"J_CURVE"
+                                }, 
+                                {
+                                 "name":"EmitterSubtype",
+                                 "propertytype":"EmitterSubtype",
+                                 "type":"string",
+                                 "value":"Basic"
+                                }],
                          "rotation":0,
-                         "type":"",
+                         "type":"EmitterEntity",
                          "visible":true,
                          "width":64,
-                         "x":448,
-                         "y":64
+                         "x":384,
+                         "y":128
                         }, 
                         {
                          "gid":31,
                          "height":64,
-                         "id":16,
+                         "id":17,
                          "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"DOUBLE"
+                                }, 
+                                {
+                                 "name":"EmitterSubtype",
+                                 "propertytype":"EmitterSubtype",
+                                 "type":"string",
+                                 "value":"Splitter"
+                                }],
                          "rotation":0,
-                         "type":"",
+                         "type":"EmitterEntity",
                          "visible":true,
                          "width":64,
-                         "x":704,
+                         "x":256,
                          "y":512
                         }],
                  "opacity":1,
@@ -174,7 +278,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":17,
+ "nextobjectid":18,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tiledversion":"1.10.2",
@@ -186,7 +290,7 @@
         }, 
         {
          "firstgid":1,
-         "source":"..\/..\/..\/..\/..\/spritework\/test\/test_tiled.tsx"
+         "source":"Tileset_sample.tsx"
         }],
  "tilewidth":64,
  "type":"map",

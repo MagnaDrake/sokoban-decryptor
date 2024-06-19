@@ -6,16 +6,20 @@ const { ccclass, property } = _decorator;
 export class Splitter extends Emitter {
   _active = false;
 
-  constructor(blocksPanel: boolean) {
+  constructor(blocksPanel = true) {
     super(blocksPanel);
   }
 
   set active(value: boolean) {
     this._active = value;
-    this.blocksPanel = value;
   }
 
   get active() {
     return this._active;
+  }
+
+  onMove() {
+    this.active = false;
+    console.log("disable splitter");
   }
 }

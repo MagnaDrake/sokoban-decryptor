@@ -23,8 +23,8 @@ import { CommandManager } from "./CommandManager";
 import { CommandBatch } from "../commands/CommandBatch";
 import { SyncPositionCommand } from "../commands/SyncPositionCommand";
 import {
-  convertEmitterDataTypeToRealData,
   EmitterData,
+  EmitterDataClass,
   EntityListData,
   LevelData,
   PlayerData,
@@ -33,7 +33,8 @@ import {
 } from "../utils/LevelReader";
 import { GameManager } from "./GameManager";
 import { Player } from "../objects/Player";
-import { Emitter } from "../objects/Emitter";
+import { Emitter, EmitterTypes } from "../objects/Emitter";
+import { Splitter } from "../objects/Splitter";
 const { ccclass, property } = _decorator;
 
 @ccclass("GridManager")
@@ -52,6 +53,9 @@ export class GridManager extends Component {
 
   @property(Prefab)
   emitterPrefab: Prefab;
+
+  @property(Prefab)
+  splitterPrefab: Prefab;
 
   @property(Grid)
   grid: Grid;
@@ -146,13 +150,24 @@ export class GridManager extends Component {
 
   createEmitters(data: EmitterData[]) {
     data.forEach((emitter) => {
-      const emitterObject = instantiate(this.emitterPrefab);
-      const emitterEntity = emitterObject.getComponent(Emitter);
+      let emitterObject;
+      let emitterEntity;
+      //console.log(emitter);
+      //console.log(EmitterDataClass[emitter.subtype]);
+      if (EmitterDataClass[emitter.subtype] === EmitterDataClass.Basic) {
+        emitterObject = instantiate(this.emitterPrefab);
+        emitterEntity = emitterObject.getComponent(Emitter);
+        this.grid.addEmitter(emitterEntity);
+      } else if (
+        EmitterDataClass[emitter.subtype] === EmitterDataClass.Splitter
+      ) {
+        emitterObject = instantiate(this.splitterPrefab);
+        emitterEntity = emitterObject.getComponent(Splitter);
+        this.grid.addSplitter(emitterEntity);
+      }
+
       emitterObject.setParent(this.grid.node);
-      this.grid.addEmitter(emitterEntity);
-      emitterEntity.setOutputDirections(
-        convertEmitterDataTypeToRealData(emitter.type)
-      );
+      emitterEntity.setOutputDirections(EmitterTypes[emitter.outputType]);
       this.initEntityToGrid(
         emitterEntity,
         emitter.position.x,
@@ -282,10 +297,11 @@ export class GridManager extends Component {
           ? adjacentPanel.entities[0]
           : undefined;
 
+      tail.push(adjacentPanel);
+
       if (entityOnPanel?.blocksPanel) {
         return tail;
       } else {
-        tail.push(adjacentPanel);
         return this.getAdjacentPanelInDirectionRecursive(
           adjacentPoint,
           direction,
@@ -306,29 +322,41 @@ export class GridManager extends Component {
     if (!this.activePanels) this.activePanels = new Array<Panel>();
     if (!this.lastActivePanels) this.lastActivePanels = new Array<Panel>();
 
-    const emitters = this.grid.getEmitters();
-    // console.log(emitters);
-    let hasChanged = false;
-    emitters.forEach((emitter) => {
-      //   console.log("loop emitters");
-      //   console.log(emitter.direction, emitter.lastDirection);
-      //   console.log(emitter.position !== emitter.lastPosition);
-      //   console.log(emitter.direction !== emitter.lastDirection);
-      if (
-        emitter.position !== emitter.lastPosition ||
-        emitter.direction !== emitter.lastDirection
-      ) {
-        //console.log("got some change in position");
-        hasChanged = true;
-        emitter.lastPosition = emitter.position;
-        emitter.lastDirection = emitter.direction;
-      }
+    const splitters = this.grid.getSplitters();
+
+    splitters.forEach((splitter) => {
+      splitter.active = false;
     });
 
-    if (hasChanged) {
-      // console.log("update active panels");
-      this.updateActivePanels();
-    }
+    // jank implementation due to splitters turning on in a grid state update but not included in the active panel state check
+    // definitely need to rework the panel turning on system
+    // but this should be fine for a game jam
+    const splitterUpdate = this.updateActivePanels();
+    if (splitterUpdate) this.updateActivePanels();
+
+    // const emitters = this.grid.getEmitters();
+    // // console.log(emitters);
+    // let hasChanged = false;
+    // emitters.forEach((emitter) => {
+    //   //   console.log("loop emitters");
+    //   //   console.log(emitter.direction, emitter.lastDirection);
+    //   //   console.log(emitter.position !== emitter.lastPosition);
+    //   //   console.log(emitter.direction !== emitter.lastDirection);
+    //   if (
+    //     emitter.position !== emitter.lastPosition ||
+    //     emitter.direction !== emitter.lastDirection
+    //   ) {
+    //     //console.log("got some change in position");
+    //     hasChanged = true;
+    //     emitter.lastPosition = emitter.position;
+    //     emitter.lastDirection = emitter.direction;
+    //   }
+    // });
+
+    // if (hasChanged) {
+    //   // console.log("update active panels");
+    //   this.updateActivePanels();
+    // }
 
     return this.checkWin();
   }
@@ -337,7 +365,7 @@ export class GridManager extends Component {
     let hasWon = true;
 
     this.grid.getPanels().forEach((panel) => {
-      console.log(panel.active);
+      // console.log(panel.active);
       if (!panel.active) hasWon = false;
     });
 
@@ -345,7 +373,11 @@ export class GridManager extends Component {
   }
 
   updateActivePanels() {
+    console.log("update active panels");
+    let splitterUpdate = false;
     const emitters = this.grid.getEmitters();
+
+    const splitters = this.grid.getSplitters();
 
     //    console.log("masuk update grid state");
     const newActivePanels = new Array<Panel>();
@@ -357,6 +389,27 @@ export class GridManager extends Component {
     });
 
     emitters.forEach((emitter) => {
+      // if (emitter instanceof Splitter && !emitter.active) {
+      //   console.log("emitter is not active");
+      //   return;
+      // }
+
+      const outputDirections = emitter.outputDirections;
+
+      outputDirections.forEach((direction) => {
+        const panels = this.getPanelsInDirection(emitter.position, direction);
+        newActivePanels.push(...panels);
+      });
+    });
+
+    // jank double checking
+    splitters.forEach((emitter) => {
+      // if (emitter instanceof Splitter && !emitter.active) {
+      //   console.log("emitter is not active");
+      //   return;
+      // }
+      if (!emitter.active) return;
+
       const outputDirections = emitter.outputDirections;
 
       outputDirections.forEach((direction) => {
@@ -367,8 +420,23 @@ export class GridManager extends Component {
 
     this.activePanels = [...newActivePanels];
     this.activePanels.forEach((panel) => {
-      panel.active = true;
+      if (panel.entities.length > 0) {
+        const entity = panel.entities[0];
+        console.log("update active check entity");
+        console.log(entity);
+        if (entity instanceof Splitter) {
+          console.log("activate emitter");
+          panel.active = true;
+          splitterUpdate = true;
+          console.log("will run secondary update");
+        }
+        // intended purpose is to skip walls and other entity blocking events
+      } else {
+        panel.active = true;
+      }
     });
+
+    return splitterUpdate;
   }
 
   clearGrid() {
