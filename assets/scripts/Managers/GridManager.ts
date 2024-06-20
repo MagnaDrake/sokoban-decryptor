@@ -336,14 +336,14 @@ export class GridManager extends Component {
       splitter.active = false;
     });
 
+    this.updateActivePanels();
+
+    // this is not working
+    this.updateSplitters();
+
     // jank implementation due to splitters turning on in a grid state update but not included in the active panel state check
     // definitely need to rework the panel turning on system
     // but this should be fine for a game jam
-    console.log("first update active panel");
-    const splitterUpdate = this.updateActivePanels();
-    console.log("second update active panel");
-    if (splitterUpdate) this.updateActivePanels();
-
     // but why do i have to do this?
 
     // const emitters = this.grid.getEmitters();
@@ -385,14 +385,94 @@ export class GridManager extends Component {
     return hasWon;
   }
 
+  updateSplitters() {
+    const splitters = this.grid.getSplitters();
+    const newActivePanels = new Array<Panel>();
+
+    splitters.forEach((emitter) => {
+      // if (emitter instanceof Splitter && !emitter.active) {
+      //   console.log("emitter is not active");
+      //   return;
+      // }
+      if (!emitter.active) return;
+
+      const outputDirections = emitter.outputDirections;
+
+      outputDirections.forEach((direction) => {
+        const panels = this.getPanelsInDirection(emitter.position, direction);
+        console.log("new splitter panels", panels);
+        newActivePanels.push(...panels);
+      });
+    });
+
+    const updatedSplitters = [];
+
+    newActivePanels.forEach((panel) => {
+      if (panel.entities.length > 0) {
+        const entity = panel.entities[0];
+        if (entity instanceof Splitter) {
+          panel.active = true;
+          updatedSplitters.push(entity);
+        } else if (entity instanceof Emitter) {
+          panel.active = true;
+        }
+      } else {
+        panel.active = true;
+      }
+    });
+
+    const splitterPanels = this.updateSplittersRecursive(updatedSplitters, []);
+
+    this.activePanels = [...newActivePanels, ...splitterPanels];
+  }
+
+  updateSplittersRecursive(splitters: Splitter[], panels: Panel[]) {
+    let newActiveSplitters = [];
+    if (splitters.length <= 0) {
+      return panels;
+    } else {
+      splitters.forEach((emitter) => {
+        // if (emitter instanceof Splitter && !emitter.active) {
+        //   console.log("emitter is not active");
+        //   return;
+        // }
+        if (!emitter.active) return;
+
+        const outputDirections = emitter.outputDirections;
+
+        outputDirections.forEach((direction) => {
+          const splitterPanels = this.getPanelsInDirection(
+            emitter.position,
+            direction
+          );
+          console.log("new splitter panels", panels);
+          panels.push(...splitterPanels);
+        });
+      });
+
+      panels.forEach((panel) => {
+        if (panel.entities.length > 0) {
+          const entity = panel.entities[0];
+          if (entity instanceof Splitter) {
+            panel.active = true;
+            newActiveSplitters.push(entity);
+          } else if (entity instanceof Emitter) {
+            panel.active = true;
+          }
+        } else {
+          panel.active = true;
+        }
+      });
+
+      return this.updateSplittersRecursive(newActiveSplitters, panels);
+    }
+  }
+
   // the entire active panel checking has turn to shit due to splitters
   // i will refrain in adding more features for now
   updateActivePanels() {
     console.log("update active panels");
-    let splitterUpdate = false;
     const emitters = this.grid.getEmitters();
-
-    const splitters = this.grid.getSplitters();
 
     //    console.log("masuk update grid state");
     const newActivePanels = new Array<Panel>();
@@ -414,21 +494,6 @@ export class GridManager extends Component {
     });
 
     // jank double checking
-    splitters.forEach((emitter) => {
-      // if (emitter instanceof Splitter && !emitter.active) {
-      //   console.log("emitter is not active");
-      //   return;
-      // }
-      if (!emitter.active) return;
-
-      const outputDirections = emitter.outputDirections;
-
-      outputDirections.forEach((direction) => {
-        const panels = this.getPanelsInDirection(emitter.position, direction);
-        console.log("new splitter panels", panels);
-        newActivePanels.push(...panels);
-      });
-    });
 
     this.activePanels = [...newActivePanels];
     // why do i have to do this?
@@ -438,21 +503,18 @@ export class GridManager extends Component {
         console.log("update active check entity");
         console.log(entity);
         console.log("panel position", panel.position);
-        if (entity instanceof Emitter) {
-          panel.active = true;
-        } else if (entity instanceof Splitter) {
+        if (entity instanceof Splitter) {
           console.log("activate emitter");
           panel.active = true;
-          splitterUpdate = true;
           console.log("will run secondary update");
+        } else if (entity instanceof Emitter) {
+          panel.active = true;
         }
         // intended purpose is to skip walls and other entity blocking events
       } else {
         panel.active = true;
       }
     });
-
-    return splitterUpdate;
   }
 
   clearGrid() {
