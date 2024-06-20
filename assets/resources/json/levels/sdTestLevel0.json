@@ -263,6 +263,31 @@
                          "width":64,
                          "x":256,
                          "y":512
+                        }, 
+                        {
+                         "gid":31,
+                         "height":64,
+                         "id":18,
+                         "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"SINGLE"
+                                }, 
+                                {
+                                 "name":"EmitterSubtype",
+                                 "propertytype":"EmitterSubtype",
+                                 "type":"string",
+                                 "value":"Splitter"
+                                }],
+                         "rotation":0,
+                         "type":"EmitterEntity",
+                         "visible":true,
+                         "width":64,
+                         "x":640,
+                         "y":512
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -278,7 +303,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":18,
+ "nextobjectid":25,
  "orientation":"orthogonal",
  "renderorder":"left-up",
  "tiledversion":"1.10.2",
