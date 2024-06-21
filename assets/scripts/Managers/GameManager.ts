@@ -166,7 +166,6 @@ export class GameManager extends Component {
       // also check if tile has any existing entity
       // if another entity exist, check if pushing it to the same direction results a vali move
       // for now assume tiles can only have one entity
-      console.log("check for entities on this tile");
       //   console.log(tile.position);
       //  console.log(tile.entities);
 
