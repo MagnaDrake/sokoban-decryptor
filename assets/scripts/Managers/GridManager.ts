@@ -356,7 +356,6 @@ export class GridManager extends Component {
 
     this.grid.getPanels().forEach((panel) => {
       // console.log(panel.active);
-      console.log("panel status", panel.position, panel.active);
       if (!panel.active) hasWon = false;
     });
 
@@ -366,7 +365,6 @@ export class GridManager extends Component {
   // the entire active panel checking has turn to shit due to splitters
   // i will refrain in adding more features for now
   updateActivePanels() {
-    console.log("update active panels");
     const emitters = this.grid.getEmitters();
 
     //    console.log("masuk update grid state");
@@ -374,11 +372,9 @@ export class GridManager extends Component {
 
     emitters.forEach((emitter) => {
       const outputDirections = emitter.outputDirections;
-      console.log("emitter position", emitter.position);
 
       outputDirections.forEach((direction) => {
         const panels = this.getPanelsInDirection(emitter.position, direction);
-        console.log("emitter panels", panels);
         newActivePanels.push(...panels);
       });
     });
@@ -386,25 +382,27 @@ export class GridManager extends Component {
     // jank double checking
 
     this.activePanels = [...newActivePanels];
-    // why do i have to do this?
+
     this.activePanels.forEach((panel) => {
-      if (panel.entities.length > 0) {
-        const entity = panel.entities[0];
-        console.log("update active check entity");
-        console.log(entity);
-        console.log("panel position", panel.position);
-        if (entity instanceof Splitter) {
-          console.log("activate emitter");
-          panel.active = true;
-          console.log("will run secondary update");
-        } else if (entity instanceof Emitter) {
-          panel.active = true;
-        }
-        // intended purpose is to skip walls and other entity blocking events
-      } else {
-        panel.active = true;
-      }
+      panel.active = true;
     });
+    // old version
+    // leaving it here in case its still needed
+
+    // this.activePanels.forEach((panel) => {
+    //   if (panel.entities.length > 0) {
+    //     const entity = panel.entities[0];
+    //     console.log(entity);
+    //     if (entity instanceof Splitter) {
+    //       panel.active = true;
+    //     } else if (entity instanceof Emitter) {
+    //       panel.active = true;
+    //     }
+    //     // intended purpose is to skip walls and other entity blocking events
+    //   } else {
+    //     panel.active = true;
+    //   }
+    // });
   }
 
   clearGrid() {
