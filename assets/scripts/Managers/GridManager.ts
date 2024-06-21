@@ -300,7 +300,17 @@ export class GridManager extends Component {
       tail.push(adjacentPanel);
 
       if (entityOnPanel?.blocksPanel) {
-        return tail;
+        if (entityOnPanel instanceof Splitter) {
+          entityOnPanel.outputDirections.forEach((direction) => {
+            tail = [
+              ...tail,
+              ...this.getPanelsInDirection(entityOnPanel.position, direction),
+            ];
+          });
+          return tail;
+        } else {
+          return tail;
+        }
       } else {
         return this.getAdjacentPanelInDirectionRecursive(
           adjacentPoint,
@@ -329,17 +339,17 @@ export class GridManager extends Component {
       panel.active = false;
     });
 
-    const splitters = this.grid.getSplitters();
+    // const splitters = this.grid.getSplitters();
 
-    splitters.forEach((splitter) => {
-      console.log("deactivate splitter");
-      splitter.active = false;
-    });
+    // splitters.forEach((splitter) => {
+    //   console.log("deactivate splitter");
+    //   splitter.active = false;
+    // });
 
     this.updateActivePanels();
 
     // this is not working
-    this.updateSplitters();
+    //this.updateSplitters();
 
     // jank implementation due to splitters turning on in a grid state update but not included in the active panel state check
     // definitely need to rework the panel turning on system
@@ -405,25 +415,13 @@ export class GridManager extends Component {
       });
     });
 
-    const updatedSplitters = [];
+    //  const updatedSplitters = [];
 
     newActivePanels.forEach((panel) => {
-      if (panel.entities.length > 0) {
-        const entity = panel.entities[0];
-        if (entity instanceof Splitter) {
-          panel.active = true;
-          updatedSplitters.push(entity);
-        } else if (entity instanceof Emitter) {
-          panel.active = true;
-        }
-      } else {
-        panel.active = true;
-      }
+      panel.active = true;
     });
 
-    const splitterPanels = this.updateSplittersRecursive(updatedSplitters, []);
-
-    this.activePanels = [...newActivePanels, ...splitterPanels];
+    this.activePanels = [...newActivePanels];
   }
 
   updateSplittersRecursive(splitters: Splitter[], panels: Panel[]) {
