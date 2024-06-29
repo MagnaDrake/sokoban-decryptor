@@ -8,93 +8,94 @@ const { ccclass, property } = _decorator;
 
 @ccclass("Grid")
 export class Grid extends Component {
-  @property(CCInteger)
-  width = 1;
+	@property(CCInteger)
+	width = 1;
 
-  @property(CCInteger)
-  height = 1;
+	@property(CCInteger)
+	height = 1;
 
-  public tiles: Tile[][] = [[]];
+	public tiles: Tile[][] = [[]];
 
-  public emitters: Array<Emitter>;
+	public emitters: Array<Emitter>;
 
-  public splitters: Array<Splitter>;
+	public splitters: Array<Splitter>;
 
-  onLoad() {
-    this.tiles = [...Array(this.height)].map((e) => Array(this.width));
-    this.emitters = new Array<Emitter>();
-    this.splitters = new Array<Splitter>();
-  }
+	onLoad() {
+		this.tiles = [...Array(this.height)].map((e) => Array(this.width));
+		this.emitters = new Array<Emitter>();
+		this.splitters = new Array<Splitter>();
+	}
 
-  getTile(x: number, y: number) {
-    // console.log(`${x},${y}`);
-    if (!(y in this.tiles && x in this.tiles[y])) {
-      return false;
-    } else {
-      return this.tiles[y][x];
-    }
-  }
+	getTile(x: number, y: number) {
+		// console.log(`${x},${y}`);
+		if (!(y in this.tiles && x in this.tiles[y])) {
+			return false;
+		} else {
+			return this.tiles[y][x];
+		}
+	}
 
-  setSize(width: number, height: number) {
-    this.width = width;
-    this.height = height;
-    this.tiles = [...Array(this.height)].map((e) => Array(this.width));
-  }
+	setSize(width: number, height: number) {
+		this.width = width;
+		this.height = height;
+		this.tiles = [...Array(this.height)].map((e) => Array(this.width));
+	}
 
-  setTile(x: number, y: number, tile: Tile) {
-    // console.log(`${x},${y}`);
-    this.tiles[y][x] = tile;
+	setTile(x: number, y: number, tile: Tile) {
+		// console.log(`${x},${y}`);
+		this.tiles[y][x] = tile;
 
-    tile.position = { x, y };
-    tile.debugLabel.string = `${x}, ${y}`;
-  }
+		tile.position = { x, y };
+		tile.debugLabel.string = `${x}, ${y}`;
+	}
 
-  addEmitter(emitter: Emitter) {
-    this.emitters.push(emitter);
-  }
+	addEmitter(emitter: Emitter) {
+		this.emitters.push(emitter);
+	}
 
-  getEmitters() {
-    return this.emitters;
-  }
+	getEmitters() {
+		return this.emitters;
+	}
 
-  getSplitters() {
-    return this.splitters;
-  }
+	getSplitters() {
+		return this.splitters;
+	}
 
-  addSplitter(splitter: Splitter) {
-    this.splitters.push(splitter);
-  }
+	addSplitter(splitter: Splitter) {
+		this.splitters.push(splitter);
+	}
 
-  getPanels(): Panel[] {
-    let panels = [];
-    for (let y = 0; y < this.tiles.length; y++) {
-      for (let x = 0; x < this.tiles[y].length; x++) {
-        if (this.tiles[y][x] instanceof Panel) panels.push(this.tiles[y][x]);
-      }
-    }
-    return panels;
-  }
+	getPanels(): Panel[] {
+		let panels = [];
+		for (let y = 0; y < this.tiles.length; y++) {
+			for (let x = 0; x < this.tiles[y].length; x++) {
+				if (this.tiles[y][x] instanceof Panel)
+					panels.push(this.tiles[y][x]);
+			}
+		}
+		return panels;
+	}
 
-  getTilePosition(tile: Tile): IPoint {
-    for (let y = 0; y < this.tiles.length; y++) {
-      for (let x = 0; x < this.tiles[y].length; x++) {
-        if (this.tiles[y][x] === tile) {
-          return { x, y };
-        }
-      }
-    }
-  }
+	getTilePosition(tile: Tile): IPoint {
+		for (let y = 0; y < this.tiles.length; y++) {
+			for (let x = 0; x < this.tiles[y].length; x++) {
+				if (this.tiles[y][x] === tile) {
+					return { x, y };
+				}
+			}
+		}
+	}
 
-  clear() {
-    this.emitters.forEach((emitter) => {
-      emitter.node.destroy();
-    });
-    this.emitters.length = 0;
+	clear() {
+		this.emitters.forEach((emitter) => {
+			emitter.node.destroy();
+		});
+		this.emitters.length = 0;
 
-    this.tiles.forEach((column) => {
-      column.forEach((tile) => {
-        tile.node.destroy();
-      });
-    });
-  }
+		this.tiles.forEach((column) => {
+			column.forEach((tile) => {
+				tile.node.destroy();
+			});
+		});
+	}
 }
