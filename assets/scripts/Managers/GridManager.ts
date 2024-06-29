@@ -320,6 +320,8 @@ export class GridManager extends Component {
 					? adjacentPanel.entities[0]
 					: undefined;
 
+			console.log(entityOnPanel?.name);
+
 			tail.push(adjacentPanel);
 
 			if (entityOnPanel?.blocksPanel) {
@@ -415,22 +417,25 @@ export class GridManager extends Component {
 		this.activePanels = [...newActivePanels];
 		// why do i have to do this?
 		this.activePanels.forEach((panel) => {
-			if (panel.entities.length > 0) {
-				const entity = panel.entities[0];
-				console.log("update active check entity");
-				console.log(entity);
-				console.log("panel position", panel.position);
-				if (entity instanceof Splitter) {
-					console.log("activate emitter");
-					panel.active = true;
-					console.log("will run secondary update");
-				} else if (entity instanceof Emitter) {
-					panel.active = true;
-				}
-				// intended purpose is to skip walls and other entity blocking events
-			} else {
-				panel.active = true;
-			}
+			// i am not sure if this code block is needed anymore
+
+			// if (panel.entities.length > 0) {
+			// 	const entity = panel.entities[0];
+			// 	console.log("update active check entity");
+			// 	console.log(entity);
+			// 	console.log("panel position", panel.position);
+			// 	if (entity instanceof Splitter) {
+			// 		console.log("activate emitter");
+			// 		panel.active = true;
+			// 		console.log("will run secondary update");
+			// 	} else if (entity instanceof Emitter) {
+			// 		panel.active = true;
+			// 	}
+			// 	// intended purpose is to skip walls and other entity blocking events
+			// } else
+			//{
+			panel.active = true;
+			//	}
 		});
 	}
 
