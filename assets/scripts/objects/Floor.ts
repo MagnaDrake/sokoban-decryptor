@@ -4,7 +4,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass("Floor")
 export class Floor extends Tile {
-  constructor() {
-    super();
-  }
+	constructor() {
+		super();
+	}
 }

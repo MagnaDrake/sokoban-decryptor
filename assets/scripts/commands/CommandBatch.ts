@@ -1,21 +1,21 @@
 import { Command } from "./Command";
 
 export class CommandBatch {
-  batch: Array<Command>;
+	batch: Array<Command>;
 
-  constructor() {
-    this.batch = new Array<Command>();
-  }
+	constructor() {
+		this.batch = new Array<Command>();
+	}
 
-  get length() {
-    return this.batch.length;
-  }
+	get length() {
+		return this.batch.length;
+	}
 
-  add(command: Command) {
-    this.batch.push(command);
-  }
+	add(command: Command) {
+		this.batch.push(command);
+	}
 
-  getCommands() {
-    return this.batch;
-  }
+	getCommands() {
+		return this.batch;
+	}
 }

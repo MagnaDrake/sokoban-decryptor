@@ -6,30 +6,30 @@ const { ccclass, property } = _decorator;
 
 @ccclass("SyncPositionCommand")
 export class SyncPositionCommand implements Command {
-  lastLastPosition: IPoint;
-  lastlastDirection: Direction;
+	lastLastPosition: IPoint;
+	lastlastDirection: Direction;
 
-  updatePosition: IPoint;
-  updateDirection: Direction;
+	updatePosition: IPoint;
+	updateDirection: Direction;
 
-  emitter: Emitter;
+	emitter: Emitter;
 
-  constructor(emitter: Emitter) {
-    this.updatePosition = emitter.position;
-    this.updateDirection = emitter.direction;
+	constructor(emitter: Emitter) {
+		this.updatePosition = emitter.position;
+		this.updateDirection = emitter.direction;
 
-    this.emitter = emitter;
-  }
+		this.emitter = emitter;
+	}
 
-  execute() {
-    this.lastLastPosition = this.emitter.lastPosition;
-    this.lastlastDirection = this.emitter.lastDirection;
-    this.emitter.lastPosition = this.updatePosition;
-    this.emitter.lastDirection = this.updateDirection;
-  }
+	execute() {
+		this.lastLastPosition = this.emitter.lastPosition;
+		this.lastlastDirection = this.emitter.lastDirection;
+		this.emitter.lastPosition = this.updatePosition;
+		this.emitter.lastDirection = this.updateDirection;
+	}
 
-  undo() {
-    this.emitter.lastPosition = this.lastLastPosition;
-    this.emitter.lastDirection = this.lastlastDirection;
-  }
+	undo() {
+		this.emitter.lastPosition = this.lastLastPosition;
+		this.emitter.lastDirection = this.lastlastDirection;
+	}
 }

@@ -5,8 +5,8 @@ const { ccclass, property } = _decorator;
 
 @ccclass("Player")
 export class Player extends Entity {
-  getPosInFront() {
-    const dirVec = getDirectionVector(this.direction);
-    return { x: this.position.x + dirVec.x, y: this.position.y + dirVec.y };
-  }
+	getPosInFront() {
+		const dirVec = getDirectionVector(this.direction);
+		return { x: this.position.x + dirVec.x, y: this.position.y + dirVec.y };
+	}
 }
