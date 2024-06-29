@@ -49,6 +49,9 @@ export class GridManager extends Component {
   panelPrefab: Prefab;
 
   @property(Prefab)
+  wallPrefab: Prefab;
+
+  @property(Prefab)
   playerPrefab: Prefab;
 
   @property(Prefab)
@@ -113,6 +116,9 @@ export class GridManager extends Component {
         tileObject = instantiate(this.floorPrefab);
       } else if (tileData.type === TileTypeData.Panel) {
         tileObject = instantiate(this.panelPrefab);
+      } else {
+        // tiledata.type == tiletypedata.wall
+        tileObject = instantiate(this.wallPrefab);
       }
 
       tileObject.setParent(this.grid.node);
