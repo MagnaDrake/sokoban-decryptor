@@ -120,6 +120,7 @@ export class GridManager extends Component {
 				// tiledata.type == tiletypedata.wall
 				tileObject = instantiate(this.wallPrefab);
 			}
+			tileObject.getComponent(Tile).setTileTerrain(tileData.id);
 
 			tileObject.setParent(this.grid.node);
 			const wPos = this.getTileWorldPosition(
@@ -127,6 +128,11 @@ export class GridManager extends Component {
 				tileData.position.y,
 				this.grid.width,
 				this.grid.height
+			);
+			console.log(
+				tileData.position.x,
+				tileData.position.y,
+				tileData.type
 			);
 			tileObject.setPosition(wPos.x, wPos.y);
 			this.grid.setTile(
@@ -162,13 +168,11 @@ export class GridManager extends Component {
 			let emitterEntity;
 			//console.log(emitter);
 			//console.log(EmitterDataClass[emitter.subtype]);
-			if (EmitterDataClass[emitter.subtype] === EmitterDataClass.Basic) {
+			if (!emitter.isSplitter) {
 				emitterObject = instantiate(this.emitterPrefab);
 				emitterEntity = emitterObject.getComponent(Emitter);
 				this.grid.addEmitter(emitterEntity);
-			} else if (
-				EmitterDataClass[emitter.subtype] === EmitterDataClass.Splitter
-			) {
+			} else {
 				emitterObject = instantiate(this.splitterPrefab);
 				emitterEntity = emitterObject.getComponent(Splitter);
 				this.grid.addSplitter(emitterEntity);
