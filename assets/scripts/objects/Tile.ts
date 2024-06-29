@@ -21,13 +21,13 @@ export class Tile extends Component {
 		this.traversable = traversable;
 	}
 
-	setTileTerrain(terrain: number) {
+	setTileTerrain(id: number) {
 		// Tiled displays ID with 0-index but exports to 1-index
-		const format = `${terrain - 1}`.slice(-3);
+		//const format = `${terrain - 1}`.slice(-3);
 
-		const append = terrain - 1 < 10 ? "0" : "";
-		const spriteKey = `${append}${format}`;
-		console.log(spriteKey);
+		const append = id < 10 ? "0" : "";
+		const spriteKey = `${append}${id}`;
+		//console.log(spriteKey);
 		this.terrainSprite.spriteFrame =
 			this.terrainSprite.spriteAtlas.getSpriteFrame(spriteKey);
 		this.terrainSprite.node

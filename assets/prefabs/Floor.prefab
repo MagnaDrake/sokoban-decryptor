@@ -220,7 +220,7 @@
     "_string": "",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 31.6875,
+    "_actualFontSize": 20,
     "_fontSize": 20,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -303,10 +303,7 @@
       "b": 255,
       "a": 255
     },
-    "_spriteFrame": {
-      "__uuid__": "2cf76014-c925-4898-9fba-8404cc712d3a@f9941",
-      "__expectedType__": "cc.SpriteFrame"
-    },
+    "_spriteFrame": null,
     "_type": 0,
     "_fillType": 0,
     "_sizeMode": 0,
@@ -319,7 +316,10 @@
     "_fillRange": 0,
     "_isTrimmedMode": true,
     "_useGrayscale": false,
-    "_atlas": null,
+    "_atlas": {
+      "__uuid__": "4b302ae5-3322-4134-b41d-e6f0a71bcf2c",
+      "__expectedType__": "cc.SpriteAtlas"
+    },
     "_id": ""
   },
   {
@@ -381,6 +381,9 @@
     },
     "debugLabel": {
       "__id__": 6
+    },
+    "terrainSprite": {
+      "__id__": 11
     },
     "_id": ""
   },

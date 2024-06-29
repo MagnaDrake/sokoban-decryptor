@@ -514,6 +514,10 @@
       "__uuid__": "d4683c1f-88d6-4487-9231-aafa6be8e623",
       "__expectedType__": "cc.Prefab"
     },
+    "wallPrefab": {
+      "__uuid__": "5573fe9c-e89a-45cc-a158-58c9bac39c58",
+      "__expectedType__": "cc.Prefab"
+    },
     "playerPrefab": {
       "__uuid__": "516dddee-230b-4b3c-a70e-1fc216803aea",
       "__expectedType__": "cc.Prefab"
