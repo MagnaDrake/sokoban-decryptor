@@ -163,6 +163,11 @@ export class GameManager extends Component {
     }
 
     if (tile) {
+
+      if(!tile.traversable){
+        this.executeCommand(batch)
+        return;
+      }
       // also check if tile has any existing entity
       // if another entity exist, check if pushing it to the same direction results a vali move
       // for now assume tiles can only have one entity
