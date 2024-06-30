@@ -69,10 +69,12 @@ export class GameManager extends Component {
 
   hasShownWin = false;
 
+  currentLevel = -1;
+
   start() {
-    this.scheduleOnce(() => {
-      this.loadLevelData(0);
-    }, 0.2);
+    // this.scheduleOnce(() => {
+    //   this.loadLevelData(0);
+    // }, 0.2);
   }
 
   onUndoKeyInput() {
@@ -188,8 +190,10 @@ export class GameManager extends Component {
           targetPosition.y + direction.y
         );
 
+        // push entity section
         if (
           nextTile &&
+          nextTile.traversable &&
           nextTile.entities.length < 1 &&
           tile.entities[0].moveable
         ) {
@@ -248,16 +252,20 @@ export class GameManager extends Component {
     // flush all grid and entities and commands from memory
     // then reinit the level
     // might need object pooling in the future
+    if (this.currentLevel < 0) return;
     GridManager.Instance.clearGrid();
     CommandManager.Instance.clearCommands();
     this.player.node.destroy();
     this.player = undefined;
-    this.loadLevelData(0);
+    this.loadLevelData(this.currentLevel);
     this.gameWinScren.active = false;
   }
 
   loadLevelData(id: number) {
+    this.currentLevel = id;
     const levelData = LevelManager.Instance.levelData[id];
+    console.log("load level data");
+    console.log(levelData);
     if (levelData) {
       GridManager.Instance.createLevel(levelData);
     }
