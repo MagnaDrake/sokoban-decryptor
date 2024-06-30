@@ -193,7 +193,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 464.5659163987138,
+    "_orthoHeight": 387.7647058823529,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -512,6 +512,10 @@
     },
     "panelPrefab": {
       "__uuid__": "d4683c1f-88d6-4487-9231-aafa6be8e623",
+      "__expectedType__": "cc.Prefab"
+    },
+    "wallPrefab": {
+      "__uuid__": "5573fe9c-e89a-45cc-a158-58c9bac39c58",
       "__expectedType__": "cc.Prefab"
     },
     "playerPrefab": {
@@ -2470,7 +2474,7 @@
     "__prefab": null,
     "levels": [
       {
-        "__uuid__": "4a3d4f19-8c00-4018-b2c8-d07f80960dda",
+        "__uuid__": "57c758bc-0b57-498f-aedc-622f85d4f57c",
         "__expectedType__": "cc.JsonAsset"
       }
     ],

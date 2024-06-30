@@ -48,7 +48,7 @@ export class Entity extends Component {
   setMovableAndRotatable(movable: boolean, rotatable: boolean) {
     this.moveable = movable;
     this.rotatetable = rotatable;
-    console.log('meow '+this.moveable+' '+this.rotatetable)
+    //  console.log("meow " + this.moveable + " " + this.rotatetable);
   }
 
   rotate(degrees: RotateDirection) {

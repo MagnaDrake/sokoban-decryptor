@@ -41,11 +41,10 @@ export class TitleScreenUIManager extends Component {
 
   @property(Node)
   volumeControl!: Node;
-
   fromGameplay = false;
 
-//   @property(BlackScreen)
-//   blackScreen!: BlackScreen;
+  //   @property(BlackScreen)
+  //   blackScreen!: BlackScreen;
 
   protected onLoad(): void {
     this.jellySprite.setWorldPosition(this.jellyHiddenAnchor.worldPosition);
@@ -56,7 +55,7 @@ export class TitleScreenUIManager extends Component {
     this.creditsLabels.setWorldPosition(
       this.levelSelectorHiddenAnchor.worldPosition
     );
-  //  this.blackScreen.toggleVisibility(true);
+    //  this.blackScreen.toggleVisibility(true);
     this.howToPlay.setWorldPosition(
       this.levelSelectorHiddenAnchor.worldPosition
     );
@@ -75,7 +74,7 @@ export class TitleScreenUIManager extends Component {
     if (!this.fromGameplay) {
       this.showJellyMenu();
     }
- //   this.blackScreen.toggleVisibility(false);
+    //   this.blackScreen.toggleVisibility(false);
   }
 
   openLevelSelector() {
@@ -173,7 +172,7 @@ export class TitleScreenUIManager extends Component {
   }
 
   toggleLoadingScreen(value: boolean) {
-   // this.blackScreen.toggleVisibility(value);
+    // this.blackScreen.toggleVisibility(value);
   }
 
   showVolumeControl() {

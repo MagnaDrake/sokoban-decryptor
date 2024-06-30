@@ -30,7 +30,7 @@ export class LevelSelector extends Component {
   }
 
   generateLevelGrid() {
- //   this.saveData = UserDataManager.Instance.getUserData();
+    //   this.saveData = UserDataManager.Instance.getUserData();
 
     this.createLevelItems(50);
   }
@@ -77,7 +77,7 @@ export class LevelSelector extends Component {
   }
 
   loadLevelGenerator() {
-   // AudioManager.Instance.stop();
+    // AudioManager.Instance.stop();
     director.loadScene("levelGen", (e, scene) => {});
   }
   start() {}
