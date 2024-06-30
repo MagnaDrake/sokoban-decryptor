@@ -45,6 +45,12 @@ export class Entity extends Component {
     this.onRotate();
   }
 
+  setMovableAndRotatable(movable: boolean, rotatable: boolean) {
+    this.moveable = movable;
+    this.rotatetable = rotatable;
+    console.log('meow '+this.moveable+' '+this.rotatetable)
+  }
+
   rotate(degrees: RotateDirection) {
     const zRot = this.node.eulerAngles.z;
     const newRot = (zRot + degrees + 360) % 360;
