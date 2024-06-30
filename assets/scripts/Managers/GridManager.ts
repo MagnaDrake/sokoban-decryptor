@@ -120,7 +120,6 @@ export class GridManager extends Component {
 				// tiledata.type == tiletypedata.wall
 				tileObject = instantiate(this.wallPrefab);
 			}
-			tileObject.getComponent(Tile).setTileTerrain(tileData.id);
 
 			tileObject.setParent(this.grid.node);
 			const wPos = this.getTileWorldPosition(
@@ -128,11 +127,6 @@ export class GridManager extends Component {
 				tileData.position.y,
 				this.grid.width,
 				this.grid.height
-			);
-			console.log(
-				tileData.position.x,
-				tileData.position.y,
-				tileData.type
 			);
 			tileObject.setPosition(wPos.x, wPos.y);
 			this.grid.setTile(
@@ -168,11 +162,13 @@ export class GridManager extends Component {
 			let emitterEntity;
 			//console.log(emitter);
 			//console.log(EmitterDataClass[emitter.subtype]);
-			if (!emitter.isSplitter) {
+			if (EmitterDataClass[emitter.subtype] === EmitterDataClass.Basic) {
 				emitterObject = instantiate(this.emitterPrefab);
 				emitterEntity = emitterObject.getComponent(Emitter);
 				this.grid.addEmitter(emitterEntity);
-			} else {
+			} else if (
+				EmitterDataClass[emitter.subtype] === EmitterDataClass.Splitter
+			) {
 				emitterObject = instantiate(this.splitterPrefab);
 				emitterEntity = emitterObject.getComponent(Splitter);
 				this.grid.addSplitter(emitterEntity);
@@ -180,6 +176,10 @@ export class GridManager extends Component {
 
 			emitterObject.setParent(this.grid.node);
 			emitterEntity.setOutputDirections(EmitterTypes[emitter.outputType]);
+			emitterEntity.setMovableAndRotatable(
+				emitter.movable,
+				emitter.rotatable
+			);
 			this.initEntityToGrid(
 				emitterEntity,
 				emitter.position.x,
@@ -320,8 +320,6 @@ export class GridManager extends Component {
 					? adjacentPanel.entities[0]
 					: undefined;
 
-			console.log(entityOnPanel?.name);
-
 			tail.push(adjacentPanel);
 
 			if (entityOnPanel?.blocksPanel) {
@@ -417,25 +415,22 @@ export class GridManager extends Component {
 		this.activePanels = [...newActivePanels];
 		// why do i have to do this?
 		this.activePanels.forEach((panel) => {
-			// i am not sure if this code block is needed anymore
-
-			// if (panel.entities.length > 0) {
-			// 	const entity = panel.entities[0];
-			// 	console.log("update active check entity");
-			// 	console.log(entity);
-			// 	console.log("panel position", panel.position);
-			// 	if (entity instanceof Splitter) {
-			// 		console.log("activate emitter");
-			// 		panel.active = true;
-			// 		console.log("will run secondary update");
-			// 	} else if (entity instanceof Emitter) {
-			// 		panel.active = true;
-			// 	}
-			// 	// intended purpose is to skip walls and other entity blocking events
-			// } else
-			//{
-			panel.active = true;
-			//	}
+			if (panel.entities.length > 0) {
+				const entity = panel.entities[0];
+				console.log("update active check entity");
+				console.log(entity);
+				console.log("panel position", panel.position);
+				if (entity instanceof Splitter) {
+					console.log("activate emitter");
+					panel.active = true;
+					console.log("will run secondary update");
+				} else if (entity instanceof Emitter) {
+					panel.active = true;
+				}
+				// intended purpose is to skip walls and other entity blocking events
+			} else {
+				panel.active = true;
+			}
 		});
 	}
 
