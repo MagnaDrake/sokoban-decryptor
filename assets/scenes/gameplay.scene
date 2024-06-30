@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.SceneAsset",
-    "_name": "test",
+    "_name": "gameplay",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",
@@ -62,7 +62,7 @@
     "_globals": {
       "__id__": 158
     },
-    "_id": "c59799c9-1479-4441-b5fb-5cd809e91b3e"
+    "_id": "bbe5005f-8aea-4d8c-9968-40fe46239ae2"
   },
   {
     "__type__": "cc.Node",
