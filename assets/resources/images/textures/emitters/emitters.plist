@@ -4,7 +4,7 @@
   <dict>
     <key>frames</key>
     <dict>
-      <key>sokoban_entities/0.png</key>
+      <key>0.png</key>
       <dict>
         <key>frame</key>
         <string>{{0,0},{128,128}}</string>
@@ -17,7 +17,7 @@
         <key>sourceSize</key>
         <string>{128,128}</string>
       </dict>
-      <key>sokoban_entities/1.png</key>
+      <key>1.png</key>
       <dict>
         <key>frame</key>
         <string>{{128,0},{128,128}}</string>
@@ -30,7 +30,7 @@
         <key>sourceSize</key>
         <string>{128,128}</string>
       </dict>
-      <key>sokoban_entities/2.png</key>
+      <key>2.png</key>
       <dict>
         <key>frame</key>
         <string>{{256,0},{128,128}}</string>
@@ -43,7 +43,7 @@
         <key>sourceSize</key>
         <string>{128,128}</string>
       </dict>
-      <key>sokoban_entities/3.png</key>
+      <key>3.png</key>
       <dict>
         <key>frame</key>
         <string>{{384,0},{128,128}}</string>
@@ -56,7 +56,7 @@
         <key>sourceSize</key>
         <string>{128,128}</string>
       </dict>
-      <key>sokoban_entities/4.png</key>
+      <key>4.png</key>
       <dict>
         <key>frame</key>
         <string>{{512,0},{128,128}}</string>
@@ -69,7 +69,7 @@
         <key>sourceSize</key>
         <string>{128,128}</string>
       </dict>
-      <key>sokoban_entities/5.png</key>
+      <key>5.png</key>
       <dict>
         <key>frame</key>
         <string>{{640,0},{128,128}}</string>
@@ -82,7 +82,7 @@
         <key>sourceSize</key>
         <string>{128,128}</string>
       </dict>
-      <key>sokoban_entities/6.png</key>
+      <key>6.png</key>
       <dict>
         <key>frame</key>
         <string>{{768,0},{128,128}}</string>
@@ -95,7 +95,7 @@
         <key>sourceSize</key>
         <string>{128,128}</string>
       </dict>
-      <key>sokoban_entities/7.png</key>
+      <key>7.png</key>
       <dict>
         <key>frame</key>
         <string>{{896,0},{128,128}}</string>
