@@ -56,6 +56,8 @@ export interface PlayerData extends EntityData {}
 export interface EmitterData extends EntityData {
   outputType: string;
   subtype: string;
+  movable: boolean;
+  rotatable: boolean;
 }
 
 export interface TileData {
@@ -149,6 +151,8 @@ export function readRawLevelData(json: any) {
 
     const outputType = emitterProps[0].value;
     const emitterType = emitterProps[1].value;
+    const movable = emitterProps[2].value;
+    const rotatable = emitterProps[3].value;
 
     const fixRot =
       Math.abs(emitter.rotation) === 90 ? -emitter.rotation : emitter.rotation;
@@ -158,6 +162,8 @@ export function readRawLevelData(json: any) {
       position: emitterPos,
       rotation: fixRot,
       subtype: emitterType,
+      movable: movable,
+      rotatable: rotatable
     };
 
     emitterParsedData.push(data);

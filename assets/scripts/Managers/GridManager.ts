@@ -176,6 +176,7 @@ export class GridManager extends Component {
 
       emitterObject.setParent(this.grid.node);
       emitterEntity.setOutputDirections(EmitterTypes[emitter.outputType]);
+      emitterEntity.setMovableAndRotatable(emitter.movable, emitter.rotatable);
       this.initEntityToGrid(
         emitterEntity,
         emitter.position.x,
