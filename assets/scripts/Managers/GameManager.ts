@@ -106,7 +106,7 @@ export class GameManager extends Component {
     // currently assuming a tile can only have 1 entity
     const batch = new CommandBatch();
     const entityToRotate = targetTile.entities[0];
-    if (!entityToRotate || !entityToRotate.rotatetable) return;
+    if (!entityToRotate || !entityToRotate.rotatable) return;
     const rotateEntityCommand = new StepRotationCommand(entityToRotate, rot);
     batch.add(rotateEntityCommand);
     this.executeCommand(batch);
