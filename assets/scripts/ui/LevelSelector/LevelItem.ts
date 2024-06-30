@@ -45,9 +45,9 @@ export class LevelItem extends Component {
   setListener(levelSelector: LevelSelector) {
     this.levelSelector = levelSelector;
     this.node.on(Input.EventType.TOUCH_START, () => {
-    //   AudioManager.Instance.playOneShot(
-    //     `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    //   );
+      //   AudioManager.Instance.playOneShot(
+      //     `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+      //   );
       levelSelector.loadLevel(parseInt(this.levelLabel.string) - 1);
     });
   }

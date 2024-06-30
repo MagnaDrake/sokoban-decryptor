@@ -121,6 +121,8 @@ export class GridManager extends Component {
         tileObject = instantiate(this.wallPrefab);
       }
 
+      tileObject.getComponent(Tile).setTileTerrain(tileData.id);
+
       tileObject.setParent(this.grid.node);
       const wPos = this.getTileWorldPosition(
         tileData.position.x,
@@ -162,13 +164,11 @@ export class GridManager extends Component {
       let emitterEntity;
       //console.log(emitter);
       //console.log(EmitterDataClass[emitter.subtype]);
-      if (EmitterDataClass[emitter.subtype] === EmitterDataClass.Basic) {
+      if (!emitter.isSplitter) {
         emitterObject = instantiate(this.emitterPrefab);
         emitterEntity = emitterObject.getComponent(Emitter);
         this.grid.addEmitter(emitterEntity);
-      } else if (
-        EmitterDataClass[emitter.subtype] === EmitterDataClass.Splitter
-      ) {
+      } else {
         emitterObject = instantiate(this.splitterPrefab);
         emitterEntity = emitterObject.getComponent(Splitter);
         this.grid.addSplitter(emitterEntity);
@@ -241,7 +241,10 @@ export class GridManager extends Component {
   }
 
   getTileWorldPosition(x: number, y: number, width: number, height: number) {
-    return { x: this.getXWorldPos(x, width), y: this.getYWorldPos(y, height) };
+    return {
+      x: this.getXWorldPos(x, width),
+      y: this.getYWorldPos(y, height),
+    };
   }
 
   getTileInGrid(x: number, y: number) {
@@ -293,7 +296,10 @@ export class GridManager extends Component {
     tail: Array<Panel>
   ): Array<Panel> {
     const dirVec = getDirectionVector(direction);
-    const adjacentPoint = { x: source.x + dirVec.x, y: source.y + dirVec.y };
+    const adjacentPoint = {
+      x: source.x + dirVec.x,
+      y: source.y + dirVec.y,
+    };
 
     const adjacentPanel = this.getTileInGrid(adjacentPoint.x, adjacentPoint.y);
 
@@ -395,22 +401,24 @@ export class GridManager extends Component {
     this.activePanels = [...newActivePanels];
     // why do i have to do this?
     this.activePanels.forEach((panel) => {
-      if (panel.entities.length > 0) {
-        const entity = panel.entities[0];
-        console.log("update active check entity");
-        console.log(entity);
-        console.log("panel position", panel.position);
-        if (entity instanceof Splitter) {
-          console.log("activate emitter");
-          panel.active = true;
-          console.log("will run secondary update");
-        } else if (entity instanceof Emitter) {
-          panel.active = true;
-        }
-        // intended purpose is to skip walls and other entity blocking events
-      } else {
-        panel.active = true;
-      }
+      // this code block should be not needed anymore
+      // but keep here just in case
+      //   if (panel.entities.length > 0) {
+      //     const entity = panel.entities[0];
+      //     console.log("update active check entity");
+      //     console.log(entity);
+      //     console.log("panel position", panel.position);
+      //     if (entity instanceof Splitter) {
+      //       console.log("activate emitter");
+      //       panel.active = true;
+      //       console.log("will run secondary update");
+      //     } else if (entity instanceof Emitter) {
+      //       panel.active = true;
+      //     }
+      //     // intended purpose is to skip walls and other entity blocking events
+      //   } else {
+      panel.active = true;
+      //}
     });
   }
 
