@@ -3,7 +3,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass("GlassWall")
 export class GlassWall extends Component {
-	start() {}
+  start() {}
 
-	update(deltaTime: number) {}
+  update(deltaTime: number) {}
 }

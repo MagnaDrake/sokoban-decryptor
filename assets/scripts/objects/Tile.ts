@@ -5,34 +5,32 @@ const { ccclass, property } = _decorator;
 
 @ccclass("Tile")
 export class Tile extends Component {
-	traversable: boolean;
-	entities: Array<Entity>;
-	position: IPoint;
+  traversable: boolean;
+  entities: Array<Entity>;
+  position: IPoint;
 
-	@property(Label)
-	debugLabel: Label;
+  @property(Label)
+  debugLabel: Label;
 
-	@property(Sprite)
-	terrainSprite: Sprite;
+  @property(Sprite)
+  terrainSprite: Sprite;
 
-	constructor(traversable = true) {
-		super();
-		this.entities = new Array<Entity>();
-		this.traversable = traversable;
-	}
+  constructor(traversable = true) {
+    super();
+    this.entities = new Array<Entity>();
+    this.traversable = traversable;
+  }
 
-	setTileTerrain(id: number) {
-		// Tiled displays ID with 0-index but exports to 1-index
-		//const format = `${terrain - 1}`.slice(-3);
+  setTileTerrain(id: number) {
+    // Tiled displays ID with 0-index but exports to 1-index
+    //const format = `${terrain - 1}`.slice(-3);
 
-		const append = id < 10 ? "0" : "";
-		const spriteKey = `${append}${id}`;
-		//console.log(spriteKey);
-		this.terrainSprite.spriteFrame =
-			this.terrainSprite.spriteAtlas.getSpriteFrame(spriteKey);
-		this.terrainSprite.node
-			.getComponent(UITransform)
-			.setContentSize(64, 64);
-		//todo set sprite using terrain code number
-	}
+    const append = id < 10 ? "0" : "";
+    const spriteKey = `${append}${id}`;
+    //console.log(spriteKey);
+    this.terrainSprite.spriteFrame =
+      this.terrainSprite.spriteAtlas.getSpriteFrame(spriteKey);
+    this.terrainSprite.node.getComponent(UITransform).setContentSize(64, 64);
+    //todo set sprite using terrain code number
+  }
 }
