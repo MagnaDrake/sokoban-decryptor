@@ -150,7 +150,7 @@ export function readRawLevelData(json: any) {
 
   for (let y = 0; y < height; y++) {
     for (let x = 0; x < width; x++) {
-      const fixedY = Math.abs(y - 9);
+      const fixedY = Math.abs(y - (height - 1));
       const pos = { x: x, y: fixedY };
       // Tiled map editor exports index 1
       const tileID = terrainLayer[index] - 1;
