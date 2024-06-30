@@ -1,6 +1,7 @@
 import { _decorator, Component, director, instantiate, Node, Prefab } from "cc";
 import { LevelItem } from "./LevelItem";
 import { TitleScreenUIManager } from "../TitleScreenUIManager";
+import { GameManager } from "../../Managers/GameManager";
 //import { GameManager } from "./GameManager";
 //import { TitleScreenUIManager } from "./TitleScreenUIManager";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
@@ -68,12 +69,11 @@ export class LevelSelector extends Component {
 
     // AudioManager.Instance.stop();
 
-    // this.scheduleOnce(() => {
-    //   director.loadScene("gameplay", (e, scene) => {
-    //     const gameManager = scene?.getComponentInChildren(GameManager);
-    //     gameManager?.generateLevel(level);
-    //   });
-    // }, 0.25);
+    this.scheduleOnce(() => {
+      director.loadScene("gameplay", (e, scene) => {
+        const gm = GameManager.Instance.loadLevelData(level);
+      });
+    }, 0.25);
   }
 
   loadLevelGenerator() {
