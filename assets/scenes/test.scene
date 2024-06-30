@@ -193,7 +193,11 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
+<<<<<<< HEAD
     "_orthoHeight": 387.7647058823529,
+=======
+    "_orthoHeight": 464.5659163987138,
+>>>>>>> f494a57ccbb49f820379a5922358547c8497aafb
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -2474,7 +2478,11 @@
     "__prefab": null,
     "levels": [
       {
+<<<<<<< HEAD
         "__uuid__": "57c758bc-0b57-498f-aedc-622f85d4f57c",
+=======
+        "__uuid__": "4a3d4f19-8c00-4018-b2c8-d07f80960dda",
+>>>>>>> f494a57ccbb49f820379a5922358547c8497aafb
         "__expectedType__": "cc.JsonAsset"
       }
     ],
