@@ -1,4 +1,4 @@
-import { _decorator, Component, JsonAsset, Node } from "cc";
+import { _decorator, Component, director, JsonAsset, Node } from "cc";
 import { LevelData, readRawLevelData } from "../utils/LevelReader";
 const { ccclass, property } = _decorator;
 
@@ -30,6 +30,7 @@ export class LevelManager extends Component {
 
     if (!instance || !instance.isValid) {
       LevelManager.Instance = this;
+      director.addPersistRootNode(this.node);
     }
 
     this.levelData = new Array<LevelData>();
