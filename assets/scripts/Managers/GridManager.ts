@@ -121,6 +121,8 @@ export class GridManager extends Component {
         tileObject = instantiate(this.wallPrefab);
       }
 
+      tileObject.getComponent(Tile).setTileTerrain(tileData.id);
+
       tileObject.setParent(this.grid.node);
       const wPos = this.getTileWorldPosition(
         tileData.position.x,
@@ -162,13 +164,11 @@ export class GridManager extends Component {
       let emitterEntity;
       //console.log(emitter);
       //console.log(EmitterDataClass[emitter.subtype]);
-      if (EmitterDataClass[emitter.subtype] === EmitterDataClass.Basic) {
+      if (!emitter.isSplitter) {
         emitterObject = instantiate(this.emitterPrefab);
         emitterEntity = emitterObject.getComponent(Emitter);
         this.grid.addEmitter(emitterEntity);
-      } else if (
-        EmitterDataClass[emitter.subtype] === EmitterDataClass.Splitter
-      ) {
+      } else {
         emitterObject = instantiate(this.splitterPrefab);
         emitterEntity = emitterObject.getComponent(Splitter);
         this.grid.addSplitter(emitterEntity);
@@ -401,22 +401,24 @@ export class GridManager extends Component {
     this.activePanels = [...newActivePanels];
     // why do i have to do this?
     this.activePanels.forEach((panel) => {
-      if (panel.entities.length > 0) {
-        const entity = panel.entities[0];
-        console.log("update active check entity");
-        console.log(entity);
-        console.log("panel position", panel.position);
-        if (entity instanceof Splitter) {
-          console.log("activate emitter");
-          panel.active = true;
-          console.log("will run secondary update");
-        } else if (entity instanceof Emitter) {
-          panel.active = true;
-        }
-        // intended purpose is to skip walls and other entity blocking events
-      } else {
-        panel.active = true;
-      }
+      // this code block should be not needed anymore
+      // but keep here just in case
+      //   if (panel.entities.length > 0) {
+      //     const entity = panel.entities[0];
+      //     console.log("update active check entity");
+      //     console.log(entity);
+      //     console.log("panel position", panel.position);
+      //     if (entity instanceof Splitter) {
+      //       console.log("activate emitter");
+      //       panel.active = true;
+      //       console.log("will run secondary update");
+      //     } else if (entity instanceof Emitter) {
+      //       panel.active = true;
+      //     }
+      //     // intended purpose is to skip walls and other entity blocking events
+      //   } else {
+      panel.active = true;
+      //}
     });
   }
 
