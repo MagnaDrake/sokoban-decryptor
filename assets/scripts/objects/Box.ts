@@ -3,7 +3,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass("Box")
 export class Box extends Component {
-	start() {}
+  start() {}
 
-	update(deltaTime: number) {}
+  update(deltaTime: number) {}
 }

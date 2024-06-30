@@ -8,79 +8,79 @@ import { TitleScreenUIManager } from "../TitleScreenUIManager";
 const { ccclass, property } = _decorator;
 
 export interface UserSaveData {
-	completedLevels: number[];
-	perfectLevels: number[];
+  completedLevels: number[];
+  perfectLevels: number[];
 }
 
 @ccclass("LevelSelector")
 export class LevelSelector extends Component {
-	@property(Node)
-	levelsContainer!: Node;
+  @property(Node)
+  levelsContainer!: Node;
 
-	@property(Prefab)
-	levelItem!: Prefab;
+  @property(Prefab)
+  levelItem!: Prefab;
 
-	@property(TitleScreenUIManager)
-	tsm!: TitleScreenUIManager;
+  @property(TitleScreenUIManager)
+  tsm!: TitleScreenUIManager;
 
-	saveData!: UserSaveData;
+  saveData!: UserSaveData;
 
-	protected onLoad(): void {
-		this.generateLevelGrid();
-	}
+  protected onLoad(): void {
+    this.generateLevelGrid();
+  }
 
-	generateLevelGrid() {
-		//   this.saveData = UserDataManager.Instance.getUserData();
+  generateLevelGrid() {
+    //   this.saveData = UserDataManager.Instance.getUserData();
 
-		this.createLevelItems(50);
-	}
+    this.createLevelItems(50);
+  }
 
-	createLevelItems(amount: number) {
-		for (let i = 0; i < amount; i++) {
-			const levelItem = instantiate(this.levelItem);
-			levelItem.setParent(this.levelsContainer);
-			levelItem.active = true;
+  createLevelItems(amount: number) {
+    for (let i = 0; i < amount; i++) {
+      const levelItem = instantiate(this.levelItem);
+      levelItem.setParent(this.levelsContainer);
+      levelItem.active = true;
 
-			const clearLevels = this.saveData?.completedLevels?.length || 0;
-			const threshold = (Math.floor(clearLevels / 3) + 1) * 5;
+      const clearLevels = this.saveData?.completedLevels?.length || 0;
+      const threshold = (Math.floor(clearLevels / 3) + 1) * 5;
 
-			if (i < threshold) {
-				levelItem.getComponent(LevelItem)?.toggleLocked(false);
-				levelItem.getComponent(LevelItem)?.setLabel((i + 1).toString());
-				levelItem.getComponent(LevelItem)?.setListener(this);
-				if (this.saveData?.completedLevels?.includes(i)) {
-					levelItem.getComponent(LevelItem)?.toggleClear(true);
-					if (this.saveData?.perfectLevels?.includes(i)) {
-						levelItem.getComponent(LevelItem)?.togglePerfect(true);
-					}
-				}
-			} else {
-				levelItem.getComponent(LevelItem)?.toggleLocked(true);
-			}
-		}
-	}
+      if (i < threshold) {
+        levelItem.getComponent(LevelItem)?.toggleLocked(false);
+        levelItem.getComponent(LevelItem)?.setLabel((i + 1).toString());
+        levelItem.getComponent(LevelItem)?.setListener(this);
+        if (this.saveData?.completedLevels?.includes(i)) {
+          levelItem.getComponent(LevelItem)?.toggleClear(true);
+          if (this.saveData?.perfectLevels?.includes(i)) {
+            levelItem.getComponent(LevelItem)?.togglePerfect(true);
+          }
+        }
+      } else {
+        levelItem.getComponent(LevelItem)?.toggleLocked(true);
+      }
+    }
+  }
 
-	loadLevel(level: number) {
-		this.tsm!.toggleLoadingScreen(true);
-		// AudioManager.Instance.playOneShot(
-		//   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
-		// );
+  loadLevel(level: number) {
+    this.tsm!.toggleLoadingScreen(true);
+    // AudioManager.Instance.playOneShot(
+    //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
+    // );
 
-		// AudioManager.Instance.stop();
+    // AudioManager.Instance.stop();
 
-		// this.scheduleOnce(() => {
-		//   director.loadScene("gameplay", (e, scene) => {
-		//     const gameManager = scene?.getComponentInChildren(GameManager);
-		//     gameManager?.generateLevel(level);
-		//   });
-		// }, 0.25);
-	}
+    // this.scheduleOnce(() => {
+    //   director.loadScene("gameplay", (e, scene) => {
+    //     const gameManager = scene?.getComponentInChildren(GameManager);
+    //     gameManager?.generateLevel(level);
+    //   });
+    // }, 0.25);
+  }
 
-	loadLevelGenerator() {
-		// AudioManager.Instance.stop();
-		director.loadScene("levelGen", (e, scene) => {});
-	}
-	start() {}
+  loadLevelGenerator() {
+    // AudioManager.Instance.stop();
+    director.loadScene("levelGen", (e, scene) => {});
+  }
+  start() {}
 
-	update(deltaTime: number) {}
+  update(deltaTime: number) {}
 }

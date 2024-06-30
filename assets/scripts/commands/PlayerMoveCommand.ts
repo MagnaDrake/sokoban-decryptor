@@ -3,7 +3,7 @@ const { ccclass, property } = _decorator;
 
 @ccclass("PlayerMoveCommand")
 export class PlayerMoveCommand extends Component {
-	start() {}
+  start() {}
 
-	update(deltaTime: number) {}
+  update(deltaTime: number) {}
 }

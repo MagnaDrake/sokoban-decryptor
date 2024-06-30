@@ -6,19 +6,19 @@ const { ccclass, property } = _decorator;
 
 @ccclass("StepRotationCommand")
 export class StepRotationCommand implements Command {
-	degrees: RotateDirection;
-	entity: Entity;
+  degrees: RotateDirection;
+  entity: Entity;
 
-	constructor(entity: Entity, degrees: RotateDirection) {
-		this.degrees = degrees;
-		this.entity = entity;
-	}
+  constructor(entity: Entity, degrees: RotateDirection) {
+    this.degrees = degrees;
+    this.entity = entity;
+  }
 
-	execute() {
-		this.entity.rotate(this.degrees);
-	}
+  execute() {
+    this.entity.rotate(this.degrees);
+  }
 
-	undo() {
-		this.entity.rotate(-this.degrees);
-	}
+  undo() {
+    this.entity.rotate(-this.degrees);
+  }
 }
