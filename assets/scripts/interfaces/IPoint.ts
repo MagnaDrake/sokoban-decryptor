@@ -11,8 +11,8 @@ export interface Size {
 export enum Direction {
   UP,
   DOWN,
-  LEFT,
   RIGHT,
+  LEFT,
 }
 
 export const VECTOR_UP: IPoint = {

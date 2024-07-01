@@ -49,6 +49,7 @@ export class Emitter extends Entity {
         this.outputDirections = [Direction.UP];
         break;
       case EmitterTypes.L_CURVE:
+        console.log("L_Curve");
         this.outputDirections = [Direction.UP, Direction.RIGHT];
         break;
       case EmitterTypes.J_CURVE:
@@ -71,6 +72,8 @@ export class Emitter extends Entity {
     }
     this.outputDirections.forEach((dir) => {
       //console.log(dir);
+      console.log(dir);
+      console.log(this.emitterProngs[dir].name);
       this.emitterProngs[dir].active = true;
     });
   }

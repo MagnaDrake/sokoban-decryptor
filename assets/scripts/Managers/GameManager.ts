@@ -69,10 +69,12 @@ export class GameManager extends Component {
 
   hasShownWin = false;
 
+  currentLevel = -1;
+
   start() {
-    this.scheduleOnce(() => {
-      this.loadLevelData(0);
-    }, 0.2);
+    // this.scheduleOnce(() => {
+    //   this.loadLevelData(0);
+    // }, 0.2);
   }
 
   onUndoKeyInput() {
@@ -104,7 +106,7 @@ export class GameManager extends Component {
     // currently assuming a tile can only have 1 entity
     const batch = new CommandBatch();
     const entityToRotate = targetTile.entities[0];
-    if (!entityToRotate) return;
+    if (!entityToRotate || !entityToRotate.rotatetable) return;
     const rotateEntityCommand = new StepRotationCommand(entityToRotate, rot);
     batch.add(rotateEntityCommand);
     this.executeCommand(batch);
@@ -163,6 +165,10 @@ export class GameManager extends Component {
     }
 
     if (tile) {
+      if (!tile.traversable) {
+        this.executeCommand(batch);
+        return;
+      }
       // also check if tile has any existing entity
       // if another entity exist, check if pushing it to the same direction results a vali move
       // for now assume tiles can only have one entity
@@ -183,7 +189,13 @@ export class GameManager extends Component {
           targetPosition.y + direction.y
         );
 
-        if (nextTile && nextTile.entities.length < 1) {
+        // push entity section
+        if (
+          nextTile &&
+          nextTile.traversable &&
+          nextTile.entities.length < 1 &&
+          tile.entities[0].moveable
+        ) {
           const moveEntityCommand = new MoveCommand(
             tile.entities[0],
             targetPosition.x + direction.x,
@@ -239,16 +251,20 @@ export class GameManager extends Component {
     // flush all grid and entities and commands from memory
     // then reinit the level
     // might need object pooling in the future
+    if (this.currentLevel < 0) return;
     GridManager.Instance.clearGrid();
     CommandManager.Instance.clearCommands();
     this.player.node.destroy();
     this.player = undefined;
-    this.loadLevelData(0);
+    this.loadLevelData(this.currentLevel);
     this.gameWinScren.active = false;
   }
 
   loadLevelData(id: number) {
+    this.currentLevel = id;
     const levelData = LevelManager.Instance.levelData[id];
+    console.log("load level data");
+    console.log(levelData);
     if (levelData) {
       GridManager.Instance.createLevel(levelData);
     }
