@@ -59,6 +59,8 @@ export class InputManager extends Component {
 
   onKeyHold(event: EventKeyboard) {
     //console.log(event.keyCode);
+    if (this.keyCooldown) return;
+    this.triggerHoldCooldown();
     switch (event.keyCode) {
       case KeyCode.ARROW_UP:
       case KeyCode.ARROW_DOWN:
