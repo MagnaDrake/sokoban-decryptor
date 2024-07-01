@@ -1,6 +1,7 @@
 import { _decorator, Component, KeyCode, Node } from "cc";
 import { DPadType, VirtualDpad, VirtualDPadEvents } from "./VirtualDpad";
 import { GameManager } from "../../Managers/GameManager";
+import { isMobile } from "../../utils/device";
 const { ccclass, property } = _decorator;
 
 @ccclass("VirtualDpadController")
@@ -8,10 +9,27 @@ export class VirtualDpadController extends Component {
   @property([VirtualDpad])
   dpads: VirtualDpad[] = [];
 
+  _isActive = false;
+
+  set active(value: boolean) {
+    this._isActive = value;
+    this.node.active = value;
+  }
+
+  get active() {
+    return this._isActive;
+  }
+
   protected onLoad(): void {
     this.dpads.forEach((pad) => {
       this.setupPads(pad.node);
     });
+
+    if (isMobile) {
+      this.active = true;
+    } else {
+      this.active = false;
+    }
   }
 
   setupPads(pad: Node) {
@@ -22,6 +40,7 @@ export class VirtualDpadController extends Component {
   }
 
   onPadPress(type: DPadType) {
+    if (!this.active) return;
     const gm = GameManager.Instance;
     switch (type) {
       case DPadType.UP:

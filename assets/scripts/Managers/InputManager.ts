@@ -49,6 +49,9 @@ export class InputManager extends Component {
         return;
       case KeyCode.KEY_R:
         GameManager.Instance.onRestartLevelKeyInput();
+        return;
+      case KeyCode.ESCAPE:
+        GameManager.Instance.onPauseKeyInput();
       default:
         return;
     }
