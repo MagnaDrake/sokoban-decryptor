@@ -152,8 +152,8 @@ export class GridManager extends Component {
     GameManager.Instance.player = playerEntity;
     player.setParent(this.grid.node);
     this.initEntityToGrid(playerEntity, data.position.x, data.position.y);
-    const dir = getDirectionFromRotation(data.rotation);
-    const dirVec = getDirectionVector(dir);
+    //const dir = getDirectionFromRotation(data.rotation);
+    const dirVec = getDirectionVector(Direction.DOWN);
     playerEntity.changeDirection(dirVec.x, dirVec.y);
   }
 
