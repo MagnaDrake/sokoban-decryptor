@@ -1,4 +1,4 @@
-import { _decorator, Component, Label, Node } from "cc";
+import { _decorator, Component, Label, Node, Sprite, UITransform } from "cc";
 import { Entity } from "./Entity";
 import { IPoint } from "../interfaces/IPoint";
 const { ccclass, property } = _decorator;
@@ -12,9 +12,25 @@ export class Tile extends Component {
   @property(Label)
   debugLabel: Label;
 
+  @property(Sprite)
+  terrainSprite: Sprite;
+
   constructor(traversable = true) {
     super();
     this.entities = new Array<Entity>();
     this.traversable = traversable;
+  }
+
+  setTileTerrain(id: number) {
+    // Tiled displays ID with 0-index but exports to 1-index
+    //const format = `${terrain - 1}`.slice(-3);
+
+    const append = id < 10 ? "0" : "";
+    const spriteKey = `${append}${id}`;
+    //console.log(spriteKey);
+    this.terrainSprite.spriteFrame =
+      this.terrainSprite.spriteAtlas.getSpriteFrame(spriteKey);
+    this.terrainSprite.node.getComponent(UITransform).setContentSize(64, 64);
+    //todo set sprite using terrain code number
   }
 }
