@@ -188,12 +188,6 @@ export class GridManager extends Component {
       const dirVec = getDirectionVector(dir);
 
       emitterEntity.changeDirection(dirVec.x, dirVec.y);
-      if (emitter.outputType === EmitterTypes[EmitterTypes.T_JUNCTION]) {
-        console.log("got a t junction");
-        console.log(dir);
-        console.log(dirVec);
-        console.log(emitterObject.eulerAngles.z);
-      }
     });
   }
 
@@ -393,10 +387,20 @@ export class GridManager extends Component {
     emitters.forEach((emitter) => {
       const outputDirections = emitter.outputDirections;
 
-      outputDirections.forEach((direction) => {
-        const panels = this.getPanelsInDirection(emitter.position, direction);
-        newActivePanels.push(...panels);
-      });
+      if (outputDirections.length < 1) {
+        const panel = this.getTileInGrid(
+          emitter.position.x,
+          emitter.position.y
+        );
+        if (panel instanceof Panel) {
+          newActivePanels.push(panel);
+        }
+      } else {
+        outputDirections.forEach((direction) => {
+          const panels = this.getPanelsInDirection(emitter.position, direction);
+          newActivePanels.push(...panels);
+        });
+      }
     });
 
     // jank double checking

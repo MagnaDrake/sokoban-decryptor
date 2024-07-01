@@ -18,6 +18,7 @@ export enum EmitterTypes {
   T_JUNCTION,
   QUAD,
   DOUBLE,
+  ZERO,
 }
 
 Enum(EmitterTypes);
@@ -82,6 +83,9 @@ export class Emitter extends Entity {
         break;
       case EmitterTypes.DOUBLE:
         this.outputDirections = [Direction.UP, Direction.DOWN];
+        break;
+      case EmitterTypes.ZERO:
+        this.outputDirections = [];
         break;
     }
     this.outputDirections.forEach((dir) => {
