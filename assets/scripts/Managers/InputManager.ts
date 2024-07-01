@@ -83,4 +83,11 @@ export class InputManager extends Component {
       this.keyCooldown = false;
     }, FRAME * 3.5);
   }
+
+  triggerHoldCooldown() {
+    this.keyCooldown = true;
+    this.scheduleOnce(() => {
+      this.keyCooldown = false;
+    }, FRAME * 3);
+  }
 }
