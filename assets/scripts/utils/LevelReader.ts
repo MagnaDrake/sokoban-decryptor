@@ -20,19 +20,44 @@ export function getTileTypeFromID(id: number) {
   if (PanelIDs.includes(id)) return TileTypeData.Panel;
 }
 
+export function getEmitterSpriteFromAttributes(
+  isSplitter: boolean,
+  movable: boolean,
+  rotatable: boolean
+) {
+  let type;
+  if (movable && rotatable) {
+    return isSplitter ? EmitterType.Splitter : EmitterType.Normal;
+  }
+
+  if (movable) {
+    return isSplitter ? EmitterType.SplitterFixed : EmitterType.NormalFixed;
+  }
+
+  if (rotatable) {
+    return isSplitter ? EmitterType.SplitterStatic : EmitterType.NormalStatic;
+  }
+
+  return isSplitter
+    ? EmitterType.SplitterStaticFixed
+    : EmitterType.NormalStaticFixed;
+}
+
 export enum TileTypeData {
   Floor,
   Wall,
   Panel,
 }
 
-export enum SplitterDataType {
-  // todo
-  // figure out a way to more cleanly separate obstacle types in the level editor
-  // for some reason class and type from the tiled map editor doesnt work
-  // simplest way is to have an enum that reads all individual GID
-  // then map the GID into specific objects
-  QUAD = 31,
+export enum EmitterType {
+  Normal,
+  NormalStatic,
+  NormalFixed,
+  NormalStaticFixed,
+  Splitter,
+  SplitterStatic,
+  SplitterFixed,
+  SplitterStaticFixed,
 }
 
 export function getRotationOffset(rot: number) {
@@ -46,18 +71,6 @@ export function getRotationOffset(rot: number) {
     case -90:
       return { x: -1, y: 0 };
   }
-}
-
-// probably dont need this?
-// nanti dipikir ulang
-// for now lump splitter into data class
-// perhaps in the future if we want to have a fixed/static/heavy splitter we will handle in the future
-export enum EmitterDataClass {
-  Basic,
-  Heavy,
-  Static,
-  Fixed,
-  Splitter,
 }
 
 export interface EntityListData {
