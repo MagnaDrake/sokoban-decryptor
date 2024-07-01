@@ -63,9 +63,7 @@ export class Entity extends Component {
 
   rotate(degrees: RotateDirection) {
     const zRot = this.node.eulerAngles.z;
-    console.log("old zrot", zRot);
     const newRot = (zRot + degrees + 360) % 360;
-    console.log("new zrot", newRot);
     rotateEulerZ(this.node, newRot, FRAME * 3, () => {
       this.direction = getDirectionFromRotation(newRot);
       this.node.setRotationFromEuler(0, 0, newRot);

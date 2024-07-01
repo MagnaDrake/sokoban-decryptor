@@ -71,7 +71,7 @@
                                  "name":"EmitterOutputType",
                                  "propertytype":"EmitterOutputType",
                                  "type":"string",
-                                 "value":"SINGLE"
+                                 "value":"ZERO"
                                 }, 
                                 {
                                  "name":"IsSplitter",
@@ -92,7 +92,7 @@
                          "type":"",
                          "visible":true,
                          "width":128,
-                         "x":128,
+                         "x":256,
                          "y":384
                         }],
                  "opacity":1,
