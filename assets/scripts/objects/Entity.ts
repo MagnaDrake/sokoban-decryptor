@@ -43,14 +43,11 @@ export class Entity extends Component {
 
   changeDirection(x: number, y: number) {
     this.direction = getDirection(x, y);
-    rotate(
-      this.node,
-      new Vec3(0, 0, getRotationFromDirection(this.direction)),
-      FRAME * 5,
-      () => {
-        this.onRotate();
-      }
-    );
+    const vec = new Vec3(0, 0, getRotationFromDirection(this.direction));
+    rotate(this.node, vec, FRAME * 3, () => {
+      this.node.setRotationFromEuler(vec);
+      this.onRotate();
+    });
 
     // this.node.setRotationFromEuler(
     //   0,
@@ -66,9 +63,10 @@ export class Entity extends Component {
 
   rotate(degrees: RotateDirection) {
     const zRot = this.node.eulerAngles.z;
+    console.log("old zrot", zRot);
     const newRot = (zRot + degrees + 360) % 360;
     console.log("new zrot", newRot);
-    rotateEulerZ(this.node, newRot, FRAME * 5, () => {
+    rotateEulerZ(this.node, newRot, FRAME * 3, () => {
       this.direction = getDirectionFromRotation(newRot);
       this.node.setRotationFromEuler(0, 0, newRot);
       this.onRotate();
