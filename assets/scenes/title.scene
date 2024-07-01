@@ -190,7 +190,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 387.7647058823529,
+    "_orthoHeight": 380.8627450980392,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -1225,7 +1225,7 @@
       "2"
     ],
     "value": {
-      "__uuid__": "c4e2fa00-2bcf-41c2-9357-a32d1578967e",
+      "__uuid__": "324ce0bc-bf7a-493d-8aad-72137f2d7b72",
       "__expectedType__": "cc.JsonAsset"
     }
   },

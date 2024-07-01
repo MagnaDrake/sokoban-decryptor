@@ -24,7 +24,6 @@ import { CommandBatch } from "../commands/CommandBatch";
 import { SyncPositionCommand } from "../commands/SyncPositionCommand";
 import {
   EmitterData,
-  EmitterDataClass,
   EntityListData,
   LevelData,
   PlayerData,
@@ -177,6 +176,7 @@ export class GridManager extends Component {
       emitterObject.setParent(this.grid.node);
       emitterEntity.setOutputDirections(EmitterTypes[emitter.outputType]);
       emitterEntity.setMovableAndRotatable(emitter.movable, emitter.rotatable);
+      emitterEntity.setEmitterSprite(emitter.isSplitter);
       this.initEntityToGrid(
         emitterEntity,
         emitter.position.x,
@@ -186,7 +186,14 @@ export class GridManager extends Component {
       //console.log(emitter.position.x, emitter.position.y);
       const dir = getDirectionFromRotation(emitter.rotation);
       const dirVec = getDirectionVector(dir);
+
       emitterEntity.changeDirection(dirVec.x, dirVec.y);
+      if (emitter.outputType === EmitterTypes[EmitterTypes.T_JUNCTION]) {
+        console.log("got a t junction");
+        console.log(dir);
+        console.log(dirVec);
+        console.log(emitterObject.eulerAngles.z);
+      }
     });
   }
 
@@ -369,7 +376,6 @@ export class GridManager extends Component {
 
     this.grid.getPanels().forEach((panel) => {
       // console.log(panel.active);
-      console.log("panel status", panel.position, panel.active);
       if (!panel.active) hasWon = false;
     });
 
@@ -379,7 +385,6 @@ export class GridManager extends Component {
   // the entire active panel checking has turn to shit due to splitters
   // i will refrain in adding more features for now
   updateActivePanels() {
-    console.log("update active panels");
     const emitters = this.grid.getEmitters();
 
     //    console.log("masuk update grid state");
@@ -387,11 +392,9 @@ export class GridManager extends Component {
 
     emitters.forEach((emitter) => {
       const outputDirections = emitter.outputDirections;
-      console.log("emitter position", emitter.position);
 
       outputDirections.forEach((direction) => {
         const panels = this.getPanelsInDirection(emitter.position, direction);
-        console.log("emitter panels", panels);
         newActivePanels.push(...panels);
       });
     });
@@ -399,7 +402,7 @@ export class GridManager extends Component {
     // jank double checking
 
     this.activePanels = [...newActivePanels];
-    // why do i have to do this?
+
     this.activePanels.forEach((panel) => {
       // this code block should be not needed anymore
       // but keep here just in case
@@ -420,6 +423,23 @@ export class GridManager extends Component {
       panel.active = true;
       //}
     });
+    // old version
+    // leaving it here in case its still needed
+
+    // this.activePanels.forEach((panel) => {
+    //   if (panel.entities.length > 0) {
+    //     const entity = panel.entities[0];
+    //     console.log(entity);
+    //     if (entity instanceof Splitter) {
+    //       panel.active = true;
+    //     } else if (entity instanceof Emitter) {
+    //       panel.active = true;
+    //     }
+    //     // intended purpose is to skip walls and other entity blocking events
+    //   } else {
+    //     panel.active = true;
+    //   }
+    // });
   }
 
   clearGrid() {
