@@ -7,6 +7,7 @@ import {
   IPoint,
   RotateDirection,
 } from "../interfaces/IPoint";
+import { FRAME, moveToLocal } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("Entity")
@@ -31,8 +32,10 @@ export class Entity extends Component {
   }
 
   moveToWorldPos(x: number, y: number) {
-    this.node.setPosition(new Vec3(x, y, 0));
-    this.onMove();
+    moveToLocal(this.node, new Vec3(x, y, 0), 4 * FRAME, () => {
+      this.onMove();
+    });
+    //this.node.setPosition(new Vec3(x, y, 0));
   }
 
   changeDirection(x: number, y: number) {
