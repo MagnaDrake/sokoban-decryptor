@@ -28,6 +28,11 @@ import { RotateCommand } from "../commands/RotateCommand";
 import { Emitter, EmitterTypes } from "../objects/Emitter";
 import { StepRotationCommand } from "../commands/StepRotationCommand";
 import { LevelManager } from "./LevelManager";
+import { PauseMenuManager } from "./PauseMenuManager";
+import {
+  VirtualDpad,
+  VirtualDPadEvents,
+} from "../objects/VirtualDpad/VirtualDpad";
 const { ccclass, property } = _decorator;
 
 @ccclass("GameManager")
@@ -64,6 +69,9 @@ export class GameManager extends Component {
 
   @property(Node)
   gameWinScren: Node;
+
+  @property(PauseMenuManager)
+  pm: PauseMenuManager;
 
   player: Player;
 
@@ -258,6 +266,10 @@ export class GameManager extends Component {
     this.player = undefined;
     this.loadLevelData(this.currentLevel);
     this.gameWinScren.active = false;
+  }
+
+  onPauseKeyInput() {
+    this.pm.onPauseButtonClick();
   }
 
   loadLevelData(id: number) {
