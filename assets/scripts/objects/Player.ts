@@ -1,4 +1,12 @@
-import { _decorator, Animation, Component, Node, Vec3 } from "cc";
+import {
+  _decorator,
+  Animation,
+  Component,
+  EventTouch,
+  Input,
+  Node,
+  Vec3,
+} from "cc";
 import { Entity } from "./Entity";
 import {
   Direction,
@@ -32,6 +40,25 @@ export class Player extends Entity {
   anim!: Animation;
 
   rightLegActive = false;
+
+  expression = PlayerAnimKey.IDLE_DOWN;
+
+  lastIdleExpression = PlayerAnimKey.IDLE_DOWN;
+
+  protected onLoad(): void {
+    this.node.off(Input.EventType.TOUCH_START);
+    this.node.on(Input.EventType.TOUCH_START, () => {
+      if (this.expression !== PlayerAnimKey.VICTORY) {
+        this.anim.stop();
+        this.playAnim(PlayerAnimKey.VICTORY);
+        this.scheduleOnce(() => {
+          if (this.expression === PlayerAnimKey.VICTORY) {
+            this.playAnim(this.lastIdleExpression);
+          }
+        }, 2);
+      }
+    });
+  }
 
   getPosInFront() {
     const dirVec = getDirectionVector(this.direction);
@@ -91,6 +118,8 @@ export class Player extends Entity {
     this.entitySprite.spriteFrame =
       this.entitySprite.spriteAtlas.getSpriteFrame(key);
 
+    this.expression = key;
+
     this.scheduleOnce(this.setToIdle, 0.25);
   }
 
@@ -113,6 +142,19 @@ export class Player extends Entity {
         break;
       case Direction.LEFT:
         key = PlayerAnimKey.IDLE_LEFT;
+        break;
+    }
+    this.playAnim(key);
+  }
+
+  playAnim(key: PlayerAnimKey) {
+    this.expression = key;
+    switch (key) {
+      case PlayerAnimKey.IDLE_DOWN:
+      case PlayerAnimKey.IDLE_LEFT:
+      case PlayerAnimKey.IDLE_RIGHT:
+      case PlayerAnimKey.IDLE_UP:
+        this.lastIdleExpression = key;
         break;
     }
     this.anim.play(key);
