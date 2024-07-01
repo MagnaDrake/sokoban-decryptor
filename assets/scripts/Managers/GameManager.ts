@@ -106,7 +106,7 @@ export class GameManager extends Component {
     // currently assuming a tile can only have 1 entity
     const batch = new CommandBatch();
     const entityToRotate = targetTile.entities[0];
-    if (!entityToRotate || !entityToRotate.rotatetable) return;
+    if (!entityToRotate || !entityToRotate.rotatable) return;
     const rotateEntityCommand = new StepRotationCommand(entityToRotate, rot);
     batch.add(rotateEntityCommand);
     this.executeCommand(batch);
@@ -172,7 +172,6 @@ export class GameManager extends Component {
       // also check if tile has any existing entity
       // if another entity exist, check if pushing it to the same direction results a vali move
       // for now assume tiles can only have one entity
-      console.log("check for entities on this tile");
       //   console.log(tile.position);
       //  console.log(tile.entities);
 

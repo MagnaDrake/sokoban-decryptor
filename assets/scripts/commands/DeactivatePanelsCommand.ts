@@ -38,7 +38,6 @@ export class DeactivatePanelsCommand implements Command {
   }
 
   undo() {
-    console.log("undo deactivate");
     this.activatedPanels.forEach((panel) => {
       panel.active = true;
     });

@@ -16,6 +16,7 @@ import {
   VECTOR_UP,
 } from "../interfaces/IPoint";
 import { GameManager } from "./GameManager";
+import { FRAME } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("InputManager")
@@ -80,6 +81,13 @@ export class InputManager extends Component {
     this.keyCooldown = true;
     this.scheduleOnce(() => {
       this.keyCooldown = false;
-    }, 0.016);
+    }, FRAME * 3.5);
+  }
+
+  triggerHoldCooldown() {
+    this.keyCooldown = true;
+    this.scheduleOnce(() => {
+      this.keyCooldown = false;
+    }, FRAME * 3);
   }
 }

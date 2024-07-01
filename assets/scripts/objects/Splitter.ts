@@ -12,7 +12,6 @@ export class Splitter extends Emitter {
 
   set active(value: boolean) {
     this._active = value;
-    console.log("set splitter active", value);
   }
 
   get active() {
@@ -21,6 +20,5 @@ export class Splitter extends Emitter {
 
   onMove() {
     this.active = false;
-    console.log("disable splitter on move");
   }
 }
