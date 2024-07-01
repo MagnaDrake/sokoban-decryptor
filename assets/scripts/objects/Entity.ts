@@ -1,4 +1,4 @@
-import { _decorator, Component, Node, Vec2, Vec3 } from "cc";
+import { _decorator, Component, Node, Sprite, Vec2, Vec3 } from "cc";
 import {
   Direction,
   getDirection,
@@ -15,8 +15,11 @@ export class Entity extends Component {
   position: IPoint;
   direction: Direction;
   moveable: boolean;
-  rotatetable: boolean;
+  rotatable: boolean;
   blocksPanel: boolean;
+
+  @property(Sprite)
+  entitySprite: Sprite;
 
   constructor(
     direction = Direction.RIGHT,
@@ -27,7 +30,7 @@ export class Entity extends Component {
     super();
     this.direction = direction;
     this.moveable = moveable;
-    this.rotatetable = rotatable;
+    this.rotatable = rotatable;
     this.blocksPanel = blocksPanel;
   }
 
@@ -50,8 +53,7 @@ export class Entity extends Component {
 
   setMovableAndRotatable(movable: boolean, rotatable: boolean) {
     this.moveable = movable;
-    this.rotatetable = rotatable;
-    //  console.log("meow " + this.moveable + " " + this.rotatetable);
+    this.rotatable = rotatable;
   }
 
   rotate(degrees: RotateDirection) {

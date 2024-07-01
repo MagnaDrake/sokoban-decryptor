@@ -1,4 +1,4 @@
-import { _decorator, Component, Enum, Node } from "cc";
+import { _decorator, Component, Enum, Node, UITransform } from "cc";
 import { Entity } from "./Entity";
 import {
   Direction,
@@ -8,6 +8,7 @@ import {
   IPoint,
   RotateDirection,
 } from "../interfaces/IPoint";
+import { getEmitterSpriteFromAttributes } from "../utils/LevelReader";
 const { ccclass, property } = _decorator;
 
 export enum EmitterTypes {
@@ -40,6 +41,19 @@ export class Emitter extends Entity {
     this.lastPosition = undefined;
     this.outputDirections = [Direction.UP];
     this.lastOutputDirections = [];
+  }
+
+  setEmitterSprite(isSplitter = false) {
+    const key = getEmitterSpriteFromAttributes(
+      isSplitter,
+      this.moveable,
+      this.rotatable
+    );
+
+    console.log("key pls", key);
+    this.entitySprite.spriteFrame =
+      this.entitySprite.spriteAtlas.getSpriteFrame(`${key}`);
+    this.entitySprite.node.getComponent(UITransform).setContentSize(48, 48);
   }
 
   setOutputDirections(type: EmitterTypes) {

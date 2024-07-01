@@ -24,7 +24,6 @@ import { CommandBatch } from "../commands/CommandBatch";
 import { SyncPositionCommand } from "../commands/SyncPositionCommand";
 import {
   EmitterData,
-  EmitterDataClass,
   EntityListData,
   LevelData,
   PlayerData,
@@ -177,6 +176,7 @@ export class GridManager extends Component {
       emitterObject.setParent(this.grid.node);
       emitterEntity.setOutputDirections(EmitterTypes[emitter.outputType]);
       emitterEntity.setMovableAndRotatable(emitter.movable, emitter.rotatable);
+      emitterEntity.setEmitterSprite(emitter.isSplitter);
       this.initEntityToGrid(
         emitterEntity,
         emitter.position.x,
