@@ -32,6 +32,7 @@ export class VolumeController extends Component {
       (this.sfxVolume * 100).toFixed(2)
     ).toString();
   }
+
   onSliderChange(slider: Slider, id?: string) {
     if (id === "bgm") {
       this.adjustBGMVolume(slider.progress);
@@ -46,13 +47,13 @@ export class VolumeController extends Component {
     // what the fuck is this?
     this.BGMVolumeLabel.string = parseInt((value * 100).toFixed(2)).toString();
 
-    AudioManager.Instance.adjustBGMVolume(value);
+    //AudioManager.Instance.adjustBGMVolume(value);
   }
 
   adjustSFXVolume(value: number) {
     this.sfxVolume = value;
     this.SFXVolumeLabel.string = parseInt((value * 100).toFixed(2)).toString();
 
-    AudioManager.Instance.adjustSFXVolume(value);
+    //  AudioManager.Instance.adjustSFXVolume(value);
   }
 }
