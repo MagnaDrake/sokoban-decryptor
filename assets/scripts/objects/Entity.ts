@@ -7,7 +7,7 @@ import {
   IPoint,
   RotateDirection,
 } from "../interfaces/IPoint";
-import { FRAME, moveToLocal } from "../utils/anim";
+import { FRAME, moveToLocal, rotate, rotateEulerZ } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("Entity")
@@ -43,12 +43,20 @@ export class Entity extends Component {
 
   changeDirection(x: number, y: number) {
     this.direction = getDirection(x, y);
-    this.node.setRotationFromEuler(
-      0,
-      0,
-      getRotationFromDirection(this.direction)
+    rotate(
+      this.node,
+      new Vec3(0, 0, getRotationFromDirection(this.direction)),
+      FRAME * 5,
+      () => {
+        this.onRotate();
+      }
     );
-    this.onRotate();
+
+    // this.node.setRotationFromEuler(
+    //   0,
+    //   0,
+    //   getRotationFromDirection(this.direction)
+    // );
   }
 
   setMovableAndRotatable(movable: boolean, rotatable: boolean) {
@@ -59,10 +67,34 @@ export class Entity extends Component {
   rotate(degrees: RotateDirection) {
     const zRot = this.node.eulerAngles.z;
     const newRot = (zRot + degrees + 360) % 360;
-    this.node.setRotationFromEuler(0, 0, newRot);
-    this.direction = getDirectionFromRotation(newRot);
-    this.onRotate();
+    console.log("new zrot", newRot);
+    rotateEulerZ(this.node, newRot, FRAME * 5, () => {
+      this.direction = getDirectionFromRotation(newRot);
+      this.node.setRotationFromEuler(0, 0, newRot);
+      this.onRotate();
+    });
+    // this.node.setRotationFromEuler(0, 0, newRot);
+    // this.direction = getDirectionFromRotation(newRot);
+    // this.onRotate();
   }
+
+  // rotate(degrees: RotateDirection) {
+  //   const zRot = this.node.eulerAngles.z;
+  //   const newRot = (zRot + degrees + 360) % 360;
+  //   console.log("newrot", newRot);
+  //   // jank
+  //   const oldEuler = new Vec3(this.node.eulerAngles);
+  //   this.node.setRotationFromEuler(0, 0, newRot);
+  //   const newEuler = new Vec3(this.node.eulerAngles);
+  //   this.node.setRotationFromEuler(oldEuler);
+
+  //   rotate(this.node, newEuler, FRAME * 5, () => {
+  //     this.direction = getDirectionFromRotation(newRot);
+  //     this.onRotate();
+  //   });
+  //   //  this.direction = getDirectionFromRotation(newRot);
+  //   //this.onRotate();
+  // }
 
   onMove() {}
 
