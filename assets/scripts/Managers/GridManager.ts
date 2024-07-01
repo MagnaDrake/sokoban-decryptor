@@ -186,7 +186,14 @@ export class GridManager extends Component {
       //console.log(emitter.position.x, emitter.position.y);
       const dir = getDirectionFromRotation(emitter.rotation);
       const dirVec = getDirectionVector(dir);
+
       emitterEntity.changeDirection(dirVec.x, dirVec.y);
+      if (emitter.outputType === EmitterTypes[EmitterTypes.T_JUNCTION]) {
+        console.log("got a t junction");
+        console.log(dir);
+        console.log(dirVec);
+        console.log(emitterObject.eulerAngles.z);
+      }
     });
   }
 
