@@ -53,17 +53,15 @@ export class WinAnimationController extends Component {
           const ss = ScreenSwipeController.Instance;
           ss.flip = true;
           this.scheduleOnce(() => {
-            this.scheduleOnce(() => {
-              director.loadScene("title", (e, scene) => {
-                const uiManager =
-                  scene?.getComponentInChildren(TitleScreenUIManager);
-                uiManager!.fromGameplay = true;
-                uiManager?.toggleLoadingScreen(false);
-                uiManager?.openLevelSelector();
-              });
-              ss.exitTransition();
-            }, 1);
-          }, 2);
+            director.loadScene("title", (e, scene) => {
+              const uiManager =
+                scene?.getComponentInChildren(TitleScreenUIManager);
+              uiManager!.fromGameplay = true;
+              uiManager?.toggleLoadingScreen(false);
+              uiManager?.openLevelSelector();
+            });
+            ss.exitTransition();
+          }, 1);
 
           ss.enterTransition();
         }, 3.5);
