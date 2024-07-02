@@ -33,6 +33,8 @@ import {
   VirtualDpad,
   VirtualDPadEvents,
 } from "../objects/VirtualDpad/VirtualDpad";
+import { ScreenSwipeController } from "./ScreenSwipeController";
+import { FRAME } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("GameManager")
@@ -259,13 +261,21 @@ export class GameManager extends Component {
     // flush all grid and entities and commands from memory
     // then reinit the level
     // might need object pooling in the future
-    if (this.currentLevel < 0) return;
-    GridManager.Instance.clearGrid();
-    CommandManager.Instance.clearCommands();
-    this.player.node.destroy();
-    this.player = undefined;
-    this.loadLevelData(this.currentLevel);
-    this.gameWinScren.active = false;
+
+    const ss = ScreenSwipeController.Instance;
+    ss.flip = true;
+    ss.enterTransition();
+
+    this.scheduleOnce(() => {
+      if (this.currentLevel < 0) return;
+      GridManager.Instance.clearGrid();
+      CommandManager.Instance.clearCommands();
+      this.player.node.destroy();
+      this.player = undefined;
+      this.loadLevelData(this.currentLevel);
+      this.gameWinScren.active = false;
+      ss.exitTransition();
+    }, FRAME * 60);
   }
 
   onPauseKeyInput() {

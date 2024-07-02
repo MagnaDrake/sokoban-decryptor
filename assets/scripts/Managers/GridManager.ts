@@ -34,6 +34,8 @@ import { GameManager } from "./GameManager";
 import { Player } from "../objects/Player";
 import { Emitter, EmitterTypes } from "../objects/Emitter";
 import { Splitter } from "../objects/Splitter";
+import { ScreenSwipeController } from "./ScreenSwipeController";
+import { FRAME } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("GridManager")
