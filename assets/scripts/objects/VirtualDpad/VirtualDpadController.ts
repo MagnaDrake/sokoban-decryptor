@@ -59,10 +59,10 @@ export class VirtualDpadController extends Component {
         gm.onMovementKeyInput(KeyCode.ARROW_RIGHT);
         break;
       case DPadType.Q:
-        gm.onInteractInput(KeyCode.KEY_Q);
+        gm.onInteractInput(KeyCode.KEY_A);
         break;
       case DPadType.E:
-        gm.onInteractInput(KeyCode.KEY_E);
+        gm.onInteractInput(KeyCode.KEY_S);
         break;
       case DPadType.R:
         gm.onRestartLevelKeyInput();
