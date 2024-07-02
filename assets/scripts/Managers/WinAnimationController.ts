@@ -40,28 +40,33 @@ export class WinAnimationController extends Component {
     const easingProps: ITweenOption = {
       easing: easing.linear,
       onComplete: () => {
-        this.winGameScreen.active = true;
+        this.scheduleOnce(() => {
+          this.winGameScreen.active = true;
+        }, 1.5);
+
         this.scheduleOnce(() => {
           const ss = ScreenSwipeController.Instance;
           ss.flip = true;
-          ss.enterTransition();
-
           this.scheduleOnce(() => {
-            director.loadScene("title", (e, scene) => {
-              const uiManager =
-                scene?.getComponentInChildren(TitleScreenUIManager);
-              uiManager!.fromGameplay = true;
-              uiManager?.toggleLoadingScreen(false);
-              uiManager?.openLevelSelector();
-            });
-            ss.exitTransition();
-          }, 1);
-        }, 2);
+            this.scheduleOnce(() => {
+              director.loadScene("title", (e, scene) => {
+                const uiManager =
+                  scene?.getComponentInChildren(TitleScreenUIManager);
+                uiManager!.fromGameplay = true;
+                uiManager?.toggleLoadingScreen(false);
+                uiManager?.openLevelSelector();
+              });
+              ss.exitTransition();
+            }, 1);
+          }, 2);
+
+          ss.enterTransition();
+        }, 3.5);
       },
     };
 
     tween(this.maskTransform)
-      .to(3.5, { width: 1800, height: 1800 }, easingProps)
+      .to(FRAME * 60, { width: 1800, height: 1800 }, easingProps)
       .start();
   }
 }
