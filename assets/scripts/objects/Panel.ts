@@ -2,6 +2,7 @@ import { _decorator, Component, Node, Sprite, UITransform } from "cc";
 import { Tile } from "./Tile";
 import { Direction } from "../interfaces/IPoint";
 import { Splitter } from "./Splitter";
+import { FRAME } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("Panel")
@@ -32,7 +33,9 @@ export class Panel extends Tile {
   set active(value: boolean) {
     // console.log("set panel", this.position, value);
     this._active = value;
-    if (this.onSignal.isValid) this.onSignal.active = value;
+    this.scheduleOnce(() => {
+      if (this.onSignal.isValid) this.onSignal.active = value;
+    }, FRAME * 2);
 
     // const entity = this.entities[0];
     // if (entity instanceof Splitter) entity.active = value;

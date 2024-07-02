@@ -14,6 +14,7 @@ import {
 import { ScreenSwipeController } from "./ScreenSwipeController";
 import { TitleScreenUIManager } from "../ui/TitleScreenUIManager";
 import { Player, PlayerAnimKey } from "../objects/Player";
+import { FRAME } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("WinAnimationController")
@@ -28,14 +29,16 @@ export class WinAnimationController extends Component {
 
   triggerWin() {
     console.log(this.player);
-    this.player.anim.stop();
-    this.player.playAnim(PlayerAnimKey.VICTORY);
+    this.scheduleOnce(() => {
+      this.player.anim.stop();
+      this.player.playAnim(PlayerAnimKey.VICTORY);
+    }, FRAME * 30);
     this.animateMask();
   }
 
   animateMask() {
     const easingProps: ITweenOption = {
-      easing: easing.circOut,
+      easing: easing.linear,
       onComplete: () => {
         this.winGameScreen.active = true;
         this.scheduleOnce(() => {

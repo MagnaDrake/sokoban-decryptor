@@ -48,8 +48,8 @@ export class InputManager extends Component {
       case KeyCode.ARROW_RIGHT:
         GameManager.Instance.onMovementKeyInput(event.keyCode);
         return;
-      case KeyCode.KEY_Q:
-      case KeyCode.KEY_E:
+      case KeyCode.KEY_A:
+      case KeyCode.KEY_S:
         GameManager.Instance.onInteractInput(event.keyCode);
         return;
       case KeyCode.KEY_Z:
@@ -76,8 +76,8 @@ export class InputManager extends Component {
       case KeyCode.ARROW_RIGHT:
         GameManager.Instance.onMovementKeyInput(event.keyCode);
         return;
-      case KeyCode.KEY_Q:
-      case KeyCode.KEY_E:
+      case KeyCode.KEY_A:
+      case KeyCode.KEY_S:
         GameManager.Instance.onInteractInput(event.keyCode);
         return;
       case KeyCode.KEY_Z:
