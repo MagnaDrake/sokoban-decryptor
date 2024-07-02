@@ -1,4 +1,5 @@
 import { _decorator, Component, Enum, Input, Node } from "cc";
+import { FRAME } from "../../utils/anim";
 const { ccclass, property } = _decorator;
 
 export enum DPadType {
@@ -32,7 +33,7 @@ export class VirtualDpad extends Component {
 
   tickCounter = 0;
 
-  tickThreshold = 0.067;
+  tickThreshold = FRAME * 3.5;
 
   protected onLoad(): void {
     this.node.off(Input.EventType.TOUCH_START, this.onVirtualTouch, this);
