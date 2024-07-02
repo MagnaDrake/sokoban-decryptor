@@ -29,6 +29,13 @@ export class InputManager extends Component {
   }
 
   onKeyDown(event: EventKeyboard) {
+    // priority key
+    // probably these needs to be refactored in the future
+    if (event.keyCode === KeyCode.ESCAPE) {
+      GameManager.Instance.onPauseKeyInput();
+      return;
+    }
+
     const isPaused = GameManager.Instance.pm.isPause;
     if (this.keyCooldown || isPaused) return;
     this.triggerCooldown();
@@ -51,8 +58,6 @@ export class InputManager extends Component {
       case KeyCode.KEY_R:
         GameManager.Instance.onRestartLevelKeyInput();
         return;
-      case KeyCode.ESCAPE:
-        GameManager.Instance.onPauseKeyInput();
       default:
         return;
     }

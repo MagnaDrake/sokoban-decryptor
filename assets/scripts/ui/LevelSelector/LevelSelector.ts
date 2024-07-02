@@ -2,6 +2,8 @@ import { _decorator, Component, director, instantiate, Node, Prefab } from "cc";
 import { LevelItem } from "./LevelItem";
 import { TitleScreenUIManager } from "../TitleScreenUIManager";
 import { GameManager } from "../../Managers/GameManager";
+import { ScreenSwipeController } from "../../Managers/ScreenSwipeController";
+import { FRAME } from "../../utils/anim";
 //import { GameManager } from "./GameManager";
 //import { TitleScreenUIManager } from "./TitleScreenUIManager";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
@@ -62,18 +64,20 @@ export class LevelSelector extends Component {
   }
 
   loadLevel(level: number) {
-    this.tsm!.toggleLoadingScreen(true);
+    //this.tsm!.toggleLoadingScreen(true);
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     // );
 
     // AudioManager.Instance.stop();
-
+    const ss = ScreenSwipeController.Instance;
+    ss.enterTransition();
     this.scheduleOnce(() => {
       director.loadScene("gameplay", (e, scene) => {
         const gm = GameManager.Instance.loadLevelData(level);
+        ss.exitTransition();
       });
-    }, 0.25);
+    }, FRAME * 60);
   }
 
   loadLevelGenerator() {

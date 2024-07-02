@@ -1,3 +1,13 @@
 {
-  "__version__": "1.0.5"
+  "__version__": "1.0.5",
+  "layer": [
+    {
+      "name": "GAMEPLAY",
+      "value": 65536
+    },
+    {
+      "name": "BLOCKER",
+      "value": 524288
+    }
+  ]
 }
