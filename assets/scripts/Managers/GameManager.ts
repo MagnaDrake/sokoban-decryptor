@@ -111,10 +111,10 @@ export class GameManager extends Component {
   onInteractInput(keyCode: KeyCode) {
     if (this.gameState !== GameState.READY) return;
     switch (keyCode) {
-      case KeyCode.KEY_Q:
+      case KeyCode.KEY_A:
         this.rotateEntityOnGrid(RotateDirection.COUNTER_CLOCKWISE);
         return;
-      case KeyCode.KEY_E:
+      case KeyCode.KEY_S:
         this.rotateEntityOnGrid(RotateDirection.CLOCKWISE);
         return;
     }
