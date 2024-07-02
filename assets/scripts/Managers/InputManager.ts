@@ -29,7 +29,8 @@ export class InputManager extends Component {
   }
 
   onKeyDown(event: EventKeyboard) {
-    if (this.keyCooldown) return;
+    const isPaused = GameManager.Instance.pm.isPause;
+    if (this.keyCooldown || isPaused) return;
     this.triggerCooldown();
     let direction;
 
@@ -59,7 +60,9 @@ export class InputManager extends Component {
 
   onKeyHold(event: EventKeyboard) {
     //console.log(event.keyCode);
-    if (this.keyCooldown) return;
+    const isPaused = GameManager.Instance.pm.isPause;
+
+    if (this.keyCooldown || isPaused) return;
     this.triggerHoldCooldown();
     switch (event.keyCode) {
       case KeyCode.ARROW_UP:
