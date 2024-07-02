@@ -3,6 +3,8 @@ import { GameManager } from "./GameManager";
 import { TitleScreenUIManager } from "../ui/TitleScreenUIManager";
 import { isMobile } from "../utils/device";
 import { VirtualDpadController } from "../objects/VirtualDpad/VirtualDpadController";
+import { ScreenSwipeController } from "./ScreenSwipeController";
+import { FRAME } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("PauseMenuManager")
@@ -65,6 +67,9 @@ export class PauseMenuManager extends Component {
   }
 
   onBackClick() {
+    const ss = ScreenSwipeController.Instance;
+    ss.flip = true;
+    ss.enterTransition();
     this.scheduleOnce(() => {
       director.loadScene("title", (e, scene) => {
         const uiManager = scene?.getComponentInChildren(TitleScreenUIManager);
@@ -72,7 +77,8 @@ export class PauseMenuManager extends Component {
         uiManager?.toggleLoadingScreen(false);
         uiManager?.openLevelSelector();
       });
-    }, 0.25);
+      ss.exitTransition();
+    }, FRAME * 60);
   }
 
   onSettingsClick() {

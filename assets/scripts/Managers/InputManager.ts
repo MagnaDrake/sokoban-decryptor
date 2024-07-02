@@ -29,7 +29,15 @@ export class InputManager extends Component {
   }
 
   onKeyDown(event: EventKeyboard) {
-    if (this.keyCooldown) return;
+    // priority key
+    // probably these needs to be refactored in the future
+    if (event.keyCode === KeyCode.ESCAPE) {
+      GameManager.Instance.onPauseKeyInput();
+      return;
+    }
+
+    const isPaused = GameManager.Instance.pm.isPause;
+    if (this.keyCooldown || isPaused) return;
     this.triggerCooldown();
     let direction;
 
@@ -40,8 +48,8 @@ export class InputManager extends Component {
       case KeyCode.ARROW_RIGHT:
         GameManager.Instance.onMovementKeyInput(event.keyCode);
         return;
-      case KeyCode.KEY_Q:
-      case KeyCode.KEY_E:
+      case KeyCode.KEY_A:
+      case KeyCode.KEY_S:
         GameManager.Instance.onInteractInput(event.keyCode);
         return;
       case KeyCode.KEY_Z:
@@ -50,8 +58,6 @@ export class InputManager extends Component {
       case KeyCode.KEY_R:
         GameManager.Instance.onRestartLevelKeyInput();
         return;
-      case KeyCode.ESCAPE:
-        GameManager.Instance.onPauseKeyInput();
       default:
         return;
     }
@@ -59,7 +65,9 @@ export class InputManager extends Component {
 
   onKeyHold(event: EventKeyboard) {
     //console.log(event.keyCode);
-    if (this.keyCooldown) return;
+    const isPaused = GameManager.Instance.pm.isPause;
+
+    if (this.keyCooldown || isPaused) return;
     this.triggerHoldCooldown();
     switch (event.keyCode) {
       case KeyCode.ARROW_UP:
@@ -68,8 +76,8 @@ export class InputManager extends Component {
       case KeyCode.ARROW_RIGHT:
         GameManager.Instance.onMovementKeyInput(event.keyCode);
         return;
-      case KeyCode.KEY_Q:
-      case KeyCode.KEY_E:
+      case KeyCode.KEY_A:
+      case KeyCode.KEY_S:
         GameManager.Instance.onInteractInput(event.keyCode);
         return;
       case KeyCode.KEY_Z:

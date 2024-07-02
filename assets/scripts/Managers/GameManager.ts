@@ -33,7 +33,18 @@ import {
   VirtualDpad,
   VirtualDPadEvents,
 } from "../objects/VirtualDpad/VirtualDpad";
+import { ScreenSwipeController } from "./ScreenSwipeController";
+import { FRAME } from "../utils/anim";
+import { WinAnimationController } from "./WinAnimationController";
 const { ccclass, property } = _decorator;
+
+export enum GameState {
+  PAUSED,
+  RESET,
+  LOADING,
+  READY,
+  WIN,
+}
 
 @ccclass("GameManager")
 export class GameManager extends Component {
@@ -73,16 +84,22 @@ export class GameManager extends Component {
   @property(PauseMenuManager)
   pm: PauseMenuManager;
 
+  @property(WinAnimationController)
+  wac: WinAnimationController;
+
   player: Player;
 
   hasShownWin = false;
 
   currentLevel = -1;
 
+  gameState: GameState;
+
   start() {
     // this.scheduleOnce(() => {
     //   this.loadLevelData(0);
     // }, 0.2);
+    this.gameState = GameState.READY;
   }
 
   onUndoKeyInput() {
@@ -92,11 +109,12 @@ export class GameManager extends Component {
   }
 
   onInteractInput(keyCode: KeyCode) {
+    if (this.gameState !== GameState.READY) return;
     switch (keyCode) {
-      case KeyCode.KEY_Q:
+      case KeyCode.KEY_A:
         this.rotateEntityOnGrid(RotateDirection.COUNTER_CLOCKWISE);
         return;
-      case KeyCode.KEY_E:
+      case KeyCode.KEY_S:
         this.rotateEntityOnGrid(RotateDirection.CLOCKWISE);
         return;
     }
@@ -121,6 +139,8 @@ export class GameManager extends Component {
   }
 
   onMovementKeyInput(keyCode: KeyCode) {
+    if (this.gameState !== GameState.READY) return;
+
     let direction;
     switch (keyCode) {
       case KeyCode.ARROW_UP:
@@ -248,7 +268,8 @@ export class GameManager extends Component {
   onWinLevel() {
     console.log("win level");
     if (this.hasShownWin) return;
-    this.gameWinScren.active = true;
+    this.gameState = GameState.WIN;
+    this.wac.triggerWin();
     this.hasShownWin = true;
   }
 
@@ -259,13 +280,28 @@ export class GameManager extends Component {
     // flush all grid and entities and commands from memory
     // then reinit the level
     // might need object pooling in the future
-    if (this.currentLevel < 0) return;
-    GridManager.Instance.clearGrid();
-    CommandManager.Instance.clearCommands();
-    this.player.node.destroy();
-    this.player = undefined;
-    this.loadLevelData(this.currentLevel);
-    this.gameWinScren.active = false;
+    if (this.gameState !== GameState.READY) return;
+
+    const ss = ScreenSwipeController.Instance;
+    ss.flip = true;
+    ss.enterTransition();
+    this.gameState = GameState.RESET;
+    this.scheduleOnce(() => {
+      if (this.currentLevel < 0) return;
+      GridManager.Instance.clearGrid();
+      CommandManager.Instance.clearCommands();
+      this.player.node.destroy();
+      this.player = undefined;
+      this.loadLevelData(this.currentLevel);
+      this.gameWinScren.active = false;
+      ss.exitTransition();
+
+      this.scheduleOnce(() => {
+        this.gameState = GameState.READY;
+        this.wac.player = this.player;
+        console.log(this.player, this.wac.player);
+      }, FRAME * 15);
+    }, FRAME * 60);
   }
 
   onPauseKeyInput() {
@@ -279,6 +315,8 @@ export class GameManager extends Component {
     console.log(levelData);
     if (levelData) {
       GridManager.Instance.createLevel(levelData);
+      this.wac.player = this.player;
+      GridManager.Instance.updateGridState();
     }
   }
 

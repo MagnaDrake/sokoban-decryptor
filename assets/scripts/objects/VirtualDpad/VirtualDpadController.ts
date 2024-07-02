@@ -2,6 +2,7 @@ import { _decorator, Component, KeyCode, Node } from "cc";
 import { DPadType, VirtualDpad, VirtualDPadEvents } from "./VirtualDpad";
 import { GameManager } from "../../Managers/GameManager";
 import { isMobile } from "../../utils/device";
+import { FRAME } from "../../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("VirtualDpadController")
@@ -32,6 +33,8 @@ export class VirtualDpadController extends Component {
     }
   }
 
+  keyCooldown = false;
+
   setupPads(pad: Node) {
     pad.off(VirtualDPadEvents.DPAD_PRESS, this.onPadPress, this);
     pad.on(VirtualDPadEvents.DPAD_PRESS, this.onPadPress, this);
@@ -40,8 +43,8 @@ export class VirtualDpadController extends Component {
   }
 
   onPadPress(type: DPadType) {
-    if (!this.active) return;
     const gm = GameManager.Instance;
+    if (!this.active || gm.pm.isPause) return;
     switch (type) {
       case DPadType.UP:
         gm.onMovementKeyInput(KeyCode.ARROW_UP);
@@ -56,10 +59,10 @@ export class VirtualDpadController extends Component {
         gm.onMovementKeyInput(KeyCode.ARROW_RIGHT);
         break;
       case DPadType.Q:
-        gm.onInteractInput(KeyCode.KEY_Q);
+        gm.onInteractInput(KeyCode.KEY_A);
         break;
       case DPadType.E:
-        gm.onInteractInput(KeyCode.KEY_E);
+        gm.onInteractInput(KeyCode.KEY_S);
         break;
       case DPadType.R:
         gm.onRestartLevelKeyInput();
