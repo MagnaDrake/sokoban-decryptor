@@ -5,6 +5,7 @@ import {
   instantiate,
   Node,
   Prefab,
+  UITransform,
 } from "cc";
 import { Grid } from "../objects/Grid";
 import { Tile } from "../objects/Tile";
@@ -141,8 +142,8 @@ export class GridManager extends Component {
   }
 
   createEntities(data: EntityListData) {
-    this.createPlayer(data.player);
     this.createEmitters(data.emitters);
+    this.createPlayer(data.player);
     //this.createObstacles();
   }
 

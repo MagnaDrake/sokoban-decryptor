@@ -2,12 +2,20 @@
   "__version__": "1.0.5",
   "layer": [
     {
-      "name": "GAMEPLAY",
+      "name": "TILES",
       "value": 65536
     },
     {
       "name": "BLOCKER",
       "value": 524288
+    },
+    {
+      "name": "PLAYER",
+      "value": 262144
+    },
+    {
+      "name": "EMITTER",
+      "value": 131072
     }
   ]
 }
