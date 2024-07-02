@@ -316,6 +316,7 @@ export class GameManager extends Component {
     if (levelData) {
       GridManager.Instance.createLevel(levelData);
       this.wac.player = this.player;
+      GridManager.Instance.updateGridState();
     }
   }
 

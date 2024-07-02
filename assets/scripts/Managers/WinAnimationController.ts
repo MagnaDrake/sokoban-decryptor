@@ -31,10 +31,15 @@ export class WinAnimationController extends Component {
     console.log(this.player);
     this.scheduleOnce(() => {
       this.player.anim.stop();
+      this.player.unschedule(this.player.setToIdle);
       this.player.playAnim(PlayerAnimKey.VICTORY);
-    }, FRAME * 30);
+    }, FRAME * 15);
     this.animateMask();
   }
+
+  // TODO
+  // probably have to figure out callbacks instead of using schedule
+  // definitely could refactor this in the future but its good enough for now
 
   animateMask() {
     const easingProps: ITweenOption = {
