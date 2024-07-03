@@ -34,23 +34,18 @@ export function convertStringToLevel(input) {
     }
     let level = parseInt(id);
     save[i] = Number.isNaN(level) ? 0 : level;
-    console.log(save[i]);
   }
-  console.log(save);
   return save;
 }
 
 export function convertLevelToString(input) {
   const save = input.toString().split(",");
-  console.log(save);
-  console.log(save.length);
   for (let i = 0; i < save.length; i++) {
     let entry = save[i];
     let num = entry.split("");
     let id = "";
     for (let j = 0; j < num.length; j++) {
       const conv = parseInt(num[j]);
-      console.log(conv);
       if (conv < 1) {
         id = "";
       } else {

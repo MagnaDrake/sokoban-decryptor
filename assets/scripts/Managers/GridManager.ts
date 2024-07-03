@@ -346,7 +346,7 @@ export class GridManager extends Component {
   }
 
   updateGridState() {
-    console.log("update grid state");
+    //console.log("update grid state");
     // jank inefficient code
     // i cant for the love of god figure out how to just disable the old panels and turn on new ones
     // because there are cases of overlapping emitters

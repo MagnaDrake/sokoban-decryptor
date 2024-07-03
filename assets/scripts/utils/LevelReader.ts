@@ -190,7 +190,6 @@ export function readRawLevelData(json: any) {
         posRotOffset.y,
     };
 
-    console.log("read");
     const emitterProps = emitter.properties;
 
     const outputType = emitterProps[0].value;

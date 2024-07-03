@@ -36,7 +36,6 @@ export class LevelSelector extends Component {
   generateLevelGrid() {
     this.saveData = UserDataManager.Instance.getUserData();
 
-    console.log(this.saveData);
     this.createLevelItems(50);
   }
 

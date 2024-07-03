@@ -259,7 +259,6 @@ export class GameManager extends Component {
     // todo
     // i dont really like this approach because this makes the command batch execution segmented
     const win = GridManager.Instance.updateGridState();
-    console.log("has won", win);
 
     if (win) {
       this.onWinLevel();
@@ -267,7 +266,6 @@ export class GameManager extends Component {
   }
 
   onWinLevel() {
-    console.log("win level");
     if (this.hasShownWin) return;
     this.gameState = GameState.WIN;
     this.wac.triggerWin();
@@ -301,7 +299,6 @@ export class GameManager extends Component {
       this.scheduleOnce(() => {
         this.gameState = GameState.READY;
         this.wac.player = this.player;
-        console.log(this.player, this.wac.player);
       }, FRAME * 15);
     }, FRAME * 60);
   }
@@ -313,8 +310,8 @@ export class GameManager extends Component {
   loadLevelData(id: number) {
     this.currentLevel = id;
     const levelData = LevelManager.Instance.levelData[id];
-    console.log("load level data");
-    console.log(levelData);
+    // console.log("load level data");
+    // console.log(levelData);
     if (levelData) {
       GridManager.Instance.createLevel(levelData);
       this.wac.player = this.player;
