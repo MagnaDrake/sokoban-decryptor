@@ -36,6 +36,7 @@ import {
 import { ScreenSwipeController } from "./ScreenSwipeController";
 import { FRAME } from "../utils/anim";
 import { WinAnimationController } from "./WinAnimationController";
+import { UserDataManager } from "./UserDataManager";
 const { ccclass, property } = _decorator;
 
 export enum GameState {
@@ -271,6 +272,7 @@ export class GameManager extends Component {
     this.gameState = GameState.WIN;
     this.wac.triggerWin();
     this.hasShownWin = true;
+    this.saveWin();
   }
 
   onRestartLevelKeyInput() {
@@ -320,11 +322,12 @@ export class GameManager extends Component {
     }
   }
 
-  // protected update(dt: number): void {
-  //   const win = GridManager.Instance.updateGridState();
-  //   if (win) {
-  //     //console.log("has won", win);
-  //     this.onWinLevel();
-  //   }
-  // }
+  saveWin() {
+    const saveData = UserDataManager.Instance.getUserData();
+    if (!saveData.completedLevels.includes(this.currentLevel + 1)) {
+      saveData.completedLevels.push(this.currentLevel + 1);
+
+      UserDataManager.Instance.saveUserData(saveData);
+    }
+  }
 }

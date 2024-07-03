@@ -39,7 +39,6 @@ export class PauseMenuManager extends Component {
   }
 
   onPauseButtonClick() {
-    console.log("onpause click");
     if (this.isPause) {
       this.reset();
     } else {
@@ -48,10 +47,8 @@ export class PauseMenuManager extends Component {
   }
 
   openPause() {
-    console.log("open pause");
     this.isPause = true;
     this.pauseMenuContainer.active = true;
-    console.log(this.pauseMenuContainer);
     this.settingsContainer.active = false;
   }
 

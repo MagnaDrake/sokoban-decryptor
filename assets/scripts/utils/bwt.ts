@@ -34,7 +34,6 @@ function findLast(input_text, suffix_arr, n) {
 
 export function encodeBWT(input) {
   const append = input.concat(eof);
-  console.log(append);
   const suf = getSuffixArray(append, append.length);
   return findLast(append, suf, append.length);
 }

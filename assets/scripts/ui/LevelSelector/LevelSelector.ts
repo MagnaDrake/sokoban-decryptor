@@ -4,6 +4,7 @@ import { TitleScreenUIManager } from "../TitleScreenUIManager";
 import { GameManager } from "../../Managers/GameManager";
 import { ScreenSwipeController } from "../../Managers/ScreenSwipeController";
 import { FRAME } from "../../utils/anim";
+import { UserDataManager } from "../../Managers/UserDataManager";
 //import { GameManager } from "./GameManager";
 //import { TitleScreenUIManager } from "./TitleScreenUIManager";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
@@ -33,8 +34,9 @@ export class LevelSelector extends Component {
   }
 
   generateLevelGrid() {
-    //   this.saveData = UserDataManager.Instance.getUserData();
+    this.saveData = UserDataManager.Instance.getUserData();
 
+    console.log(this.saveData);
     this.createLevelItems(50);
   }
 
@@ -51,11 +53,11 @@ export class LevelSelector extends Component {
         levelItem.getComponent(LevelItem)?.toggleLocked(false);
         levelItem.getComponent(LevelItem)?.setLabel((i + 1).toString());
         levelItem.getComponent(LevelItem)?.setListener(this);
-        if (this.saveData?.completedLevels?.includes(i)) {
+        if (this.saveData?.completedLevels?.includes(i + 1)) {
           levelItem.getComponent(LevelItem)?.toggleClear(true);
-          if (this.saveData?.perfectLevels?.includes(i)) {
-            levelItem.getComponent(LevelItem)?.togglePerfect(true);
-          }
+          // if (this.saveData?.perfectLevels?.includes(i)) {
+          //   levelItem.getComponent(LevelItem)?.togglePerfect(true);
+          // }
         }
       } else {
         levelItem.getComponent(LevelItem)?.toggleLocked(true);

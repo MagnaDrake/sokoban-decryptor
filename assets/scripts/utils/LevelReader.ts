@@ -132,16 +132,15 @@ export function readRawLevelData(json: any) {
   layers.forEach((layer) => {
     const { name } = layer;
     if (name === LayerGroupName.Terrain) {
-      console.log(layer);
+      // console.log(layer);
       terrainLayer = layer.layers[0].data;
     } else if (name === LayerGroupName.Entities) {
       entityLayer = layer.layers;
     }
   });
-  console.log("Terrain");
-  console.log(terrainLayer);
-
-  console.log(entityLayer);
+  // console.log("Terrain");
+  // console.log(terrainLayer);
+  // console.log(entityLayer);
 
   let playerData;
   let emitterData;
@@ -193,7 +192,6 @@ export function readRawLevelData(json: any) {
 
     console.log("read");
     const emitterProps = emitter.properties;
-    console.log(emitterProps);
 
     const outputType = emitterProps[0].value;
     const isSplitter = emitterProps[1].value;

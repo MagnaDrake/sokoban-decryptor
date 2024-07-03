@@ -27,14 +27,14 @@ export class UserDataManager {
         const loadedData = load(storedUserData);
         data = { completedLevels: loadedData, perfectLevels: [] };
       } else {
-        data = { completedLevels: [], perfectLevels: [] };
-        localStorage.setItem("userData", "");
+        data = { completedLevels: [0], perfectLevels: [] };
+        localStorage.setItem("userData", save(data.completedLevels));
       }
     } else {
       console.log(
         "localStorage is not available! Progress will be lost once the game is closed."
       );
-      data = { completedLevels: [], perfectLevels: [] };
+      data = { completedLevels: [0], perfectLevels: [] };
     }
 
     this.userData = data;
@@ -55,8 +55,16 @@ export class UserDataManager {
 
   getUserData() {
     if (this.isLocalStorageAvailable()) {
-      const data = localStorage.getItem("userData");
-      return JSON.parse(data as string) as UserSaveData;
+      const storedUserData = localStorage.getItem("userData");
+      let data;
+      if (storedUserData !== undefined) {
+        const loadedData = load(storedUserData);
+        data = { completedLevels: loadedData, perfectLevels: [] };
+        return data as UserSaveData;
+      }
+
+      //  const data = localStorage.getItem("userData");
+      // return JSON.parse(data as string) as UserSaveData;
     } else {
       console.log("localStorage is not available.");
       return this.userData;

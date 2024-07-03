@@ -16,7 +16,6 @@ export class Panel extends Tile {
   offset = 32;
 
   setTileTerrain(id: number): void {
-    console.log(this.position);
     super.setTileTerrain(id);
 
     const onSprite = this.onSignal.getComponent(Sprite);
@@ -25,7 +24,6 @@ export class Panel extends Tile {
 
     const append = offsetedId < 10 ? "0" : "";
     const spriteKey = `${append}${offsetedId}`;
-    console.log(spriteKey);
     onSprite.spriteFrame = onSprite.spriteAtlas.getSpriteFrame(spriteKey);
     this.onSignal.getComponent(UITransform).setContentSize(64, 64);
   }

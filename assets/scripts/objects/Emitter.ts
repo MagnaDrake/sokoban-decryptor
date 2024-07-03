@@ -51,7 +51,6 @@ export class Emitter extends Entity {
       this.rotatable
     );
 
-    console.log("key pls", key);
     this.entitySprite.spriteFrame =
       this.entitySprite.spriteAtlas.getSpriteFrame(`${key}`);
     this.entitySprite.node.getComponent(UITransform).setContentSize(48, 48);
@@ -64,7 +63,6 @@ export class Emitter extends Entity {
         this.outputDirections = [Direction.UP];
         break;
       case EmitterTypes.L_CURVE:
-        console.log("L_Curve");
         this.outputDirections = [Direction.UP, Direction.RIGHT];
         break;
       case EmitterTypes.J_CURVE:
@@ -89,9 +87,6 @@ export class Emitter extends Entity {
         break;
     }
     this.outputDirections.forEach((dir) => {
-      //console.log(dir);
-      console.log(dir);
-      console.log(this.emitterProngs[dir].name);
       this.emitterProngs[dir].active = true;
     });
   }
