@@ -1,6 +1,5 @@
 import { _decorator, Component, director, instantiate, Node, Prefab } from "cc";
 import { LevelItem } from "./LevelItem";
-import { TitleScreenUIManager } from "../TitleScreenUIManager";
 import { GameManager } from "../../Managers/GameManager";
 import { ScreenSwipeController } from "../../Managers/ScreenSwipeController";
 import { FRAME } from "../../utils/anim";
@@ -23,9 +22,6 @@ export class LevelSelector extends Component {
 
   @property(Prefab)
   levelItem!: Prefab;
-
-  @property(TitleScreenUIManager)
-  tsm!: TitleScreenUIManager;
 
   saveData!: UserSaveData;
 

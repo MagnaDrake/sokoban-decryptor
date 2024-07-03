@@ -24,7 +24,9 @@ export class InputManager extends Component {
   keyCooldown = false;
 
   onLoad() {
+    input.off(Input.EventType.KEY_DOWN, this.onKeyDown, this);
     input.on(Input.EventType.KEY_DOWN, this.onKeyDown, this);
+    input.off(Input.EventType.KEY_PRESSING, this.onKeyHold, this);
     input.on(Input.EventType.KEY_PRESSING, this.onKeyHold, this);
   }
 
