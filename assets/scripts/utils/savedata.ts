@@ -38,22 +38,14 @@ export function convertStringToLevel(input) {
 
 export function convertLevelToString(input) {
   const save = input.toString().split(",");
-  console.log(save);
 
   for (let i = 0; i < save.length; i++) {
     let entry = save[i];
     let num = entry.split("");
-    console.log("split entries", num);
     let id = "";
     for (let j = 0; j < num.length; j++) {
-      console.log(
-        "get char from id",
-        num[j],
-        char.charAt(parseInt(num[j]) - 1)
-      );
       id = id.concat(char.charAt(parseInt(num[j]) - 1));
     }
-    console.log(id);
     save[i] = id;
   }
 
@@ -61,7 +53,15 @@ export function convertLevelToString(input) {
 
   let res = save.toString().replace(regex, delimiter);
 
-  console.log(res);
-
   return res;
+}
+
+export function save(data: any[]) {
+  const encdata = convertLevelToString(data);
+  return encodeSaveData(encdata);
+}
+
+export function load(data: string) {
+  const decoded = decodeSaveData(data);
+  return convertStringToLevel(decoded);
 }

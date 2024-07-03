@@ -1,4 +1,5 @@
 import { _decorator, Component, Node } from "cc";
+import { encodeSaveData, load, save } from "../utils/savedata";
 const { ccclass, property } = _decorator;
 
 export interface UserSaveData {
@@ -23,10 +24,11 @@ export class UserDataManager {
     if (this.isLocalStorageAvailable()) {
       const storedUserData = localStorage.getItem("userData");
       if (storedUserData) {
-        data = JSON.parse(storedUserData) as UserSaveData;
+        const loadedData = load(storedUserData);
+        data = { completedLevels: loadedData, perfectLevels: [] };
       } else {
         data = { completedLevels: [], perfectLevels: [] };
-        localStorage.setItem("userData", JSON.stringify(data));
+        localStorage.setItem("userData", "");
       }
     } else {
       console.log(
@@ -40,7 +42,8 @@ export class UserDataManager {
 
   saveUserData(data: UserSaveData) {
     if (this.isLocalStorageAvailable()) {
-      localStorage.setItem("userData", JSON.stringify(data));
+      const encodedSave = save(data.completedLevels);
+      localStorage.setItem("userData", encodedSave);
     } else {
       console.log(
         "localStorage is not available! Progress will be lost once the game is closed."
