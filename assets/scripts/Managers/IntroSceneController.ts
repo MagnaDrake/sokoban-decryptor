@@ -45,7 +45,7 @@ export class IntroSceneController extends Component {
 
   onKeyDown(event: EventKeyboard) {
     if (event.keyCode === KeyCode.ESCAPE) {
-      this.goToTitle(0);
+      this.goToTitle(1);
     } else if (event.keyCode === KeyCode.SPACE) {
       this.showNextPanel();
     }
@@ -85,6 +85,8 @@ export class IntroSceneController extends Component {
 
   goToTitle(delay = 1) {
     this.skipButton.active = false;
+    const ss = ScreenSwipeController.Instance;
+    ss.enterTransition();
     input.off(Input.EventType.KEY_DOWN, this.onKeyDown, this);
     this.node.off(Input.EventType.TOUCH_START, this.onScreenTap, this);
 
@@ -92,15 +94,12 @@ export class IntroSceneController extends Component {
     //   panel.getComponent(ComicPanel).stopTween();
     //   panel.getComponent(ComicPanel).fadeOut();
     // });
-    const ss = ScreenSwipeController.Instance;
-    ss.enterTransition();
 
     this.scheduleOnce(() => {
-      this.scheduleOnce(() => {
-        director.loadScene("title", () => {});
+      director.loadScene("title", () => {
         ss.exitTransition();
-      }, delay);
-    }, delay);
+      });
+    }, 1.5);
   }
 
   onScreenTap() {

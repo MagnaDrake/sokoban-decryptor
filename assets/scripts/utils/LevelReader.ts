@@ -56,9 +56,9 @@ export enum EmitterType {
   NormalFixed,
   NormalStaticFixed,
   Splitter,
-  SplitterStatic,
-  SplitterFixed,
-  SplitterStaticFixed,
+  SplitterStatic = 7, // no asset for this currently
+  SplitterFixed = 5,
+  SplitterStaticFixed = 6,
 }
 
 export function getRotationOffset(rot: number) {
