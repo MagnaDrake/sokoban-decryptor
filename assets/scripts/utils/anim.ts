@@ -53,9 +53,7 @@ export function rotate(
   completeCallback?: any
 ) {
   let quat = new Quat();
-  console.log(target.z);
   quat = Quat.fromAngleZ(quat, target.z);
-  console.log(quat);
   const tweenProps = { rotation: quat };
   let onComplete;
   if (completeCallback !== undefined) {
@@ -73,7 +71,6 @@ export function rotateEulerZ(
   duration: number,
   completeCallback?: any
 ) {
-  console.log("z target", target);
   let quat = new Quat();
   quat = Quat.fromAngleZ(quat, target);
   const tweenProps = { rotation: quat };

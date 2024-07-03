@@ -56,7 +56,7 @@ export class ScreenSwipeController extends Component {
   }
 
   enterTransition() {
-    console.log("start enter transition");
+    //console.log("start enter transition");
     this.inputBlocker.active = true;
     const start = !this.flip ? this.startAnchor : this.endAnchor;
     this.transitionObject.setPosition(start.position);
@@ -66,7 +66,7 @@ export class ScreenSwipeController extends Component {
       this.midAnchor.position,
       FRAME * 60,
       () => {
-        console.log("complete enter");
+        //console.log("complete enter");
         this.inputBlocker.active = false;
       }
     );
@@ -74,13 +74,13 @@ export class ScreenSwipeController extends Component {
 
   exitTransition() {
     this.scheduleOnce(() => {
-      console.log("start exit transition");
+      // console.log("start exit transition");
       this.inputBlocker.active = true;
       const end = this.flip ? this.startAnchor : this.endAnchor;
       this.transitionObject.setPosition(this.midAnchor.position);
 
       moveToLocal(this.transitionObject, end.position, FRAME * 60, () => {
-        console.log("complete end");
+        // console.log("complete end");
         this.inputBlocker.active = false;
         this.flip = false;
       });

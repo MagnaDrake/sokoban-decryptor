@@ -42,9 +42,6 @@ export class Grid extends Component {
   }
 
   setTile(x: number, y: number, tile: Tile) {
-    console.log(`${x},${y}`, tile);
-    console.log(this.tiles[y]);
-    console.log(this.tiles[y][x]);
     this.tiles[y][x] = tile;
 
     tile.position = { x, y };

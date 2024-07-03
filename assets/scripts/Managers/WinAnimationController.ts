@@ -28,7 +28,6 @@ export class WinAnimationController extends Component {
   player: Player;
 
   triggerWin() {
-    console.log(this.player);
     this.scheduleOnce(() => {
       this.player.anim.stop();
       this.player.unschedule(this.player.setToIdle);
