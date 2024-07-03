@@ -24,8 +24,26 @@ export class SaveLoader extends Component {
     this.resetBox();
   }
 
+  async exportCode() {
+    const levelCode = UserDataManager.Instance.getSaveCode();
+    this.textBox.string = levelCode;
+    this.successNotif.string =
+      levelCode.length > 1 ? "Copied to clipboard!" : "No save data available.";
+
+    try {
+      await navigator.clipboard.writeText(levelCode);
+    } catch (error) {
+      console.error(error.message);
+    }
+  }
+
   loadLevel() {
     const levelCode = this.textBox.string;
+    if (this.textBox.string.length < 1) {
+      this.successNotif.string = "Invalid save code!";
+      return;
+    }
+
     const loadedData = load(levelCode);
     if (loadedData[0] === -1) {
       this.successNotif.string = "Invalid save code!";

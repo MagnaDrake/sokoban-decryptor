@@ -178,7 +178,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 360,
+    "_orthoHeight": 452.1262002743484,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -4331,7 +4331,7 @@
     "component": "",
     "_componentId": "efc89HH5LdDt7OT+RNcvrCU",
     "handler": "goToTitle",
-    "customEventData": ""
+    "customEventData": "2"
   },
   {
     "__type__": "efc89HH5LdDt7OT+RNcvrCU",

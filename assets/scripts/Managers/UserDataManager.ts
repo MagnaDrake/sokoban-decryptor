@@ -10,6 +10,9 @@ export interface UserSaveData {
 @ccclass("UserDataManager")
 export class UserDataManager {
   userData: UserSaveData;
+
+  saveCode: string;
+
   private static _inst: UserDataManager;
   public static get Instance(): UserDataManager {
     if (!this._inst || this._inst == undefined || this._inst == null) {
@@ -24,33 +27,40 @@ export class UserDataManager {
     if (this.isLocalStorageAvailable()) {
       const storedUserData = localStorage.getItem("userData");
       if (storedUserData) {
+        let code = storedUserData;
         let loadedData = load(storedUserData);
-        if (loadedData[0] === -1) loadedData = [0];
+        if (loadedData[0] === -1) {
+          loadedData = [0];
+          code = "";
+        }
+        this.saveCode = code;
         data = { completedLevels: loadedData, perfectLevels: [] };
       } else {
         data = { completedLevels: [0], perfectLevels: [] };
         localStorage.setItem("userData", save(data.completedLevels));
+        this.saveCode = localStorage.getItem("userData");
       }
     } else {
       console.log(
         "localStorage is not available! Progress will be lost once the game is closed."
       );
       data = { completedLevels: [0], perfectLevels: [] };
+      this.saveCode = "";
     }
 
     this.userData = data;
   }
 
   saveUserData(data: UserSaveData) {
+    const encodedSave = save(data.completedLevels);
     if (this.isLocalStorageAvailable()) {
-      const encodedSave = save(data.completedLevels);
       localStorage.setItem("userData", encodedSave);
     } else {
       console.log(
         "localStorage is not available! Progress will be lost once the game is closed."
       );
     }
-
+    this.saveCode = encodedSave;
     this.userData = data;
   }
 
@@ -70,6 +80,10 @@ export class UserDataManager {
       console.log("localStorage is not available.");
       return this.userData;
     }
+  }
+
+  getSaveCode() {
+    return this.saveCode;
   }
 
   isLocalStorageAvailable() {
