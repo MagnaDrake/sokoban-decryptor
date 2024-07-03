@@ -1,4 +1,4 @@
-import { _decorator, Component, director, instantiate, Node, Prefab } from "cc";
+import { _decorator, Component, director, instantiate, Node, Prefab, CCBoolean } from "cc";
 import { LevelItem } from "./LevelItem";
 import { GameManager } from "../../Managers/GameManager";
 import { ScreenSwipeController } from "../../Managers/ScreenSwipeController";
@@ -23,6 +23,9 @@ export class LevelSelector extends Component {
   @property(Prefab)
   levelItem!: Prefab;
 
+  @property(CCBoolean)
+  unlockAllLevels!: boolean;
+
   saveData!: UserSaveData;
 
   levelItems = [];
@@ -44,7 +47,7 @@ export class LevelSelector extends Component {
       levelItem.active = true;
 
       const clearLevels = this.saveData?.completedLevels?.length || 0;
-      const threshold = (Math.floor(clearLevels / 3) + 1) * 5;
+      const threshold = this.unlockAllLevels ? 1000: (Math.floor(clearLevels / 3) + 1) * 5;
 
       if (i < threshold) {
         levelItem.getComponent(LevelItem)?.toggleLocked(false);
