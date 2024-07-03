@@ -6,10 +6,14 @@ export function encodeRLE(text: string): string {
     .join("");
 }
 
-export function decodeRLE(code: string): string {
-  return (code.match(/(\d+| |\w)/g) || [])
-    .map((token, i, groups) =>
-      isNaN(parseInt(token)) ? token : groups[i + 1].repeat(Number(token) - 1)
-    )
-    .join("");
+export function decodeRLE(code) {
+  try {
+    return (code.match(/(\d+| |\w)/g) || [])
+      .map((token, i, groups) =>
+        isNaN(parseInt(token)) ? token : groups[i + 1].repeat(Number(token) - 1)
+      )
+      .join("");
+  } catch (e) {
+    return -1;
+  }
 }

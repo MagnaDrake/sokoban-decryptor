@@ -17,6 +17,7 @@ export function encodeSaveData(data: string) {
 
 export function decodeSaveData(save: string) {
   const irle = decodeRLE(save);
+  if (irle === -1) return -1;
   const ibwt = decodeBWT(irle);
   return ibwt;
 }
@@ -29,11 +30,12 @@ export function convertStringToLevel(input) {
     let num = entry.split("");
     let id = "";
     for (let j = 0; j < num.length; j++) {
-      const conv = num[j].charCodeAt(0) - 96;
+      const conv = num[j].charCodeAt(0) - 97;
       id = id.concat(conv.toString());
     }
     let level = parseInt(id);
     save[i] = Number.isNaN(level) ? 0 : level;
+    if (level > 1000) return [-1];
   }
   return save;
 }
@@ -45,12 +47,7 @@ export function convertLevelToString(input) {
     let num = entry.split("");
     let id = "";
     for (let j = 0; j < num.length; j++) {
-      const conv = parseInt(num[j]);
-      if (conv < 1) {
-        id = "";
-      } else {
-        id = id.concat(char.charAt(parseInt(num[j]) - 1));
-      }
+      id = id.concat(char.charAt(parseInt(num[j])));
     }
     save[i] = id;
   }
@@ -69,5 +66,6 @@ export function save(data: any[]) {
 
 export function load(data: string) {
   const decoded = decodeSaveData(data);
+  if (decoded === -1) return [-1];
   return convertStringToLevel(decoded);
 }

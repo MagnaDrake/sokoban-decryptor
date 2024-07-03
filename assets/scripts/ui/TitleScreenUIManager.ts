@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, tween, UIOpacity } from "cc";
 import { moveTo } from "../utils/anim";
+import { SaveLoader } from "../objects/SaveLoader";
 //import { BlackScreen } from "./BlackScreen";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
@@ -37,7 +38,7 @@ export class TitleScreenUIManager extends Component {
   creditsLabels!: Node;
 
   @property(Node)
-  howToPlay!: Node;
+  loadSave!: Node;
 
   @property(Node)
   volumeControl!: Node;
@@ -56,7 +57,7 @@ export class TitleScreenUIManager extends Component {
       this.levelSelectorHiddenAnchor.worldPosition
     );
     //  this.blackScreen.toggleVisibility(true);
-    this.howToPlay.setWorldPosition(
+    this.loadSave.setWorldPosition(
       this.levelSelectorHiddenAnchor.worldPosition
     );
 
@@ -139,15 +140,15 @@ export class TitleScreenUIManager extends Component {
     moveTo(this.levelSelector, this.levelSelectorHiddenAnchor.worldPosition, 1);
   }
 
-  showHowToPlay() {
+  showLoadSave() {
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
     // );
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
     // );
-    this.hideJellyMenu();
-    moveTo(this.howToPlay, this.levelSelectorVisibleAnchor.worldPosition, 1);
+    // this.hideJellyMenu();
+    moveTo(this.loadSave, this.levelSelectorVisibleAnchor.worldPosition, 1);
   }
 
   hideJellyMenu() {
@@ -160,15 +161,16 @@ export class TitleScreenUIManager extends Component {
     moveTo(this.menuObjects, this.titleVisibleAnchor.worldPosition, 1);
   }
 
-  hideHowToPlay() {
+  hideLoadSave() {
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
     // );
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     // );
-    this.showJellyMenu();
-    moveTo(this.howToPlay, this.levelSelectorHiddenAnchor.worldPosition, 1);
+    //  this.showJellyMenu();
+    moveTo(this.loadSave, this.levelSelectorHiddenAnchor.worldPosition, 1);
+    this.loadSave.getComponent(SaveLoader).resetBox();
   }
 
   toggleLoadingScreen(value: boolean) {

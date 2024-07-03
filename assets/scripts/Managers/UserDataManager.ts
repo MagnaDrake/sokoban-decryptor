@@ -24,7 +24,8 @@ export class UserDataManager {
     if (this.isLocalStorageAvailable()) {
       const storedUserData = localStorage.getItem("userData");
       if (storedUserData) {
-        const loadedData = load(storedUserData);
+        let loadedData = load(storedUserData);
+        if (loadedData[0] === -1) loadedData = [0];
         data = { completedLevels: loadedData, perfectLevels: [] };
       } else {
         data = { completedLevels: [0], perfectLevels: [] };

@@ -29,6 +29,8 @@ export class LevelSelector extends Component {
 
   saveData!: UserSaveData;
 
+  levelItems = [];
+
   protected onLoad(): void {
     this.generateLevelGrid();
   }
@@ -60,6 +62,36 @@ export class LevelSelector extends Component {
         }
       } else {
         levelItem.getComponent(LevelItem)?.toggleLocked(true);
+      }
+
+      this.levelItems.push(levelItem);
+    }
+  }
+
+  // definitely could combine these two methods
+  // will optimize later
+  //TODO
+
+  updateLevelData() {
+    this.saveData = UserDataManager.Instance.getUserData();
+
+    for (let i = 0; i < this.levelItems.length; i++) {
+      const item = this.levelItems[i];
+      const clearLevels = this.saveData?.completedLevels?.length || 0;
+      const threshold = (Math.floor(clearLevels / 3) + 1) * 5;
+
+      if (i < threshold) {
+        item.getComponent(LevelItem)?.toggleLocked(false);
+        item.getComponent(LevelItem)?.setLabel((i + 1).toString());
+        item.getComponent(LevelItem)?.setListener(this);
+        if (this.saveData?.completedLevels?.includes(i + 1)) {
+          item.getComponent(LevelItem)?.toggleClear(true);
+          // if (this.saveData?.perfectLevels?.includes(i)) {
+          //   levelItem.getComponent(LevelItem)?.togglePerfect(true);
+          // }
+        }
+      } else {
+        item.getComponent(LevelItem)?.toggleLocked(true);
       }
     }
   }
