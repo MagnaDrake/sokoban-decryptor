@@ -25,6 +25,12 @@ export class VirtualDpad extends Component {
   @property({ type: DPadType })
   type: DPadType;
 
+  @property(Node)
+  activeSprite: Node;
+
+  @property(Node)
+  inactiveSprite: Node;
+
   isHeld = false;
 
   holdCounter = 0;
@@ -41,9 +47,13 @@ export class VirtualDpad extends Component {
 
     this.node.off(Input.EventType.TOUCH_END, this.onVirtualEnd, this);
     this.node.on(Input.EventType.TOUCH_END, this.onVirtualEnd, this);
+    this.activeSprite.active = false;
+    this.inactiveSprite.active = true;
   }
 
   onVirtualEnd() {
+    this.activeSprite.active = false;
+    this.inactiveSprite.active = true;
     this.node.emit(VirtualDPadEvents.DPAD_LIFT, this.type);
     this.holdCounter = 0;
     this.tickCounter = 0;
@@ -51,6 +61,8 @@ export class VirtualDpad extends Component {
   }
 
   onVirtualTouch() {
+    this.activeSprite.active = true;
+    this.inactiveSprite.active = false;
     this.node.emit(VirtualDPadEvents.DPAD_PRESS, this.type);
     this.holdCounter = 0;
     this.isHeld = true;

@@ -2,7 +2,7 @@
   "ver": "1.0.26",
   "importer": "image",
   "imported": true,
-  "uuid": "38ca7776-cf39-4bb9-91c9-9749e468da98",
+  "uuid": "f4b9f059-c3da-4242-a2ba-d15c9b91e374",
   "files": [
     ".json",
     ".png"
@@ -10,14 +10,14 @@
   "subMetas": {
     "6c48a": {
       "importer": "texture",
-      "uuid": "38ca7776-cf39-4bb9-91c9-9749e468da98@6c48a",
-      "displayName": "gamepad_inactive",
+      "uuid": "f4b9f059-c3da-4242-a2ba-d15c9b91e374@6c48a",
+      "displayName": "vpad_arrows_inactive",
       "id": "6c48a",
       "name": "texture",
       "userData": {
         "wrapModeS": "clamp-to-edge",
         "wrapModeT": "clamp-to-edge",
-        "imageUuidOrDatabaseUri": "38ca7776-cf39-4bb9-91c9-9749e468da98",
+        "imageUuidOrDatabaseUri": "f4b9f059-c3da-4242-a2ba-d15c9b91e374",
         "isUuid": true,
         "visible": false,
         "minfilter": "linear",
@@ -34,8 +34,8 @@
     },
     "f9941": {
       "importer": "sprite-frame",
-      "uuid": "38ca7776-cf39-4bb9-91c9-9749e468da98@f9941",
-      "displayName": "gamepad_inactive",
+      "uuid": "f4b9f059-c3da-4242-a2ba-d15c9b91e374@f9941",
+      "displayName": "vpad_arrows_inactive",
       "id": "f9941",
       "name": "spriteFrame",
       "userData": {
@@ -114,7 +114,7 @@
           ]
         },
         "isUuid": true,
-        "imageUuidOrDatabaseUri": "38ca7776-cf39-4bb9-91c9-9749e468da98@6c48a",
+        "imageUuidOrDatabaseUri": "f4b9f059-c3da-4242-a2ba-d15c9b91e374@6c48a",
         "atlasUuid": ""
       },
       "ver": "1.0.12",
@@ -129,6 +129,6 @@
     "type": "sprite-frame",
     "fixAlphaTransparencyArtifacts": true,
     "hasAlpha": true,
-    "redirect": "38ca7776-cf39-4bb9-91c9-9749e468da98@f9941"
+    "redirect": "f4b9f059-c3da-4242-a2ba-d15c9b91e374@f9941"
   }
 }
