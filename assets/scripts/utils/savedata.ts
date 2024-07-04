@@ -23,6 +23,7 @@ export function decodeSaveData(save: string) {
 }
 
 export function convertStringToLevel(input) {
+  if (!input) return [-1];
   const save = input.split(delimiter);
 
   for (let i = 0; i < save.length; i++) {

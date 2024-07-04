@@ -1,10 +1,10 @@
-import { _decorator, Component, director, Label, Node } from "cc";
+import { _decorator, Component, director, Label, Node, Vec3 } from "cc";
 import { GameManager } from "./GameManager";
 import { TitleScreenUIManager } from "../ui/TitleScreenUIManager";
 import { isMobile } from "../utils/device";
 import { VirtualDpadController } from "../objects/VirtualDpad/VirtualDpadController";
 import { ScreenSwipeController } from "./ScreenSwipeController";
-import { FRAME } from "../utils/anim";
+import { FRAME, moveTo, moveToLocal } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 @ccclass("PauseMenuManager")
@@ -36,6 +36,7 @@ export class PauseMenuManager extends Component {
       this.virtualDpadToggleLabel.string = "Off";
       this.isVirtualDpadOn = false;
     }
+    this.pauseMenuContainer.active = true;
   }
 
   onPauseButtonClick() {
@@ -48,13 +49,13 @@ export class PauseMenuManager extends Component {
 
   openPause() {
     this.isPause = true;
-    this.pauseMenuContainer.active = true;
+    moveToLocal(this.pauseMenuContainer, new Vec3(0, 0, 0), FRAME * 30);
     this.settingsContainer.active = false;
   }
 
   reset() {
     this.isPause = false;
-    this.pauseMenuContainer.active = false;
+    moveToLocal(this.pauseMenuContainer, new Vec3(0, 800, 0), FRAME * 30);
     this.settingsContainer.active = false;
   }
 
