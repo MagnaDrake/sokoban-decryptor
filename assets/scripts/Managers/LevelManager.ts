@@ -1,11 +1,17 @@
 import { _decorator, Component, director, JsonAsset, Node } from "cc";
 import { LevelData, readRawLevelData } from "../utils/LevelReader";
+import { TutorialDialogue } from "../objects/TutorialDialogue";
 const { ccclass, property } = _decorator;
 
 @ccclass("LevelManager")
 export class LevelManager extends Component {
   @property([JsonAsset])
   levels: JsonAsset[] = [];
+
+  @property([TutorialDialogue])
+  tutorialDialogues: TutorialDialogue[] = [];
+
+  tutorialMap: Map<number, string>;
 
   levelData: Array<LevelData>;
 
@@ -36,6 +42,17 @@ export class LevelManager extends Component {
     this.levelData = new Array<LevelData>();
 
     this.readLevels();
+    this.tutorialMap = new Map();
+
+    this.tutorialDialogues.map((item) => {
+      this.tutorialMap.set(item.level, item.tutorialString);
+    });
+
+    console.log(this.tutorialMap);
+  }
+
+  getTutorial(level: number) {
+    return this.tutorialMap.get(level);
   }
 
   readLevels() {

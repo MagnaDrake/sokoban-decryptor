@@ -105,6 +105,7 @@ export interface LevelData {
   levelSize: Size;
   terrain: TileData[];
   entities: EntityListData;
+  name?: string;
 }
 
 export enum LayerGroupName {
@@ -123,6 +124,7 @@ export function readRawLevelData(json: any) {
 
   //console.log(json);
   const { width, height, layers } = json;
+
   //console.log("reading width and height");
   //console.log(width, height);
 
@@ -238,6 +240,7 @@ export function readRawLevelData(json: any) {
     levelSize: { width, height },
     terrain: tileData,
     entities: entityListData,
+    name: playerData.name,
   };
 
   return levelData;

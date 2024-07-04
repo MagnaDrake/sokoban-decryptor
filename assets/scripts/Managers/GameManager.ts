@@ -4,6 +4,7 @@ import {
   Game,
   instantiate,
   KeyCode,
+  Label,
   Node,
   Prefab,
 } from "cc";
@@ -37,6 +38,7 @@ import { ScreenSwipeController } from "./ScreenSwipeController";
 import { FRAME } from "../utils/anim";
 import { WinAnimationController } from "./WinAnimationController";
 import { UserDataManager } from "./UserDataManager";
+import { GameplayBackground } from "../objects/GameplayBackground";
 const { ccclass, property } = _decorator;
 
 export enum GameState {
@@ -80,7 +82,7 @@ export class GameManager extends Component {
   emitterPrefab: Prefab;
 
   @property(Node)
-  gameWinScren: Node;
+  gameWinScreen: Node;
 
   @property(PauseMenuManager)
   pm: PauseMenuManager;
@@ -88,7 +90,18 @@ export class GameManager extends Component {
   @property(WinAnimationController)
   wac: WinAnimationController;
 
+  @property(GameplayBackground)
+  bg: GameplayBackground;
+
+  @property(Node)
+  levelTitle: Node;
+
+  @property(Label)
+  levelTutorial: Label;
+
   player: Player;
+
+  titleString = "";
 
   hasShownWin = false;
 
@@ -100,6 +113,7 @@ export class GameManager extends Component {
     // this.scheduleOnce(() => {
     //   this.loadLevelData(0);
     // }, 0.2);
+    this.titleString = "";
     this.gameState = GameState.READY;
   }
 
@@ -293,7 +307,7 @@ export class GameManager extends Component {
       this.player.node.destroy();
       this.player = undefined;
       this.loadLevelData(this.currentLevel);
-      this.gameWinScren.active = false;
+      this.gameWinScreen.active = false;
       ss.exitTransition();
 
       this.scheduleOnce(() => {
@@ -316,6 +330,23 @@ export class GameManager extends Component {
       GridManager.Instance.createLevel(levelData);
       this.wac.player = this.player;
       GridManager.Instance.updateGridState();
+
+      const tutorialString = LevelManager.Instance.getTutorial(
+        this.currentLevel + 1
+      );
+
+      this.levelTutorial.string =
+        tutorialString !== undefined ? tutorialString : "";
+
+      this.titleString = levelData.name
+        ? levelData.name
+        : "0-0 Level Title undefined";
+
+      this.levelTitle.getComponentInChildren(Label).string = this.titleString;
+
+      let worldId = parseInt(this.titleString);
+      if (worldId > 0) worldId = worldId - 1;
+      this.bg.updateBackground(worldId);
     }
   }
 
