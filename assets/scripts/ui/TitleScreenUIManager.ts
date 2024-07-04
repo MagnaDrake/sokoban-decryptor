@@ -156,6 +156,7 @@ export class TitleScreenUIManager extends Component {
     //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
     // );
     // this.hideJellyMenu();
+    this.hideJellyMenu();
     moveTo(this.loadSave, this.levelSelectorVisibleAnchor.worldPosition, 1);
   }
 
@@ -177,6 +178,7 @@ export class TitleScreenUIManager extends Component {
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     // );
     //  this.showJellyMenu();
+    this.showJellyMenu();
     moveTo(this.loadSave, this.levelSelectorHiddenAnchor.worldPosition, 1);
     this.loadSave.getComponent(SaveLoader).resetBox();
   }

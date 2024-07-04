@@ -7454,7 +7454,7 @@
     "_string": "Tutorial goes here",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 98.4375,
+    "_actualFontSize": 60,
     "_fontSize": 60,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -7604,7 +7604,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 700,
+      "width": 2500,
       "height": 200
     },
     "_anchorPoint": {
