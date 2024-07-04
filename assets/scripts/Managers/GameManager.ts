@@ -39,6 +39,7 @@ import { FRAME } from "../utils/anim";
 import { WinAnimationController } from "./WinAnimationController";
 import { UserDataManager } from "./UserDataManager";
 import { GameplayBackground } from "../objects/GameplayBackground";
+import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 export enum GameState {
@@ -107,14 +108,13 @@ export class GameManager extends Component {
 
   currentLevel = -1;
 
-  gameState: GameState;
+  gameState: GameState = GameState.LOADING;
 
   start() {
     // this.scheduleOnce(() => {
     //   this.loadLevelData(0);
     // }, 0.2);
     this.titleString = "";
-    this.gameState = GameState.READY;
   }
 
   onUndoKeyInput() {
@@ -306,7 +306,7 @@ export class GameManager extends Component {
       CommandManager.Instance.clearCommands();
       this.player.node.destroy();
       this.player = undefined;
-      this.loadLevelData(this.currentLevel);
+      this.loadLevelData(this.currentLevel, true);
       this.gameWinScreen.active = false;
       ss.exitTransition();
 
@@ -321,7 +321,7 @@ export class GameManager extends Component {
     this.pm.onPauseButtonClick();
   }
 
-  loadLevelData(id: number) {
+  loadLevelData(id: number, fromRestart = false) {
     this.currentLevel = id;
     const levelData = LevelManager.Instance.levelData[id];
     // console.log("load level data");
@@ -347,6 +347,15 @@ export class GameManager extends Component {
       let worldId = parseInt(this.titleString);
       if (worldId > 0) worldId = worldId - 1;
       this.bg.updateBackground(worldId);
+
+      const bgmKey = `${getAudioKeyString(AudioKeys.BGMGameplay)}-${worldId}`;
+      if (!fromRestart) {
+        AudioManager.Instance.stop();
+        AudioManager.Instance.play(bgmKey, 1, true);
+        this.scheduleOnce(() => {
+          this.gameState = GameState.READY;
+        }, FRAME * 15);
+      }
     }
   }
 

@@ -9,6 +9,8 @@ import {
   RotateDirection,
 } from "../interfaces/IPoint";
 import { getEmitterSpriteFromAttributes } from "../utils/LevelReader";
+import { AudioKeys, AudioManager } from "../Managers/AudioManager";
+import { GameManager, GameState } from "../Managers/GameManager";
 const { ccclass, property } = _decorator;
 
 export enum EmitterTypes {
@@ -117,5 +119,11 @@ export class Emitter extends Entity {
       // console.log("new rot", i, this.outputDirections[i]);
     }
     // console.log("update last output directions", this.lastOutputDirections);
+  }
+
+  onRotate(): void {
+    if (GameManager.Instance.gameState === GameState.READY) {
+      AudioManager.Instance.playOneShotRandom(AudioKeys.SFXRotate);
+    }
   }
 }

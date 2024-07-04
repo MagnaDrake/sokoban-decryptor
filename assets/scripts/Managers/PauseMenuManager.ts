@@ -5,6 +5,8 @@ import { isMobile } from "../utils/device";
 import { VirtualDpadController } from "../objects/VirtualDpad/VirtualDpadController";
 import { ScreenSwipeController } from "./ScreenSwipeController";
 import { FRAME, moveTo, moveToLocal } from "../utils/anim";
+import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
+import { UserDataManager } from "./UserDataManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("PauseMenuManager")
@@ -28,13 +30,27 @@ export class PauseMenuManager extends Component {
 
   isVirtualDpadOn = false;
 
+  // TODO
+  // pause menu managers should not immediately handle virtual dpad
+  // but technically it can if its called GAMEPLAY SETTINGS manager.
+  // we'll think about it later.
   onLoad(): void {
-    if (isMobile) {
-      this.virtualDpadToggleLabel.string = "On";
-      this.isVirtualDpadOn = true;
+    const userPrefs = UserDataManager.Instance.isVPadForceActive();
+
+    if (userPrefs === undefined) {
+      if (isMobile) {
+        this.vdp.active = true;
+        this.virtualDpadToggleLabel.string = "On";
+        this.isVirtualDpadOn = true;
+      } else {
+        this.vdp.active = false;
+        this.virtualDpadToggleLabel.string = "Off";
+        this.isVirtualDpadOn = false;
+      }
     } else {
-      this.virtualDpadToggleLabel.string = "Off";
-      this.isVirtualDpadOn = false;
+      this.vdp.active = userPrefs;
+      this.virtualDpadToggleLabel.string = userPrefs ? "On" : "Off";
+      this.isVirtualDpadOn = userPrefs;
     }
     this.pauseMenuContainer.active = true;
   }
@@ -64,6 +80,9 @@ export class PauseMenuManager extends Component {
     GameManager.Instance.onRestartLevelKeyInput();
   }
 
+  // TODO a lot of overlapping methods in loading scenes
+  // should have a helper function to do that instead
+  // later
   onBackClick() {
     const ss = ScreenSwipeController.Instance;
     ss.flip = true;
@@ -74,6 +93,12 @@ export class PauseMenuManager extends Component {
         uiManager!.fromGameplay = true;
         uiManager?.toggleLoadingScreen(false);
         uiManager?.openLevelSelector();
+        AudioManager.Instance.stop();
+        AudioManager.Instance.play(
+          getAudioKeyString(AudioKeys.BGMTitle),
+          1,
+          true
+        );
       });
       ss.exitTransition();
     }, FRAME * 60);

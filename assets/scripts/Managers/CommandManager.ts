@@ -1,5 +1,6 @@
 import { _decorator, Component, Node } from "cc";
 import { CommandBatch } from "../commands/CommandBatch";
+import { AudioKeys, AudioManager } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("CommandManager")
@@ -53,6 +54,7 @@ export class CommandManager extends Component {
     lastBatch.forEach((command) => {
       command.undo();
     });
+    AudioManager.Instance.playOneShotRandom(AudioKeys.SFXUndo);
   }
 
   appendAndExecuteCommandBatch(batch: CommandBatch) {

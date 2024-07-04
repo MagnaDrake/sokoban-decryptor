@@ -15,6 +15,7 @@ import { ScreenSwipeController } from "./ScreenSwipeController";
 import { TitleScreenUIManager } from "../ui/TitleScreenUIManager";
 import { Player, PlayerAnimKey } from "../objects/Player";
 import { FRAME } from "../utils/anim";
+import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("WinAnimationController")
@@ -40,6 +41,10 @@ export class WinAnimationController extends Component {
   // probably have to figure out callbacks instead of using schedule
   // definitely could refactor this in the future but its good enough for now
 
+  // TODO a lot of overlapping methods in loading scenes
+  // should have a helper function to do that instead
+  // later
+
   animateMask() {
     const easingProps: ITweenOption = {
       easing: easing.linear,
@@ -58,6 +63,13 @@ export class WinAnimationController extends Component {
               uiManager!.fromGameplay = true;
               uiManager?.toggleLoadingScreen(false);
               uiManager?.openLevelSelector();
+
+              AudioManager.Instance.stop();
+              AudioManager.Instance.play(
+                getAudioKeyString(AudioKeys.BGMTitle),
+                1,
+                true
+              );
             });
             ss.exitTransition();
           }, 1);
