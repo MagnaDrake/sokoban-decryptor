@@ -2,7 +2,6 @@ import { _decorator, Component, Node } from "cc";
 import { Command } from "./Command";
 import { Entity } from "../objects/Entity";
 import { GridManager } from "../Managers/GridManager";
-import { Tile } from "../objects/Tile";
 const { ccclass, property } = _decorator;
 
 @ccclass("MoveCommand")

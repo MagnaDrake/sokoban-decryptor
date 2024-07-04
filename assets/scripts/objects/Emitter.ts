@@ -9,6 +9,7 @@ import {
   RotateDirection,
 } from "../interfaces/IPoint";
 import { getEmitterSpriteFromAttributes } from "../utils/LevelReader";
+import { AudioKeys, AudioManager } from "../Managers/AudioManager";
 const { ccclass, property } = _decorator;
 
 export enum EmitterTypes {
@@ -117,5 +118,9 @@ export class Emitter extends Entity {
       // console.log("new rot", i, this.outputDirections[i]);
     }
     // console.log("update last output directions", this.lastOutputDirections);
+  }
+
+  onRotate(): void {
+    AudioManager.Instance.playOneShotRandom(AudioKeys.SFXRotate);
   }
 }

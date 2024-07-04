@@ -5,6 +5,7 @@ import { isMobile } from "../utils/device";
 import { VirtualDpadController } from "../objects/VirtualDpad/VirtualDpadController";
 import { ScreenSwipeController } from "./ScreenSwipeController";
 import { FRAME, moveTo, moveToLocal } from "../utils/anim";
+import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("PauseMenuManager")
@@ -64,6 +65,9 @@ export class PauseMenuManager extends Component {
     GameManager.Instance.onRestartLevelKeyInput();
   }
 
+  // TODO a lot of overlapping methods in loading scenes
+  // should have a helper function to do that instead
+  // later
   onBackClick() {
     const ss = ScreenSwipeController.Instance;
     ss.flip = true;
@@ -74,6 +78,12 @@ export class PauseMenuManager extends Component {
         uiManager!.fromGameplay = true;
         uiManager?.toggleLoadingScreen(false);
         uiManager?.openLevelSelector();
+        AudioManager.Instance.stop();
+        AudioManager.Instance.play(
+          getAudioKeyString(AudioKeys.BGMTitle),
+          1,
+          true
+        );
       });
       ss.exitTransition();
     }, FRAME * 60);

@@ -39,6 +39,7 @@ import { FRAME } from "../utils/anim";
 import { WinAnimationController } from "./WinAnimationController";
 import { UserDataManager } from "./UserDataManager";
 import { GameplayBackground } from "../objects/GameplayBackground";
+import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 export enum GameState {
@@ -347,6 +348,10 @@ export class GameManager extends Component {
       let worldId = parseInt(this.titleString);
       if (worldId > 0) worldId = worldId - 1;
       this.bg.updateBackground(worldId);
+
+      const bgmKey = `${getAudioKeyString(AudioKeys.BGMGameplay)}-${worldId}`;
+      AudioManager.Instance.stop();
+      AudioManager.Instance.play(bgmKey, 1, true);
     }
   }
 

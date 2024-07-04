@@ -12,6 +12,7 @@ import {
 import { ComicPanel } from "../objects/ComicPanel";
 import { ScreenSwipeController } from "./ScreenSwipeController";
 import { FRAME } from "../utils/anim";
+import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("IntroSceneController")
@@ -41,6 +42,8 @@ export class IntroSceneController extends Component {
 
   start() {
     this.scheduleOnce(this.showNextPanel, 1);
+    AudioManager.Instance.stop();
+    AudioManager.Instance.play(getAudioKeyString(AudioKeys.BGMTitle), 1, true);
   }
 
   onKeyDown(event: EventKeyboard) {

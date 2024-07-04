@@ -10,6 +10,10 @@ export enum AudioKeys {
   SFXLevelClear,
   SFXLevelFail,
   SFXFanfare,
+  BGMGameplay,
+  SFXWalk,
+  SFXRotate,
+  SFXUndo,
 }
 
 export const AudioKeyStrings = [
@@ -24,13 +28,26 @@ export const AudioKeyStrings = [
   "level-clear",
   "levelfail",
   "fanfare",
+  "bgm-gameplay",
+  "walk",
+  "rotate",
+  "undo",
 ];
 
 export function getAudioKeyString(key: AudioKeys) {
   return AudioKeyStrings[key];
 }
 
-import { Node, AudioSource, AudioClip, director, game, Enum } from "cc";
+import {
+  Node,
+  AudioSource,
+  AudioClip,
+  director,
+  game,
+  Enum,
+  randomRangeInt,
+  random,
+} from "cc";
 
 /**
  * @en
@@ -56,6 +73,8 @@ export class AudioManager {
 
   audioClips: Map<string, AudioClip>;
 
+  audioSampleVariations: Map<string, number>;
+
   node: Node;
 
   constructor() {
@@ -71,9 +90,11 @@ export class AudioManager {
 
     this.audioClips = new Map<string, AudioClip>();
 
+    this.audioSampleVariations = new Map<string, number>();
+
     //@en make it as a persistent node, so it won't be destroied when scene change.
     //@zh 标记为常驻节点，这样场景切换的时候就不会被销毁了
-    game.addPersistRootNode(audioMgr);
+    director.addPersistRootNode(audioMgr);
 
     //@en add AudioSource componrnt to play audios.
     //@zh 添加 AudioSource 组件，用于播放音频。
@@ -110,6 +131,20 @@ export class AudioManager {
       //     }
       //   });
     }
+  }
+
+  /**
+   * Driver method to play audio with multiple variations
+   * For playing specific audio sample use playOneShot instead
+   * @param key
+   * @param volume
+   */
+  playOneShotRandom(key: AudioKeys, volume: number = 1.0) {
+    const stringKey = getAudioKeyString(key);
+    const vars = this.audioSampleVariations.get(stringKey);
+    const randomKey = `${stringKey}-${randomRangeInt(0, vars)}`;
+
+    this.playOneShot(randomKey, volume);
   }
 
   /**
@@ -168,6 +203,10 @@ export class AudioManager {
    */
   resume() {
     this._audioSource.play();
+  }
+
+  setSamples(key: string, variations: number) {
+    this.audioSampleVariations.set(key, variations);
   }
 
   addAudioClip(key: string, clip: AudioClip) {

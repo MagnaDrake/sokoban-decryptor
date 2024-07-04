@@ -16,6 +16,11 @@ import {
   getRotationFromDirection,
   RotateDirection,
 } from "../interfaces/IPoint";
+import {
+  AudioKeys,
+  AudioManager,
+  getAudioKeyString,
+} from "../Managers/AudioManager";
 const { ccclass, property } = _decorator;
 
 export enum PlayerAnimKey {
@@ -51,6 +56,9 @@ export class Player extends Entity {
       if (this.expression !== PlayerAnimKey.VICTORY) {
         this.anim.stop();
         this.playAnim(PlayerAnimKey.VICTORY);
+        AudioManager.Instance.playOneShot(
+          getAudioKeyString(AudioKeys.awawawawa)
+        );
         this.scheduleOnce(() => {
           if (this.expression === PlayerAnimKey.VICTORY) {
             this.playAnim(this.lastIdleExpression);
@@ -78,6 +86,7 @@ export class Player extends Entity {
   }
 
   onMove(): void {
+    AudioManager.Instance.playOneShotRandom(AudioKeys.SFXWalk);
     this.anim.stop();
     this.unschedule(this.setToIdle);
     let key;
