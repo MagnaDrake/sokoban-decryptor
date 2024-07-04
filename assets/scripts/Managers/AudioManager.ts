@@ -48,6 +48,7 @@ import {
   randomRangeInt,
   random,
 } from "cc";
+import { UserDataManager } from "./UserDataManager";
 
 /**
  * @en
@@ -99,6 +100,11 @@ export class AudioManager {
     //@en add AudioSource componrnt to play audios.
     //@zh 添加 AudioSource 组件，用于播放音频。
     this._audioSource = audioMgr.addComponent(AudioSource);
+
+    const volSettings = UserDataManager.Instance.getVolumeSettings();
+
+    this.masterVolume = volSettings.mVol;
+    this.sfxVolume = volSettings.sVol;
   }
 
   public get audioSource() {
@@ -218,17 +224,19 @@ export class AudioManager {
     return this.node;
   }
 
-  adjustBGMVolume(value: number) {
+  adjustMusicVolume(value: number) {
     if (value <= 0.1) {
       value = 0.001;
     }
     this.masterVolume = value;
     this.sfxVolume = this.sfxVolumeRatio / this.masterVolume;
     this._audioSource.volume = this.masterVolume;
+    UserDataManager.Instance.setVolume("mVol", this.masterVolume);
   }
 
   adjustSFXVolume(value: number) {
     this.sfxVolumeRatio = value;
     this.sfxVolume = this.sfxVolumeRatio / this.masterVolume;
+    UserDataManager.Instance.setVolume("sVol", this.sfxVolume);
   }
 }

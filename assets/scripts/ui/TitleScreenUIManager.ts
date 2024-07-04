@@ -41,11 +41,9 @@ export class TitleScreenUIManager extends Component {
   loadSave!: Node;
 
   @property(Node)
-  volumeControl!: Node;
-  fromGameplay = false;
+  settingsPanel!: Node;
 
-  //   @property(BlackScreen)
-  //   blackScreen!: BlackScreen;
+  fromGameplay = false;
 
   protected onLoad(): void {
     this.jellySprite.setWorldPosition(this.jellyHiddenAnchor.worldPosition);
@@ -56,12 +54,11 @@ export class TitleScreenUIManager extends Component {
     this.creditsLabels.setWorldPosition(
       this.levelSelectorHiddenAnchor.worldPosition
     );
-    //  this.blackScreen.toggleVisibility(true);
     this.loadSave.setWorldPosition(
       this.levelSelectorHiddenAnchor.worldPosition
     );
 
-    this.volumeControl.setWorldPosition(
+    this.settingsPanel.setWorldPosition(
       this.levelSelectorHiddenAnchor.worldPosition
     );
   }
@@ -177,7 +174,7 @@ export class TitleScreenUIManager extends Component {
     // this.blackScreen.toggleVisibility(value);
   }
 
-  showVolumeControl() {
+  showSettingsPanel() {
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
     // );
@@ -187,13 +184,13 @@ export class TitleScreenUIManager extends Component {
 
     this.hideJellyMenu();
     moveTo(
-      this.volumeControl,
+      this.settingsPanel,
       this.levelSelectorVisibleAnchor.worldPosition,
       1
     );
   }
 
-  hideVolumeControl() {
+  hideSettingsPanel() {
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
     // );
@@ -201,7 +198,7 @@ export class TitleScreenUIManager extends Component {
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     // );
     this.showJellyMenu();
-    moveTo(this.volumeControl, this.levelSelectorHiddenAnchor.worldPosition, 1);
+    moveTo(this.settingsPanel, this.levelSelectorHiddenAnchor.worldPosition, 1);
   }
 
   update(deltaTime: number) {}

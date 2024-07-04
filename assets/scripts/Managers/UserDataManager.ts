@@ -40,6 +40,12 @@ export class UserDataManager {
         localStorage.setItem("userData", save(data.completedLevels));
         this.saveCode = localStorage.getItem("userData");
       }
+
+      const mVol = localStorage.getItem("mVol");
+      const sVol = localStorage.getItem("sVol");
+
+      if (!mVol) localStorage.setItem("mVol", "1");
+      if (!sVol) localStorage.setItem("sVol", "1");
     } else {
       console.log(
         "localStorage is not available! Progress will be lost once the game is closed."
@@ -111,5 +117,19 @@ export class UserDataManager {
         storage.length !== 0
       );
     }
+  }
+
+  getVolumeSettings() {
+    let mVol = parseInt(localStorage.getItem("mVol"));
+    let sVol = parseInt(localStorage.getItem("sVol"));
+
+    if (isNaN(mVol)) mVol = 1;
+    if (isNaN(sVol)) mVol = 1;
+
+    return { mVol, sVol };
+  }
+
+  setVolume(key: string, value: number) {
+    localStorage.setItem(key, value.toString());
   }
 }
