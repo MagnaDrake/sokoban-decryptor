@@ -154,7 +154,6 @@ export class GameManager extends Component {
   }
 
   onMovementKeyInput(keyCode: KeyCode) {
-    console.log(this.gameState === GameState.READY);
     if (this.gameState !== GameState.READY) return;
 
     let direction;
