@@ -1,6 +1,8 @@
-import { _decorator, Component, Node, tween, UIOpacity } from "cc";
+import { _decorator, Component, Label, Node, tween, UIOpacity } from "cc";
 import { moveTo } from "../utils/anim";
 import { SaveLoader } from "../objects/SaveLoader";
+import { isMobile } from "../utils/device";
+import { UserDataManager } from "../Managers/UserDataManager";
 //import { BlackScreen } from "./BlackScreen";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
@@ -43,6 +45,9 @@ export class TitleScreenUIManager extends Component {
   @property(Node)
   settingsPanel!: Node;
 
+  @property(Label)
+  vpadLabel: Label;
+
   fromGameplay = false;
 
   protected onLoad(): void {
@@ -61,6 +66,8 @@ export class TitleScreenUIManager extends Component {
     this.settingsPanel.setWorldPosition(
       this.levelSelectorHiddenAnchor.worldPosition
     );
+
+    UserDataManager.Instance.saveVpadSettings(isMobile);
   }
   start() {
     // AudioManager.Instance.play(
@@ -72,6 +79,10 @@ export class TitleScreenUIManager extends Component {
     if (!this.fromGameplay) {
       this.showJellyMenu();
     }
+
+    this.vpadLabel.string = UserDataManager.Instance.isVPadForceActive()
+      ? "On"
+      : "Off";
     //   this.blackScreen.toggleVisibility(false);
   }
 
@@ -199,6 +210,16 @@ export class TitleScreenUIManager extends Component {
     // );
     this.showJellyMenu();
     moveTo(this.settingsPanel, this.levelSelectorHiddenAnchor.worldPosition, 1);
+  }
+
+  toggleVpad() {
+    if (UserDataManager.Instance.isVPadForceActive()) {
+      this.vpadLabel.string = "Off";
+      UserDataManager.Instance.saveVpadSettings(false);
+    } else {
+      this.vpadLabel.string = "On";
+      UserDataManager.Instance.saveVpadSettings(true);
+    }
   }
 
   update(deltaTime: number) {}

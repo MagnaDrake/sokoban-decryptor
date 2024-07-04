@@ -132,4 +132,18 @@ export class UserDataManager {
   setVolume(key: string, value: number) {
     localStorage.setItem(key, value.toString());
   }
+
+  isVPadForceActive() {
+    const prefs = localStorage.getItem("vPadOn");
+    if (prefs !== undefined) {
+      return prefs === "true";
+    } else {
+      return undefined;
+    }
+  }
+
+  saveVpadSettings(value: boolean) {
+    const item = value ? "true" : "false";
+    localStorage.setItem("vPadOn", item);
+  }
 }

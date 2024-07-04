@@ -3,6 +3,7 @@ import { DPadType, VirtualDpad, VirtualDPadEvents } from "./VirtualDpad";
 import { GameManager } from "../../Managers/GameManager";
 import { isMobile } from "../../utils/device";
 import { FRAME } from "../../utils/anim";
+import { UserDataManager } from "../../Managers/UserDataManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("VirtualDpadController")
@@ -15,6 +16,7 @@ export class VirtualDpadController extends Component {
   set active(value: boolean) {
     this._isActive = value;
     this.node.active = value;
+    UserDataManager.Instance.saveVpadSettings(this.active);
   }
 
   get active() {
@@ -25,12 +27,6 @@ export class VirtualDpadController extends Component {
     this.dpads.forEach((pad) => {
       this.setupPads(pad.node);
     });
-
-    if (isMobile) {
-      this.active = true;
-    } else {
-      this.active = false;
-    }
   }
 
   keyCooldown = false;

@@ -6,6 +6,7 @@ import { VirtualDpadController } from "../objects/VirtualDpad/VirtualDpadControl
 import { ScreenSwipeController } from "./ScreenSwipeController";
 import { FRAME, moveTo, moveToLocal } from "../utils/anim";
 import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
+import { UserDataManager } from "./UserDataManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("PauseMenuManager")
@@ -29,13 +30,27 @@ export class PauseMenuManager extends Component {
 
   isVirtualDpadOn = false;
 
+  // TODO
+  // pause menu managers should not immediately handle virtual dpad
+  // but technically it can if its called GAMEPLAY SETTINGS manager.
+  // we'll think about it later.
   onLoad(): void {
-    if (isMobile) {
-      this.virtualDpadToggleLabel.string = "On";
-      this.isVirtualDpadOn = true;
+    const userPrefs = UserDataManager.Instance.isVPadForceActive();
+
+    if (userPrefs === undefined) {
+      if (isMobile) {
+        this.vdp.active = true;
+        this.virtualDpadToggleLabel.string = "On";
+        this.isVirtualDpadOn = true;
+      } else {
+        this.vdp.active = false;
+        this.virtualDpadToggleLabel.string = "Off";
+        this.isVirtualDpadOn = false;
+      }
     } else {
-      this.virtualDpadToggleLabel.string = "Off";
-      this.isVirtualDpadOn = false;
+      this.vdp.active = userPrefs;
+      this.virtualDpadToggleLabel.string = userPrefs ? "On" : "Off";
+      this.isVirtualDpadOn = userPrefs;
     }
     this.pauseMenuContainer.active = true;
   }
