@@ -10,6 +10,7 @@ import {
 } from "../interfaces/IPoint";
 import { getEmitterSpriteFromAttributes } from "../utils/LevelReader";
 import { AudioKeys, AudioManager } from "../Managers/AudioManager";
+import { GameManager, GameState } from "../Managers/GameManager";
 const { ccclass, property } = _decorator;
 
 export enum EmitterTypes {
@@ -121,6 +122,8 @@ export class Emitter extends Entity {
   }
 
   onRotate(): void {
-    AudioManager.Instance.playOneShotRandom(AudioKeys.SFXRotate);
+    if (GameManager.Instance.gameState === GameState.READY) {
+      AudioManager.Instance.playOneShotRandom(AudioKeys.SFXRotate);
+    }
   }
 }
