@@ -1,8 +1,18 @@
-import { _decorator, Component, Label, Node, tween, UIOpacity } from "cc";
-import { moveTo } from "../utils/anim";
+import {
+  _decorator,
+  Component,
+  director,
+  Label,
+  Node,
+  tween,
+  UIOpacity,
+  Vec3,
+} from "cc";
+import { FRAME, moveTo } from "../utils/anim";
 import { SaveLoader } from "../objects/SaveLoader";
 import { isMobile } from "../utils/device";
 import { UserDataManager } from "../Managers/UserDataManager";
+import { ScreenSwipeController } from "../Managers/ScreenSwipeController";
 //import { BlackScreen } from "./BlackScreen";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
@@ -47,6 +57,12 @@ export class TitleScreenUIManager extends Component {
 
   @property(Label)
   vpadLabel: Label;
+
+  @property(Node)
+  replayContainerNode: Node;
+
+  @property(Node)
+  replayEndingNode: Node;
 
   fromGameplay = false;
 
@@ -222,6 +238,44 @@ export class TitleScreenUIManager extends Component {
       this.vpadLabel.string = "On";
       UserDataManager.Instance.saveVpadSettings(true);
     }
+  }
+
+  toggleReplayEndingButtonVisibility(value: boolean) {
+    if (value) {
+      this.replayEndingNode.active = true;
+      this.replayContainerNode.setPosition(
+        new Vec3(-128, this.replayContainerNode.position.y, 0)
+      );
+    } else {
+      this.replayEndingNode.active = false;
+      this.replayContainerNode.setPosition(
+        new Vec3(-300, this.replayContainerNode.position.y, 0)
+      );
+    }
+  }
+
+  onReplayIntro() {
+    const ss = ScreenSwipeController.Instance;
+
+    ss.enterTransition();
+
+    this.scheduleOnce(() => {
+      director.loadScene("intro", () => {
+        ss.exitTransition();
+      });
+    }, 1 * FRAME * 60);
+  }
+
+  onReplayEnding() {
+    const ss = ScreenSwipeController.Instance;
+
+    ss.enterTransition();
+
+    this.scheduleOnce(() => {
+      director.loadScene("ending", () => {
+        ss.exitTransition();
+      });
+    }, 1 * FRAME * 60);
   }
 
   update(deltaTime: number) {}
