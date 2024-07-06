@@ -110,10 +110,6 @@ export class UserDataManager {
   }
 
   saveUserData(data: UserSaveData) {
-    // data.completedLevels = [
-    //   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
-    // ];
-
     const hasFinishedGame = this.checkFinishGame(data.completedLevels);
 
     console.log("has finished game!", hasFinishedGame);
@@ -126,8 +122,12 @@ export class UserDataManager {
 
     const saveDataArray = [...data.completedLevels] as any[];
 
-    if (hasClear) {
+    if (hasFinishedGame) {
       saveDataArray.push(SaveFlags.FinishedGame);
+    }
+
+    if (hasClear) {
+      saveDataArray.push(SaveFlags.Clear100P);
     }
 
     if (data.hasWatchedEnding) {

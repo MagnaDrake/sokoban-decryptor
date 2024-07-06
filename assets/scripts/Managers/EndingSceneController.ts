@@ -2,29 +2,45 @@ import { _decorator, Component, director, Input, input, Node } from "cc";
 import { IntroSceneController } from "./IntroSceneController";
 import { UserDataManager } from "./UserDataManager";
 import { ScreenSwipeController } from "./ScreenSwipeController";
+import { ComicPanel } from "../objects/ComicPanel";
 const { ccclass, property } = _decorator;
 
 @ccclass("EndingSceneController")
 export class EndingSceneController extends IntroSceneController {
-  goToTitle(delay?: number): void {
+  start() {
     const saveData = UserDataManager.Instance.getUserData();
     saveData.hasWatchedEnding = true;
     UserDataManager.Instance.saveUserData(saveData);
-    super.goToTitle();
-    //     this.skipButton.active = false;
-    //     const ss = ScreenSwipeController.Instance;
-    //     ss.enterTransition();
-    //     input.off(Input.EventType.KEY_DOWN, this.onKeyDown, this);
-    //     this.node.off(Input.EventType.TOUCH_START, this.onScreenTap, this);
-    //     // this.comicPanels.forEach((panel) => {
-    //     //   panel.getComponent(ComicPanel).stopTween();
-    //     //   panel.getComponent(ComicPanel).fadeOut();
-    //     // });
-    //     this.scheduleOnce(() => {
-    //       director.loadScene("title", () => {
-    //         ss.exitTransition();
-    //       });
-    //     }, 1.5);
-    //   }
+  }
+
+  // JANK
+  // ending and intro scene should be controlled by the same class
+  // but the intro scene has a very specific panel that needs to show two panels at once
+  // but ending doesnt
+  // we'll figure it out later
+
+  showNextPanel() {
+    if (this.panelOrder > 14) {
+      if (!this.finish) {
+        this.finish = true;
+        this.goToTitle();
+      }
+    } else {
+      if (this.panelOrder === 0) {
+        this.tapNotice.fadeIn();
+      } else {
+        this.tapNotice.fadeOut();
+      }
+
+      if (this.lastPanel?.isValid) {
+        this.lastPanel.stopTween();
+        this.lastPanel.uiOpacity.opacity = 255;
+        this.tapNotice.uiOpacity.opacity = 0;
+      }
+      this.lastPanel =
+        this.comicPanels[this.panelOrder].getComponent(ComicPanel);
+      this.lastPanel.fadeIn();
+      this.panelOrder++;
+    }
   }
 }

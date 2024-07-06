@@ -4,6 +4,8 @@ import {
   director,
   Label,
   Node,
+  Sprite,
+  SpriteFrame,
   tween,
   UIOpacity,
   Vec3,
@@ -20,6 +22,12 @@ const { ccclass, property } = _decorator;
 
 @ccclass("TitleScreenUIManager")
 export class TitleScreenUIManager extends Component {
+  @property(Sprite)
+  titleBG: Sprite;
+
+  @property([SpriteFrame])
+  bgs: SpriteFrame[] = [];
+
   @property(Node)
   jellyHiddenAnchor!: Node;
 
@@ -106,12 +114,14 @@ export class TitleScreenUIManager extends Component {
       ? "On"
       : "Off";
 
-    const hasClearedGame =
-      UserDataManager.Instance.getUserData().completedLevels.includes["FC"];
+    const hasFinishedGame =
+      UserDataManager.Instance.getUserData().hasFinishedGame;
 
-    this.toggleReplayEndingButtonVisibility(hasClearedGame);
+    this.toggleReplayEndingButtonVisibility(hasFinishedGame);
 
-    this.toggleNextPageButtonVisibility(hasClearedGame);
+    this.toggleNextPageButtonVisibility(hasFinishedGame);
+
+    this.toggleBackgroundChange(hasFinishedGame);
 
     //   this.blackScreen.toggleVisibility(false);
   }
@@ -307,6 +317,14 @@ export class TitleScreenUIManager extends Component {
     this.levelSelector
       .getComponent(LevelSelector)
       .showPage(this.activeLevelPage);
+  }
+
+  toggleBackgroundChange(value: boolean) {
+    if (!value) {
+      this.titleBG.spriteFrame = this.bgs[0];
+    } else {
+      this.titleBG.spriteFrame = this.bgs[0];
+    }
   }
 
   update(deltaTime: number) {}

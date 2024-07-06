@@ -286,10 +286,7 @@ export class GameManager extends Component {
     this.saveWin();
 
     this.scheduleOnce(() => {
-      const saveData = UserDataManager.Instance.getUserData();
-      console.log(saveData);
-      console.log(saveData.hasFinishedGame);
-      if (UserDataManager.Instance.getUserData(true).hasFinishedGame) {
+      if (UserDataManager.Instance.getUserData().hasFinishedGame) {
         console.log("has win");
         this.wac.triggerWin(true);
       } else {

@@ -555,6 +555,19 @@
     },
     "_enabled": true,
     "__prefab": null,
+    "titleBG": {
+      "__id__": 7
+    },
+    "bgs": [
+      {
+        "__uuid__": "6ca1509d-f0f1-460a-8226-c14e2a2733ea@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      },
+      {
+        "__uuid__": "abbd0fbc-d5c0-43fc-9f99-4c4d3d3c7c03@f9941",
+        "__expectedType__": "cc.SpriteFrame"
+      }
+    ],
     "jellyHiddenAnchor": null,
     "jellyVisibleAnchor": null,
     "titleHiddenAnchor": null,
