@@ -78,6 +78,7 @@ export class WinAnimationController extends Component {
                   scene?.getComponentInChildren(TitleScreenUIManager);
                 uiManager!.fromGameplay = true;
                 uiManager?.toggleLoadingScreen(false);
+                console.log(page);
                 uiManager?.openLevelSelector(page);
 
                 AudioManager.Instance.stop();

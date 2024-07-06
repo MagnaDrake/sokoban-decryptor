@@ -153,7 +153,9 @@ export class LevelSelector extends Component {
   //TODO
 
   updateLevelData() {
-    this.saveData = UserDataManager.Instance.getUserData();
+    this.saveData = UserDataManager.Instance.getUserData(true);
+
+    console.log(this.saveData);
 
     for (let i = 0; i < this.levelItems.length; i++) {
       const item = this.levelItems[i];

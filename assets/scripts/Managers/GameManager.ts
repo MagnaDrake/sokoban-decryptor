@@ -115,7 +115,6 @@ export class GameManager extends Component {
     // this.scheduleOnce(() => {
     //   this.loadLevelData(0);
     // }, 0.2);
-    this.titleString = "";
   }
 
   onUndoKeyInput() {
@@ -282,19 +281,23 @@ export class GameManager extends Component {
 
   onWinLevel() {
     if (this.hasShownWin) return;
+
+    console.log(this.titleString);
+    let worldId = parseInt(this.titleString.charAt(0));
+    console.log(worldId);
     this.gameState = GameState.WIN;
     this.saveWin();
-    let worldId = parseInt(this.titleString.charAt(0));
+
     const page = worldId === 4 ? 1 : 0;
+    console.log("page", page);
+
     this.scheduleOnce(() => {
       if (
         UserDataManager.Instance.getUserData().hasFinishedGame &&
         !UserDataManager.Instance.getUserData().hasWatchedEnding
       ) {
-        console.log("has win");
         this.wac.triggerWin(true);
       } else {
-        console.log("belom menand");
         this.wac.triggerWin(false, page);
       }
       this.hasShownWin = true;
