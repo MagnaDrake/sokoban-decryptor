@@ -344,7 +344,9 @@ export class TitleScreenUIManager extends Component {
 
   showExPopup() {
     moveTo(this.exPopup, this.levelSelectorVisibleAnchor.worldPosition, 1);
+    localStorage.setItem("expopup", "true");
   }
+
   closeExPopup() {
     this.exPopup.active = false;
   }

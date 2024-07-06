@@ -10,11 +10,12 @@ import {
   Node,
   tween,
   UITransform,
+  Vec3,
 } from "cc";
 import { ScreenSwipeController } from "./ScreenSwipeController";
 import { TitleScreenUIManager } from "../ui/TitleScreenUIManager";
 import { Player, PlayerAnimKey } from "../objects/Player";
-import { FRAME } from "../utils/anim";
+import { FRAME, moveToLocal } from "../utils/anim";
 import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
@@ -50,7 +51,11 @@ export class WinAnimationController extends Component {
       easing: easing.linear,
       onComplete: () => {
         this.scheduleOnce(() => {
-          this.winGameScreen.active = true;
+          moveToLocal(this.winGameScreen, new Vec3(0, 0, 0), 1, () => {
+            this.scheduleOnce(() => {
+              moveToLocal(this.winGameScreen, new Vec3(1000, 0, 0), 1);
+            }, 15 * FRAME);
+          });
         }, 1.5);
 
         this.scheduleOnce(() => {
