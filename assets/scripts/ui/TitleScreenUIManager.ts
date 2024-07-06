@@ -99,6 +99,11 @@ export class TitleScreenUIManager extends Component {
     this.vpadLabel.string = UserDataManager.Instance.isVPadForceActive()
       ? "On"
       : "Off";
+
+    this.toggleReplayEndingButtonVisibility(
+      UserDataManager.Instance.getUserData().completedLevels.includes["FC"]
+    );
+
     //   this.blackScreen.toggleVisibility(false);
   }
 
@@ -244,12 +249,12 @@ export class TitleScreenUIManager extends Component {
     if (value) {
       this.replayEndingNode.active = true;
       this.replayContainerNode.setPosition(
-        new Vec3(-128, this.replayContainerNode.position.y, 0)
+        new Vec3(-300, this.replayContainerNode.position.y, 0)
       );
     } else {
       this.replayEndingNode.active = false;
       this.replayContainerNode.setPosition(
-        new Vec3(-300, this.replayContainerNode.position.y, 0)
+        new Vec3(-128, this.replayContainerNode.position.y, 0)
       );
     }
   }

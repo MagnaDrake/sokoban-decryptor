@@ -2,6 +2,12 @@ import { _decorator, Component, Node } from "cc";
 import { encodeSaveData, load, save } from "../utils/savedata";
 const { ccclass, property } = _decorator;
 
+export enum SaveFlags {
+  ClearFirst = "CF",
+  Clear100P = "CA",
+  HasWatchedEnding = "EW",
+}
+
 export interface UserSaveData {
   completedLevels: number[];
   perfectLevels: number[];

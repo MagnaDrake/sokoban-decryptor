@@ -1,9 +1,21 @@
-import { _decorator, Component, director, instantiate, Node, Prefab, CCBoolean } from "cc";
+import {
+  _decorator,
+  Component,
+  director,
+  instantiate,
+  Node,
+  Prefab,
+  CCBoolean,
+  CCString,
+  Layout,
+} from "cc";
 import { LevelItem } from "./LevelItem";
 import { GameManager } from "../../Managers/GameManager";
 import { ScreenSwipeController } from "../../Managers/ScreenSwipeController";
 import { FRAME } from "../../utils/anim";
 import { UserDataManager } from "../../Managers/UserDataManager";
+import { WorldInfo } from "../../WorldInfo";
+import { LevelWorldContainer } from "../../objects/LevelWorldContainer";
 //import { GameManager } from "./GameManager";
 //import { TitleScreenUIManager } from "./TitleScreenUIManager";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
@@ -18,13 +30,19 @@ export interface UserSaveData {
 @ccclass("LevelSelector")
 export class LevelSelector extends Component {
   @property(Node)
-  levelsContainer!: Node;
+  worldsContainer!: Node;
 
   @property(Prefab)
   levelItem!: Prefab;
 
+  @property(Prefab)
+  levelWorldContainer!: Prefab;
+
   @property(CCBoolean)
   unlockAllLevels!: boolean;
+
+  @property([WorldInfo])
+  worldTitles: WorldInfo[] = [];
 
   saveData!: UserSaveData;
 
@@ -37,17 +55,63 @@ export class LevelSelector extends Component {
   generateLevelGrid() {
     this.saveData = UserDataManager.Instance.getUserData();
 
-    this.createLevelItems(50);
+    this.createWorldDisplays();
+
+    this.createLevelItems();
+
+    // read world amount
+    // read total level
+    // create level item total
+    // creat world items
+    // assign level item to world
+    // put world items to display layout
+
+    // for extra world, instead create a separate level selector
+    // then title ui manager switches between normal and extra
   }
 
-  createLevelItems(amount: number) {
+  createWorldDisplays() {
+    this.worldTitles.forEach((world) => {
+      const worldDisplay = instantiate(this.levelWorldContainer);
+      const worldItem = worldDisplay.getComponent(LevelWorldContainer);
+      worldItem.setLineGraphicColor(world.color);
+      worldItem.setLevelTitle(world.title);
+      worldDisplay.setParent(this.worldsContainer);
+    });
+  }
+
+  createLevelItems() {
+    let amount = 0;
+    let levelPerWorld = [];
+
+    this.worldTitles.forEach((world) => {
+      amount += world.levelAmount;
+      const lv = amount + 0; //im not sure if i need to do this. i forgot if js numbers are referential or primitive
+      levelPerWorld.push(lv);
+    });
+
+    let worldCounter = 0;
+
+    const worlds = this.worldsContainer.children;
+
     for (let i = 0; i < amount; i++) {
+      if (i >= levelPerWorld[worldCounter]) worldCounter++;
+
+      console.log(worldCounter);
+
+      const levelWorld = worlds[worldCounter].getComponent(LevelWorldContainer);
+      console.log(levelWorld);
+
       const levelItem = instantiate(this.levelItem);
-      levelItem.setParent(this.levelsContainer);
+
+      levelWorld.addLevelItem(levelItem.getComponent(LevelItem));
+      // levelItem.setParent(this.worldsContainer);
       levelItem.active = true;
 
       const clearLevels = this.saveData?.completedLevels?.length || 0;
-      const threshold = this.unlockAllLevels ? 1000: (Math.floor(clearLevels / 3) + 1) * 5;
+      const threshold = this.unlockAllLevels
+        ? 1000
+        : (Math.floor(clearLevels / 3) + 1) * 5;
 
       if (i < threshold) {
         levelItem.getComponent(LevelItem)?.toggleLocked(false);
