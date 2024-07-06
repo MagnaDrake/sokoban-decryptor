@@ -28,13 +28,13 @@ export class WinAnimationController extends Component {
 
   player: Player;
 
-  triggerWin(sendToEnding = false) {
+  triggerWin(sendToEnding = false, page = 0) {
     this.scheduleOnce(() => {
       this.player.anim.stop();
       this.player.unschedule(this.player.setToIdle);
       this.player.playAnim(PlayerAnimKey.VICTORY);
     }, FRAME * 15);
-    this.animateMask(sendToEnding);
+    this.animateMask(sendToEnding, page);
   }
 
   // TODO
@@ -45,7 +45,7 @@ export class WinAnimationController extends Component {
   // should have a helper function to do that instead
   // later
 
-  animateMask(sendToEnding) {
+  animateMask(sendToEnding: boolean, page: number) {
     const easingProps: ITweenOption = {
       easing: easing.linear,
       onComplete: () => {
@@ -68,13 +68,12 @@ export class WinAnimationController extends Component {
                 );
               });
             } else {
-              console.log("not send to ending");
               director.loadScene("title", (e, scene) => {
                 const uiManager =
                   scene?.getComponentInChildren(TitleScreenUIManager);
                 uiManager!.fromGameplay = true;
                 uiManager?.toggleLoadingScreen(false);
-                uiManager?.openLevelSelector();
+                uiManager?.openLevelSelector(page);
 
                 AudioManager.Instance.stop();
                 AudioManager.Instance.play(

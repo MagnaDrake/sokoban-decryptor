@@ -8,6 +8,7 @@ const { ccclass, property } = _decorator;
 @ccclass("EndingSceneController")
 export class EndingSceneController extends IntroSceneController {
   start() {
+    this.scheduleOnce(this.showNextPanel, 1);
     const saveData = UserDataManager.Instance.getUserData();
     saveData.hasWatchedEnding = true;
     UserDataManager.Instance.saveUserData(saveData);
@@ -20,7 +21,7 @@ export class EndingSceneController extends IntroSceneController {
   // we'll figure it out later
 
   showNextPanel() {
-    if (this.panelOrder > 14) {
+    if (this.panelOrder > 9) {
       if (!this.finish) {
         this.finish = true;
         this.goToTitle();

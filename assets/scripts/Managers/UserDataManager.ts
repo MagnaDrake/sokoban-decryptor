@@ -234,8 +234,8 @@ export class UserDataManager {
   }
 
   getVolumeSettings() {
-    let mVol = parseInt(localStorage.getItem("mVol"));
-    let sVol = parseInt(localStorage.getItem("sVol"));
+    let mVol = parseFloat(localStorage.getItem("mVol"));
+    let sVol = parseFloat(localStorage.getItem("sVol"));
 
     if (isNaN(mVol)) mVol = 1;
     if (isNaN(sVol)) mVol = 1;

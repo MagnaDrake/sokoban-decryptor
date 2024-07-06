@@ -284,14 +284,18 @@ export class GameManager extends Component {
     if (this.hasShownWin) return;
     this.gameState = GameState.WIN;
     this.saveWin();
-
+    let worldId = parseInt(this.titleString.charAt(0));
+    const page = worldId === 4 ? 1 : 0;
     this.scheduleOnce(() => {
-      if (UserDataManager.Instance.getUserData().hasFinishedGame) {
+      if (
+        UserDataManager.Instance.getUserData().hasFinishedGame &&
+        !UserDataManager.Instance.getUserData().hasWatchedEnding
+      ) {
         console.log("has win");
         this.wac.triggerWin(true);
       } else {
         console.log("belom menand");
-        this.wac.triggerWin(false);
+        this.wac.triggerWin(false, page);
       }
       this.hasShownWin = true;
     }, FRAME);
@@ -354,7 +358,7 @@ export class GameManager extends Component {
 
       this.levelTitle.getComponentInChildren(Label).string = this.titleString;
 
-      let worldId = parseInt(this.titleString);
+      let worldId = parseInt(this.titleString.charAt(0));
       if (worldId > 0) worldId = worldId - 1;
       this.bg.updateBackground(worldId);
 

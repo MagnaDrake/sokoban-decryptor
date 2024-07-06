@@ -301,7 +301,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "6ca1509d-f0f1-460a-8226-c14e2a2733ea@f9941",
+      "__uuid__": "abbd0fbc-d5c0-43fc-9f99-4c4d3d3c7c03@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -3114,7 +3114,7 @@
       "__id__": 8
     },
     "component": "",
-    "_componentId": "efc89HH5LdDt7OT+RNcvrCU",
+    "_componentId": "ec9d990eBpCJ6yb+QDbjbqt",
     "handler": "goToTitle",
     "customEventData": "2"
   },
@@ -3151,18 +3151,36 @@
     "_enabled": true,
     "__prefab": null,
     "comicPanels": [
-      null,
       {
         "__id__": 9
       },
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null,
-      null
+      {
+        "__id__": 25
+      },
+      {
+        "__id__": 41
+      },
+      {
+        "__id__": 57
+      },
+      {
+        "__id__": 73
+      },
+      {
+        "__id__": 89
+      },
+      {
+        "__id__": 105
+      },
+      {
+        "__id__": 121
+      },
+      {
+        "__id__": 137
+      },
+      {
+        "__id__": 153
+      }
     ],
     "tapNotice": {
       "__id__": 171

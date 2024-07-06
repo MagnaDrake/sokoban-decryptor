@@ -76,6 +76,9 @@ export class TitleScreenUIManager extends Component {
   @property(Node)
   nextPageButton: Node;
 
+  @property(Node)
+  exPopup: Node;
+
   fromGameplay = false;
 
   activeLevelPage = 0;
@@ -117,16 +120,24 @@ export class TitleScreenUIManager extends Component {
     const hasFinishedGame =
       UserDataManager.Instance.getUserData().hasFinishedGame;
 
+    const hasWatchedEnding =
+      UserDataManager.Instance.getUserData().hasWatchedEnding;
+
     this.toggleReplayEndingButtonVisibility(hasFinishedGame);
 
     this.toggleNextPageButtonVisibility(hasFinishedGame);
 
-    this.toggleBackgroundChange(hasFinishedGame);
+    this.toggleBackgroundChange(hasFinishedGame && hasWatchedEnding);
+
+    const hasShownEXPopup = localStorage.getItem("expopup");
+    if (hasWatchedEnding && !hasShownEXPopup) {
+      this.showExPopup();
+    }
 
     //   this.blackScreen.toggleVisibility(false);
   }
 
-  openLevelSelector() {
+  openLevelSelector(page = 0) {
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
     // );
@@ -137,6 +148,10 @@ export class TitleScreenUIManager extends Component {
       this.levelSelectorVisibleAnchor.worldPosition,
       1
     );
+
+    this.levelSelector.getComponent(LevelSelector).showPage(page);
+
+    this.activeLevelPage = page;
   }
 
   onClickCredits() {
@@ -323,9 +338,14 @@ export class TitleScreenUIManager extends Component {
     if (!value) {
       this.titleBG.spriteFrame = this.bgs[0];
     } else {
-      this.titleBG.spriteFrame = this.bgs[0];
+      this.titleBG.spriteFrame = this.bgs[1];
     }
   }
 
-  update(deltaTime: number) {}
+  showExPopup() {
+    moveTo(this.exPopup, this.levelSelectorVisibleAnchor.worldPosition, 1);
+  }
+  closeExPopup() {
+    this.exPopup.active = false;
+  }
 }
