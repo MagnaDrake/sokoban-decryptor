@@ -185,7 +185,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 401.06666666666666,
+    "_orthoHeight": 360,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -277,7 +277,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 173.46670386904762,
+      "width": 173.4799346923828,
       "height": 50.4
     },
     "_anchorPoint": {
@@ -310,7 +310,7 @@
     "_string": "Loading...",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 65.625,
+    "_actualFontSize": 40,
     "_fontSize": 40,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -526,7 +526,7 @@
     "_priority": 1,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 401.06666666666666,
+    "_orthoHeight": 360,
     "_near": 0,
     "_far": 1000,
     "_color": {

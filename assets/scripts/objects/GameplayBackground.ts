@@ -5,11 +5,13 @@ export enum GameWorld {
   EXHIBIT,
   ARTIST_ALLEY,
   ATRIUM,
+  EX_STAGE,
 }
 export enum BGKey {
   EXHIBIT = "1_exhibit",
   ARTIST_ALLEY = "2_artist",
   ATRIUM = "3_atrium",
+  EX_STAGE = "4_extra",
 }
 
 @ccclass("GameplayBackground")

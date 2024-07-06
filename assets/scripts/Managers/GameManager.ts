@@ -40,6 +40,7 @@ import { WinAnimationController } from "./WinAnimationController";
 import { UserDataManager } from "./UserDataManager";
 import { GameplayBackground } from "../objects/GameplayBackground";
 import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
+import { save } from "../utils/savedata";
 const { ccclass, property } = _decorator;
 
 export enum GameState {
@@ -114,7 +115,6 @@ export class GameManager extends Component {
     // this.scheduleOnce(() => {
     //   this.loadLevelData(0);
     // }, 0.2);
-    this.titleString = "";
   }
 
   onUndoKeyInput() {
@@ -281,10 +281,27 @@ export class GameManager extends Component {
 
   onWinLevel() {
     if (this.hasShownWin) return;
+
+    console.log(this.titleString);
+    let worldId = parseInt(this.titleString.charAt(0));
+    console.log(worldId);
     this.gameState = GameState.WIN;
-    this.wac.triggerWin();
-    this.hasShownWin = true;
     this.saveWin();
+
+    const page = worldId === 4 ? 1 : 0;
+    console.log("page", page);
+
+    this.scheduleOnce(() => {
+      if (
+        UserDataManager.Instance.getUserData().hasFinishedGame &&
+        !UserDataManager.Instance.getUserData().hasWatchedEnding
+      ) {
+        this.wac.triggerWin(true);
+      } else {
+        this.wac.triggerWin(false, page);
+      }
+      this.hasShownWin = true;
+    }, FRAME);
   }
 
   onRestartLevelKeyInput() {
@@ -344,7 +361,7 @@ export class GameManager extends Component {
 
       this.levelTitle.getComponentInChildren(Label).string = this.titleString;
 
-      let worldId = parseInt(this.titleString);
+      let worldId = parseInt(this.titleString.charAt(0));
       if (worldId > 0) worldId = worldId - 1;
       this.bg.updateBackground(worldId);
 
@@ -363,6 +380,8 @@ export class GameManager extends Component {
     const saveData = UserDataManager.Instance.getUserData();
     if (!saveData.completedLevels.includes(this.currentLevel + 1)) {
       saveData.completedLevels.push(this.currentLevel + 1);
+
+      console.log("trigger save win");
 
       UserDataManager.Instance.saveUserData(saveData);
     }

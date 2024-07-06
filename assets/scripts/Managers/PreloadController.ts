@@ -20,5 +20,7 @@ export class PreloadController extends Component {
         });
       }, 1 * FRAME * 60);
     });
+
+    director.preloadScene("ending");
   }
 }

@@ -2,10 +2,25 @@ import { _decorator, Component, Node } from "cc";
 import { encodeSaveData, load, save } from "../utils/savedata";
 const { ccclass, property } = _decorator;
 
+export enum SaveFlags {
+  FinishedGame = "FG",
+  Clear100P = "CA",
+  HasWatchedEnding = "WE",
+}
+
 export interface UserSaveData {
   completedLevels: number[];
   perfectLevels: number[];
+  hasWatchedEnding?: boolean;
+  hasFinishedGame?: boolean;
+  hasFullClear?: boolean;
 }
+
+export const FinishGameCheck = [
+  1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+];
+
+export const FullClearCheck = [...FinishGameCheck, 21, 22, 23, 24, 25];
 
 @ccclass("UserDataManager")
 export class UserDataManager {
@@ -27,16 +42,47 @@ export class UserDataManager {
     if (this.isLocalStorageAvailable()) {
       const storedUserData = localStorage.getItem("userData");
       if (storedUserData) {
+        // this code block is probably better as own function
+        // later
         let code = storedUserData;
         let loadedData = load(storedUserData);
+
+        let levels;
+        let fc;
+        let we;
+
         if (loadedData[0] === -1) {
           loadedData = [0];
           code = "";
         }
+
+        levels = loadedData.filter((v) => {
+          return typeof v === "number";
+        });
+
+        fc = loadedData.filter((v) => {
+          return v === SaveFlags.FinishedGame;
+        });
+
+        we = loadedData.filter((v) => {
+          return v === SaveFlags.HasWatchedEnding;
+        });
+
         this.saveCode = code;
-        data = { completedLevels: loadedData, perfectLevels: [] };
+        data = {
+          completedLevels: levels,
+          perfectLevels: [],
+          hasFinishedGame: fc[0] !== undefined ? true : false,
+          hasWatchedEnding: we[0] !== undefined ? true : false,
+        };
       } else {
-        data = { completedLevels: [0], perfectLevels: [] };
+        data = {
+          completedLevels: [0],
+          perfectLevels: [],
+          hasFinishedGame: false,
+          hasWatchedEnding: false,
+        };
+
         localStorage.setItem("userData", save(data.completedLevels));
         this.saveCode = localStorage.getItem("userData");
       }
@@ -50,15 +96,48 @@ export class UserDataManager {
       console.log(
         "localStorage is not available! Progress will be lost once the game is closed."
       );
-      data = { completedLevels: [0], perfectLevels: [] };
+      data = {
+        completedLevels: [0],
+        perfectLevels: [],
+        hasFinishedGame: false,
+        hasWatchedEnding: false,
+      };
       this.saveCode = "";
     }
 
     this.userData = data;
+    // console.log("load user data init", data);
   }
 
   saveUserData(data: UserSaveData) {
-    const encodedSave = save(data.completedLevels);
+    const hasFinishedGame = this.checkFinishGame(data.completedLevels);
+
+    console.log("has finished game!", hasFinishedGame);
+
+    data.hasFinishedGame = hasFinishedGame;
+
+    const hasClear = this.checkFullClear(data.completedLevels);
+
+    data.hasFullClear = hasClear;
+
+    const saveDataArray = [...data.completedLevels] as any[];
+
+    if (hasFinishedGame) {
+      saveDataArray.push(SaveFlags.FinishedGame);
+    }
+
+    if (hasClear) {
+      saveDataArray.push(SaveFlags.Clear100P);
+    }
+
+    if (data.hasWatchedEnding) {
+      saveDataArray.push(SaveFlags.HasWatchedEnding);
+    }
+
+    const encodedSave = save(saveDataArray);
+    this.saveCode = encodedSave;
+    this.userData = data;
+
     if (this.isLocalStorageAvailable()) {
       localStorage.setItem("userData", encodedSave);
     } else {
@@ -66,17 +145,52 @@ export class UserDataManager {
         "localStorage is not available! Progress will be lost once the game is closed."
       );
     }
-    this.saveCode = encodedSave;
-    this.userData = data;
+
+    console.log("saved user data", data);
   }
 
-  getUserData() {
+  checkFullClear(data: (number | string)[]) {
+    return FullClearCheck.every((lv) => data.includes(lv));
+  }
+
+  checkFinishGame(data: (number | string)[]) {
+    return FinishGameCheck.every((lv) => data.includes(lv));
+  }
+
+  getUserData(fromCache = false) {
+    if (fromCache) return this.userData;
+
     if (this.isLocalStorageAvailable()) {
       const storedUserData = localStorage.getItem("userData");
       let data;
       if (storedUserData !== undefined) {
-        const loadedData = load(storedUserData);
-        data = { completedLevels: loadedData, perfectLevels: [] };
+        let loadedData = load(storedUserData);
+        let levels;
+        let fc;
+        let we;
+
+        if (loadedData[0] === -1) {
+          loadedData = [0];
+        }
+
+        levels = loadedData.filter((v) => {
+          return typeof v === "number";
+        });
+
+        fc = loadedData.filter((v) => {
+          return v === SaveFlags.FinishedGame;
+        });
+
+        we = loadedData.filter((v) => {
+          return v === SaveFlags.HasWatchedEnding;
+        });
+
+        data = {
+          completedLevels: levels,
+          perfectLevels: [],
+          hasFinishedGame: fc[0] !== undefined ? true : false,
+          hasWatchedEnding: we[0] !== undefined ? true : false,
+        };
         return data as UserSaveData;
       }
 
@@ -120,8 +234,8 @@ export class UserDataManager {
   }
 
   getVolumeSettings() {
-    let mVol = parseInt(localStorage.getItem("mVol"));
-    let sVol = parseInt(localStorage.getItem("sVol"));
+    let mVol = parseFloat(localStorage.getItem("mVol"));
+    let sVol = parseFloat(localStorage.getItem("sVol"));
 
     if (isNaN(mVol)) mVol = 1;
     if (isNaN(sVol)) mVol = 1;

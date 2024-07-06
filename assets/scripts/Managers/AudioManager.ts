@@ -103,6 +103,8 @@ export class AudioManager {
 
     const volSettings = UserDataManager.Instance.getVolumeSettings();
 
+    console.log(volSettings);
+
     this.masterVolume = volSettings.mVol;
     this.sfxVolume = volSettings.sVol;
   }

@@ -10,11 +10,12 @@ import {
   Node,
   tween,
   UITransform,
+  Vec3,
 } from "cc";
 import { ScreenSwipeController } from "./ScreenSwipeController";
 import { TitleScreenUIManager } from "../ui/TitleScreenUIManager";
 import { Player, PlayerAnimKey } from "../objects/Player";
-import { FRAME } from "../utils/anim";
+import { FRAME, moveToLocal } from "../utils/anim";
 import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
@@ -28,13 +29,13 @@ export class WinAnimationController extends Component {
 
   player: Player;
 
-  triggerWin() {
+  triggerWin(sendToEnding = false, page = 0) {
     this.scheduleOnce(() => {
       this.player.anim.stop();
       this.player.unschedule(this.player.setToIdle);
       this.player.playAnim(PlayerAnimKey.VICTORY);
     }, FRAME * 15);
-    this.animateMask();
+    this.animateMask(sendToEnding, page);
   }
 
   // TODO
@@ -45,32 +46,50 @@ export class WinAnimationController extends Component {
   // should have a helper function to do that instead
   // later
 
-  animateMask() {
+  animateMask(sendToEnding: boolean, page: number) {
     const easingProps: ITweenOption = {
       easing: easing.linear,
       onComplete: () => {
         this.scheduleOnce(() => {
-          this.winGameScreen.active = true;
+          moveToLocal(this.winGameScreen, new Vec3(0, 0, 0), 1, () => {
+            this.scheduleOnce(() => {
+              moveToLocal(this.winGameScreen, new Vec3(1000, 0, 0), 1);
+            }, 15 * FRAME);
+          });
         }, 1.5);
 
         this.scheduleOnce(() => {
           const ss = ScreenSwipeController.Instance;
           ss.flip = true;
           this.scheduleOnce(() => {
-            director.loadScene("title", (e, scene) => {
-              const uiManager =
-                scene?.getComponentInChildren(TitleScreenUIManager);
-              uiManager!.fromGameplay = true;
-              uiManager?.toggleLoadingScreen(false);
-              uiManager?.openLevelSelector();
+            if (sendToEnding) {
+              console.log("send to ending", sendToEnding);
+              director.loadScene("ending", (e, scene) => {
+                AudioManager.Instance.stop();
+                AudioManager.Instance.play(
+                  getAudioKeyString(AudioKeys.BGMTitle),
+                  1,
+                  true
+                );
+              });
+            } else {
+              director.loadScene("title", (e, scene) => {
+                const uiManager =
+                  scene?.getComponentInChildren(TitleScreenUIManager);
+                uiManager!.fromGameplay = true;
+                uiManager?.toggleLoadingScreen(false);
+                console.log(page);
+                uiManager?.openLevelSelector(page);
 
-              AudioManager.Instance.stop();
-              AudioManager.Instance.play(
-                getAudioKeyString(AudioKeys.BGMTitle),
-                1,
-                true
-              );
-            });
+                AudioManager.Instance.stop();
+                AudioManager.Instance.play(
+                  getAudioKeyString(AudioKeys.BGMTitle),
+                  1,
+                  true
+                );
+              });
+            }
+
             ss.exitTransition();
           }, 1);
 

@@ -1,9 +1,21 @@
-import { _decorator, Component, director, instantiate, Node, Prefab, CCBoolean } from "cc";
+import {
+  _decorator,
+  Component,
+  director,
+  instantiate,
+  Node,
+  Prefab,
+  CCBoolean,
+  CCString,
+  Layout,
+} from "cc";
 import { LevelItem } from "./LevelItem";
 import { GameManager } from "../../Managers/GameManager";
 import { ScreenSwipeController } from "../../Managers/ScreenSwipeController";
 import { FRAME } from "../../utils/anim";
 import { UserDataManager } from "../../Managers/UserDataManager";
+import { WorldInfo } from "../../WorldInfo";
+import { LevelWorldContainer } from "../../objects/LevelWorldContainer";
 //import { GameManager } from "./GameManager";
 //import { TitleScreenUIManager } from "./TitleScreenUIManager";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
@@ -18,17 +30,30 @@ export interface UserSaveData {
 @ccclass("LevelSelector")
 export class LevelSelector extends Component {
   @property(Node)
-  levelsContainer!: Node;
+  worldsContainer!: Node;
 
   @property(Prefab)
   levelItem!: Prefab;
 
+  @property(Prefab)
+  levelWorldContainer!: Prefab;
+
   @property(CCBoolean)
   unlockAllLevels!: boolean;
+
+  @property([WorldInfo])
+  worldTitles: WorldInfo[] = [];
+
+  @property([Node])
+  pages: Node[] = [];
 
   saveData!: UserSaveData;
 
   levelItems = [];
+
+  worldsDisplays = [];
+
+  currentPage = 0;
 
   protected onLoad(): void {
     this.generateLevelGrid();
@@ -37,17 +62,73 @@ export class LevelSelector extends Component {
   generateLevelGrid() {
     this.saveData = UserDataManager.Instance.getUserData();
 
-    this.createLevelItems(50);
+    this.createWorldDisplays();
+
+    this.createLevelItems();
+
+    // read world amount
+    // read total level
+    // create level item total
+    // creat world items
+    // assign level item to world
+    // put world items to display layout
+
+    // for extra world, instead create a separate level selector
+    // then title ui manager switches between normal and extra
   }
 
-  createLevelItems(amount: number) {
+  createWorldDisplays() {
+    this.worldTitles.forEach((world, index) => {
+      const worldDisplay = instantiate(this.levelWorldContainer);
+      const worldItem = worldDisplay.getComponent(LevelWorldContainer);
+      worldItem.setLineGraphicColor(world.color);
+      worldItem.setLevelTitle(world.title);
+
+      // TODO
+      // should be a way to set which world goes to what page
+      if (index < 3) {
+        worldDisplay.setParent(this.pages[0]);
+      } else {
+        worldDisplay.setParent(this.pages[1]);
+      }
+
+      this.worldsDisplays.push(worldDisplay);
+    });
+  }
+  // todo
+  // think about how to scale these dynamically
+
+  createLevelItems() {
+    let amount = 0;
+    let levelPerWorld = [];
+
+    this.worldTitles.forEach((world) => {
+      amount += world.levelAmount;
+      const lv = amount + 0; //im not sure if i need to do this. i forgot if js numbers are referential or primitive
+      levelPerWorld.push(lv);
+    });
+
+    let worldCounter = 0;
+
     for (let i = 0; i < amount; i++) {
+      if (i >= levelPerWorld[worldCounter]) worldCounter++;
+
+      // hardcoded that the 4th world are extra levels
+      // in the future should be a way to define which world goes to what page
+
+      const levelWorld =
+        this.worldsDisplays[worldCounter].getComponent(LevelWorldContainer);
+
       const levelItem = instantiate(this.levelItem);
-      levelItem.setParent(this.levelsContainer);
+
+      levelWorld.addLevelItem(levelItem.getComponent(LevelItem));
+      // levelItem.setParent(this.worldsContainer);
       levelItem.active = true;
 
       const clearLevels = this.saveData?.completedLevels?.length || 0;
-      const threshold = this.unlockAllLevels ? 1000: (Math.floor(clearLevels / 3) + 1) * 5;
+      const threshold = this.unlockAllLevels
+        ? 1000
+        : (Math.floor(clearLevels / 3) + 1) * 5;
 
       if (i < threshold) {
         levelItem.getComponent(LevelItem)?.toggleLocked(false);
@@ -72,7 +153,9 @@ export class LevelSelector extends Component {
   //TODO
 
   updateLevelData() {
-    this.saveData = UserDataManager.Instance.getUserData();
+    this.saveData = UserDataManager.Instance.getUserData(true);
+
+    console.log(this.saveData);
 
     for (let i = 0; i < this.levelItems.length; i++) {
       const item = this.levelItems[i];
@@ -117,6 +200,12 @@ export class LevelSelector extends Component {
     director.loadScene("levelGen", (e, scene) => {});
   }
   start() {}
+
+  showPage(page: number) {
+    this.pages[this.currentPage].active = false;
+    this.currentPage = page;
+    this.pages[this.currentPage].active = true;
+  }
 
   update(deltaTime: number) {}
 }

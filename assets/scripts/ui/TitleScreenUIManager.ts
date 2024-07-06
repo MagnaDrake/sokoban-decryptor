@@ -1,14 +1,33 @@
-import { _decorator, Component, Label, Node, tween, UIOpacity } from "cc";
-import { moveTo } from "../utils/anim";
+import {
+  _decorator,
+  Component,
+  director,
+  Label,
+  Node,
+  Sprite,
+  SpriteFrame,
+  tween,
+  UIOpacity,
+  Vec3,
+} from "cc";
+import { FRAME, moveTo } from "../utils/anim";
 import { SaveLoader } from "../objects/SaveLoader";
 import { isMobile } from "../utils/device";
 import { UserDataManager } from "../Managers/UserDataManager";
+import { ScreenSwipeController } from "../Managers/ScreenSwipeController";
+import { LevelSelector } from "./LevelSelector/LevelSelector";
 //import { BlackScreen } from "./BlackScreen";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("TitleScreenUIManager")
 export class TitleScreenUIManager extends Component {
+  @property(Sprite)
+  titleBG: Sprite;
+
+  @property([SpriteFrame])
+  bgs: SpriteFrame[] = [];
+
   @property(Node)
   jellyHiddenAnchor!: Node;
 
@@ -48,7 +67,21 @@ export class TitleScreenUIManager extends Component {
   @property(Label)
   vpadLabel: Label;
 
+  @property(Node)
+  replayContainerNode: Node;
+
+  @property(Node)
+  replayEndingNode: Node;
+
+  @property(Node)
+  nextPageButton: Node;
+
+  @property(Node)
+  exPopup: Node;
+
   fromGameplay = false;
+
+  activeLevelPage = 0;
 
   protected onLoad(): void {
     this.jellySprite.setWorldPosition(this.jellyHiddenAnchor.worldPosition);
@@ -83,10 +116,28 @@ export class TitleScreenUIManager extends Component {
     this.vpadLabel.string = UserDataManager.Instance.isVPadForceActive()
       ? "On"
       : "Off";
+
+    const hasFinishedGame =
+      UserDataManager.Instance.getUserData().hasFinishedGame;
+
+    const hasWatchedEnding =
+      UserDataManager.Instance.getUserData().hasWatchedEnding;
+
+    this.toggleReplayEndingButtonVisibility(hasFinishedGame);
+
+    this.toggleNextPageButtonVisibility(hasFinishedGame);
+
+    this.toggleBackgroundChange(hasFinishedGame && hasWatchedEnding);
+
+    const hasShownEXPopup = localStorage.getItem("expopup");
+    if (hasWatchedEnding && !hasShownEXPopup) {
+      this.showExPopup();
+    }
+
     //   this.blackScreen.toggleVisibility(false);
   }
 
-  openLevelSelector() {
+  openLevelSelector(page = 0) {
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
     // );
@@ -97,6 +148,10 @@ export class TitleScreenUIManager extends Component {
       this.levelSelectorVisibleAnchor.worldPosition,
       1
     );
+
+    this.levelSelector.getComponent(LevelSelector).showPage(page);
+
+    this.activeLevelPage = page;
   }
 
   onClickCredits() {
@@ -156,6 +211,7 @@ export class TitleScreenUIManager extends Component {
     //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
     // );
     // this.hideJellyMenu();
+    this.hideJellyMenu();
     moveTo(this.loadSave, this.levelSelectorVisibleAnchor.worldPosition, 1);
   }
 
@@ -177,6 +233,7 @@ export class TitleScreenUIManager extends Component {
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     // );
     //  this.showJellyMenu();
+    this.showJellyMenu();
     moveTo(this.loadSave, this.levelSelectorHiddenAnchor.worldPosition, 1);
     this.loadSave.getComponent(SaveLoader).resetBox();
   }
@@ -222,5 +279,75 @@ export class TitleScreenUIManager extends Component {
     }
   }
 
-  update(deltaTime: number) {}
+  toggleReplayEndingButtonVisibility(value: boolean) {
+    if (value) {
+      this.replayEndingNode.active = true;
+      this.replayContainerNode.setPosition(
+        new Vec3(-300, this.replayContainerNode.position.y, 0)
+      );
+    } else {
+      this.replayEndingNode.active = false;
+      this.replayContainerNode.setPosition(
+        new Vec3(-128, this.replayContainerNode.position.y, 0)
+      );
+    }
+  }
+
+  toggleNextPageButtonVisibility(value: boolean) {
+    if (value) {
+      this.nextPageButton.active = true;
+    } else {
+      this.nextPageButton.active = false;
+    }
+  }
+
+  onReplayIntro() {
+    const ss = ScreenSwipeController.Instance;
+
+    ss.enterTransition();
+
+    this.scheduleOnce(() => {
+      director.loadScene("intro", () => {
+        ss.exitTransition();
+      });
+    }, 1 * FRAME * 60);
+  }
+
+  onReplayEnding() {
+    const ss = ScreenSwipeController.Instance;
+
+    ss.enterTransition();
+
+    this.scheduleOnce(() => {
+      director.loadScene("ending", () => {
+        ss.exitTransition();
+      });
+    }, 1 * FRAME * 60);
+  }
+
+  onNextPage() {
+    // todo read how many pages they are
+    this.activeLevelPage++;
+    if (this.activeLevelPage > 1) this.activeLevelPage = 0;
+    this.levelSelector
+      .getComponent(LevelSelector)
+      .showPage(this.activeLevelPage);
+  }
+
+  toggleBackgroundChange(value: boolean) {
+    if (!value) {
+      this.titleBG.spriteFrame = this.bgs[0];
+    } else {
+      this.titleBG.spriteFrame = this.bgs[1];
+    }
+  }
+
+  showExPopup() {
+    moveTo(this.exPopup, this.levelSelectorVisibleAnchor.worldPosition, 1);
+    localStorage.setItem("expopup", "true");
+  }
+
+  closeExPopup() {
+    this.exPopup.active = false;
+  }
 }

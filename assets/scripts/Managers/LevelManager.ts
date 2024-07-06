@@ -47,8 +47,6 @@ export class LevelManager extends Component {
     this.tutorialDialogues.map((item) => {
       this.tutorialMap.set(item.level, item.tutorialString);
     });
-
-    console.log(this.tutorialMap);
   }
 
   getTutorial(level: number) {

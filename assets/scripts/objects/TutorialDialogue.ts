@@ -2,7 +2,7 @@ import { _decorator, CCInteger, CCString, Component, Node } from "cc";
 const { ccclass, property } = _decorator;
 
 @ccclass("TutorialDialogue")
-export class TutorialDialogue extends Component {
+export class TutorialDialogue {
   @property(CCInteger)
   level: number;
 
