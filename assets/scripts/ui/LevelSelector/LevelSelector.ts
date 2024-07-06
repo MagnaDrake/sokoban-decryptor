@@ -44,9 +44,16 @@ export class LevelSelector extends Component {
   @property([WorldInfo])
   worldTitles: WorldInfo[] = [];
 
+  @property([Node])
+  pages: Node[] = [];
+
   saveData!: UserSaveData;
 
   levelItems = [];
+
+  worldsDisplays = [];
+
+  currentPage = 0;
 
   protected onLoad(): void {
     this.generateLevelGrid();
@@ -71,14 +78,28 @@ export class LevelSelector extends Component {
   }
 
   createWorldDisplays() {
-    this.worldTitles.forEach((world) => {
+    this.worldTitles.forEach((world, index) => {
       const worldDisplay = instantiate(this.levelWorldContainer);
       const worldItem = worldDisplay.getComponent(LevelWorldContainer);
       worldItem.setLineGraphicColor(world.color);
       worldItem.setLevelTitle(world.title);
-      worldDisplay.setParent(this.worldsContainer);
+
+      // TODO
+      // should be a way to set which world goes to what page
+      console.log(world.title);
+      if (index < 3) {
+        worldDisplay.setParent(this.pages[0]);
+        console.log("masuk page 1");
+      } else {
+        worldDisplay.setParent(this.pages[1]);
+        console.log("masuk page 2");
+      }
+
+      this.worldsDisplays.push(worldDisplay);
     });
   }
+  // todo
+  // think about how to scale these dynamically
 
   createLevelItems() {
     let amount = 0;
@@ -92,15 +113,16 @@ export class LevelSelector extends Component {
 
     let worldCounter = 0;
 
-    const worlds = this.worldsContainer.children;
-
     for (let i = 0; i < amount; i++) {
       if (i >= levelPerWorld[worldCounter]) worldCounter++;
 
-      console.log(worldCounter);
+      // hardcoded that the 4th world are extra levels
+      // in the future should be a way to define which world goes to what page
 
-      const levelWorld = worlds[worldCounter].getComponent(LevelWorldContainer);
-      console.log(levelWorld);
+      const levelWorld =
+        this.worldsDisplays[worldCounter].getComponent(LevelWorldContainer);
+      console.log("masukin item ke world");
+      console.log(levelWorld.titleLabel.string);
 
       const levelItem = instantiate(this.levelItem);
 
@@ -181,6 +203,15 @@ export class LevelSelector extends Component {
     director.loadScene("levelGen", (e, scene) => {});
   }
   start() {}
+
+  showPage(page: number) {
+    console.log("show page", page);
+    console.log(this.worldsDisplays[this.currentPage].name);
+    console.log(this.worldsDisplays[page].name);
+    this.pages[this.currentPage].active = false;
+    this.currentPage = page;
+    this.pages[this.currentPage].active = true;
+  }
 
   update(deltaTime: number) {}
 }

@@ -13,6 +13,7 @@ import { SaveLoader } from "../objects/SaveLoader";
 import { isMobile } from "../utils/device";
 import { UserDataManager } from "../Managers/UserDataManager";
 import { ScreenSwipeController } from "../Managers/ScreenSwipeController";
+import { LevelSelector } from "./LevelSelector/LevelSelector";
 //import { BlackScreen } from "./BlackScreen";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
@@ -64,7 +65,12 @@ export class TitleScreenUIManager extends Component {
   @property(Node)
   replayEndingNode: Node;
 
+  @property(Node)
+  nextPageButton: Node;
+
   fromGameplay = false;
+
+  activeLevelPage = 0;
 
   protected onLoad(): void {
     this.jellySprite.setWorldPosition(this.jellyHiddenAnchor.worldPosition);
@@ -100,9 +106,12 @@ export class TitleScreenUIManager extends Component {
       ? "On"
       : "Off";
 
-    this.toggleReplayEndingButtonVisibility(
-      UserDataManager.Instance.getUserData().completedLevels.includes["FC"]
-    );
+    const hasClearedGame =
+      UserDataManager.Instance.getUserData().completedLevels.includes["FC"];
+
+    this.toggleReplayEndingButtonVisibility(hasClearedGame);
+
+    this.toggleNextPageButtonVisibility(hasClearedGame);
 
     //   this.blackScreen.toggleVisibility(false);
   }
@@ -259,6 +268,15 @@ export class TitleScreenUIManager extends Component {
     }
   }
 
+  toggleNextPageButtonVisibility(value: boolean) {
+    value = true;
+    if (value) {
+      this.nextPageButton.active = true;
+    } else {
+      this.nextPageButton.active = false;
+    }
+  }
+
   onReplayIntro() {
     const ss = ScreenSwipeController.Instance;
 
@@ -281,6 +299,15 @@ export class TitleScreenUIManager extends Component {
         ss.exitTransition();
       });
     }, 1 * FRAME * 60);
+  }
+
+  onNextPage() {
+    // todo read how many pages they are
+    this.activeLevelPage++;
+    if (this.activeLevelPage > 1) this.activeLevelPage = 0;
+    this.levelSelector
+      .getComponent(LevelSelector)
+      .showPage(this.activeLevelPage);
   }
 
   update(deltaTime: number) {}
