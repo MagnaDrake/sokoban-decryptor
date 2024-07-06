@@ -86,13 +86,10 @@ export class LevelSelector extends Component {
 
       // TODO
       // should be a way to set which world goes to what page
-      console.log(world.title);
       if (index < 3) {
         worldDisplay.setParent(this.pages[0]);
-        console.log("masuk page 1");
       } else {
         worldDisplay.setParent(this.pages[1]);
-        console.log("masuk page 2");
       }
 
       this.worldsDisplays.push(worldDisplay);
@@ -121,8 +118,6 @@ export class LevelSelector extends Component {
 
       const levelWorld =
         this.worldsDisplays[worldCounter].getComponent(LevelWorldContainer);
-      console.log("masukin item ke world");
-      console.log(levelWorld.titleLabel.string);
 
       const levelItem = instantiate(this.levelItem);
 
@@ -205,9 +200,6 @@ export class LevelSelector extends Component {
   start() {}
 
   showPage(page: number) {
-    console.log("show page", page);
-    console.log(this.worldsDisplays[this.currentPage].name);
-    console.log(this.worldsDisplays[page].name);
     this.pages[this.currentPage].active = false;
     this.currentPage = page;
     this.pages[this.currentPage].active = true;

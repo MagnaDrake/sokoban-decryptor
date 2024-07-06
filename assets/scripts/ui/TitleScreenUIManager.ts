@@ -269,7 +269,6 @@ export class TitleScreenUIManager extends Component {
   }
 
   toggleNextPageButtonVisibility(value: boolean) {
-    value = true;
     if (value) {
       this.nextPageButton.active = true;
     } else {
