@@ -31,13 +31,13 @@ export function convertStringToLevel(input) {
 
   for (let i = 0; i < save.length; i++) {
     let entry = save[i];
-    console.log("decode entry", entry);
+    //console.log("decode entry", entry);
     let num = entry.split("");
     let id = "";
     for (let j = 0; j < num.length; j++) {
       let conv;
-      console.log(num[j]);
-      console.log(specialSaveChar.includes(num[j]));
+      //console.log(num[j]);
+      // console.log(specialSaveChar.includes(num[j]));
       if (specialSaveChar.includes(num[j])) {
         id = id.concat(num[j]);
       } else {
@@ -46,14 +46,14 @@ export function convertStringToLevel(input) {
       }
     }
 
-    console.log("decyphered level id", id);
+    //console.log("decyphered level id", id);
 
     // jank
     switch (id) {
       case SaveFlags.Clear100P:
       case SaveFlags.FinishedGame:
       case SaveFlags.HasWatchedEnding:
-        console.log("gottem");
+        //console.log("gottem");
         save[i] = id;
         break;
       default:
@@ -67,19 +67,19 @@ export function convertStringToLevel(input) {
 }
 
 export function convertLevelToString(input) {
-  console.log(input);
+  // console.log(input);
   const save = input.toString().split(",");
 
-  console.log("attempt save level", save);
+  //console.log("attempt save level", save);
   for (let i = 0; i < save.length; i++) {
     let entry = save[i];
-    console.log("entry", entry);
+    // console.log("entry", entry);
     let num = entry.split("");
     let id = "";
     for (let j = 0; j < num.length; j++) {
-      console.log("split string", num[j]);
+      //   console.log("split string", num[j]);
       if (specialSaveChar.includes(num[j])) {
-        console.log(num[j]);
+        //  console.log(num[j]);
         id = id.concat(num[j]);
       } else {
         id = id.concat(char.charAt(parseInt(num[j])));

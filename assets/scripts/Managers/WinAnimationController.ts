@@ -28,13 +28,13 @@ export class WinAnimationController extends Component {
 
   player: Player;
 
-  triggerWin() {
+  triggerWin(sendToEnding = false) {
     this.scheduleOnce(() => {
       this.player.anim.stop();
       this.player.unschedule(this.player.setToIdle);
       this.player.playAnim(PlayerAnimKey.VICTORY);
     }, FRAME * 15);
-    this.animateMask();
+    this.animateMask(sendToEnding);
   }
 
   // TODO
@@ -45,7 +45,7 @@ export class WinAnimationController extends Component {
   // should have a helper function to do that instead
   // later
 
-  animateMask() {
+  animateMask(sendToEnding) {
     const easingProps: ITweenOption = {
       easing: easing.linear,
       onComplete: () => {
@@ -57,20 +57,34 @@ export class WinAnimationController extends Component {
           const ss = ScreenSwipeController.Instance;
           ss.flip = true;
           this.scheduleOnce(() => {
-            director.loadScene("title", (e, scene) => {
-              const uiManager =
-                scene?.getComponentInChildren(TitleScreenUIManager);
-              uiManager!.fromGameplay = true;
-              uiManager?.toggleLoadingScreen(false);
-              uiManager?.openLevelSelector();
+            if (sendToEnding) {
+              console.log("send to ending", sendToEnding);
+              director.loadScene("ending", (e, scene) => {
+                AudioManager.Instance.stop();
+                AudioManager.Instance.play(
+                  getAudioKeyString(AudioKeys.BGMTitle),
+                  1,
+                  true
+                );
+              });
+            } else {
+              console.log("not send to ending");
+              director.loadScene("title", (e, scene) => {
+                const uiManager =
+                  scene?.getComponentInChildren(TitleScreenUIManager);
+                uiManager!.fromGameplay = true;
+                uiManager?.toggleLoadingScreen(false);
+                uiManager?.openLevelSelector();
 
-              AudioManager.Instance.stop();
-              AudioManager.Instance.play(
-                getAudioKeyString(AudioKeys.BGMTitle),
-                1,
-                true
-              );
-            });
+                AudioManager.Instance.stop();
+                AudioManager.Instance.play(
+                  getAudioKeyString(AudioKeys.BGMTitle),
+                  1,
+                  true
+                );
+              });
+            }
+
             ss.exitTransition();
           }, 1);
 

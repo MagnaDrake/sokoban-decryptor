@@ -2253,8 +2253,8 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 137.75999450683594,
-      "height": 50.4
+      "width": 298,
+      "height": 40
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -4503,7 +4503,7 @@
       "19"
     ],
     "value": {
-      "__uuid__": "a7b095f7-fc99-4530-88de-bea5070bbceb",
+      "__uuid__": "32316912-d8f0-4c13-ba46-f4480ed9ca69",
       "__expectedType__": "cc.JsonAsset"
     }
   },

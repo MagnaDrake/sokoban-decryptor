@@ -40,6 +40,7 @@ import { WinAnimationController } from "./WinAnimationController";
 import { UserDataManager } from "./UserDataManager";
 import { GameplayBackground } from "../objects/GameplayBackground";
 import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
+import { save } from "../utils/savedata";
 const { ccclass, property } = _decorator;
 
 export enum GameState {
@@ -282,9 +283,21 @@ export class GameManager extends Component {
   onWinLevel() {
     if (this.hasShownWin) return;
     this.gameState = GameState.WIN;
-    this.wac.triggerWin();
-    this.hasShownWin = true;
     this.saveWin();
+
+    this.scheduleOnce(() => {
+      const saveData = UserDataManager.Instance.getUserData();
+      console.log(saveData);
+      console.log(saveData.hasFinishedGame);
+      if (UserDataManager.Instance.getUserData(true).hasFinishedGame) {
+        console.log("has win");
+        this.wac.triggerWin(true);
+      } else {
+        console.log("belom menand");
+        this.wac.triggerWin(false);
+      }
+      this.hasShownWin = true;
+    }, FRAME);
   }
 
   onRestartLevelKeyInput() {
@@ -363,6 +376,8 @@ export class GameManager extends Component {
     const saveData = UserDataManager.Instance.getUserData();
     if (!saveData.completedLevels.includes(this.currentLevel + 1)) {
       saveData.completedLevels.push(this.currentLevel + 1);
+
+      console.log("trigger save win");
 
       UserDataManager.Instance.saveUserData(saveData);
     }

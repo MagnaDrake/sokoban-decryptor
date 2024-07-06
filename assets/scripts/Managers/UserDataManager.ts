@@ -13,6 +13,7 @@ export interface UserSaveData {
   perfectLevels: number[];
   hasWatchedEnding?: boolean;
   hasFinishedGame?: boolean;
+  hasFullClear?: boolean;
 }
 
 export const FinishGameCheck = [
@@ -41,6 +42,8 @@ export class UserDataManager {
     if (this.isLocalStorageAvailable()) {
       const storedUserData = localStorage.getItem("userData");
       if (storedUserData) {
+        // this code block is probably better as own function
+        // later
         let code = storedUserData;
         let loadedData = load(storedUserData);
 
@@ -54,15 +57,15 @@ export class UserDataManager {
         }
 
         levels = loadedData.filter((v) => {
-          typeof v === "number";
+          return typeof v === "number";
         });
 
         fc = loadedData.filter((v) => {
-          v === SaveFlags.FinishedGame;
+          return v === SaveFlags.FinishedGame;
         });
 
         we = loadedData.filter((v) => {
-          v === SaveFlags.HasWatchedEnding;
+          return v === SaveFlags.HasWatchedEnding;
         });
 
         this.saveCode = code;
@@ -103,47 +106,23 @@ export class UserDataManager {
     }
 
     this.userData = data;
-    console.log("load user data init", data);
+    // console.log("load user data init", data);
   }
 
   saveUserData(data: UserSaveData) {
-    /*
-	data.completedLevels = [
-      0,
-      1,
-      2,
-      3,
-      4,
-      5,
-      6,
-      7,
-      8,
-      9,
-      10,
-      11,
-      12,
-      13,
-      14,
-      15,
-      16,
-      17,
-      18,
-      19,
-      20,
-      21,
-      22,
-      23,
-      24,
-      25,
-      //@ts-ignore
-      "FG",
-      //@ts-ignore
-      "WE",
-    ];*/
+    // data.completedLevels = [
+    //   0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19,
+    // ];
+
+    const hasFinishedGame = this.checkFinishGame(data.completedLevels);
+
+    console.log("has finished game!", hasFinishedGame);
+
+    data.hasFinishedGame = hasFinishedGame;
 
     const hasClear = this.checkFullClear(data.completedLevels);
 
-    data.hasFinishedGame = hasClear;
+    data.hasFullClear = hasClear;
 
     const saveDataArray = [...data.completedLevels] as any[];
 
@@ -156,6 +135,9 @@ export class UserDataManager {
     }
 
     const encodedSave = save(saveDataArray);
+    this.saveCode = encodedSave;
+    this.userData = data;
+
     if (this.isLocalStorageAvailable()) {
       localStorage.setItem("userData", encodedSave);
     } else {
@@ -163,8 +145,7 @@ export class UserDataManager {
         "localStorage is not available! Progress will be lost once the game is closed."
       );
     }
-    this.saveCode = encodedSave;
-    this.userData = data;
+
     console.log("saved user data", data);
   }
 
@@ -172,13 +153,44 @@ export class UserDataManager {
     return FullClearCheck.every((lv) => data.includes(lv));
   }
 
-  getUserData() {
+  checkFinishGame(data: (number | string)[]) {
+    return FinishGameCheck.every((lv) => data.includes(lv));
+  }
+
+  getUserData(fromCache = false) {
+    if (fromCache) return this.userData;
+
     if (this.isLocalStorageAvailable()) {
       const storedUserData = localStorage.getItem("userData");
       let data;
       if (storedUserData !== undefined) {
-        const loadedData = load(storedUserData);
-        data = { completedLevels: loadedData, perfectLevels: [] };
+        let loadedData = load(storedUserData);
+        let levels;
+        let fc;
+        let we;
+
+        if (loadedData[0] === -1) {
+          loadedData = [0];
+        }
+
+        levels = loadedData.filter((v) => {
+          return typeof v === "number";
+        });
+
+        fc = loadedData.filter((v) => {
+          return v === SaveFlags.FinishedGame;
+        });
+
+        we = loadedData.filter((v) => {
+          return v === SaveFlags.HasWatchedEnding;
+        });
+
+        data = {
+          completedLevels: levels,
+          perfectLevels: [],
+          hasFinishedGame: fc[0] !== undefined ? true : false,
+          hasWatchedEnding: we[0] !== undefined ? true : false,
+        };
         return data as UserSaveData;
       }
 
