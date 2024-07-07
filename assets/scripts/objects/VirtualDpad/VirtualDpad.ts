@@ -11,6 +11,7 @@ export enum DPadType {
   E,
   R,
   Z,
+  NONE,
 }
 
 export enum VirtualDPadEvents {
@@ -44,6 +45,9 @@ export class VirtualDpad extends Component {
   protected onLoad(): void {
     this.node.off(Input.EventType.TOUCH_START, this.onVirtualTouch, this);
     this.node.on(Input.EventType.TOUCH_START, this.onVirtualTouch, this);
+
+    this.node.off(Input.EventType.TOUCH_CANCEL, this.onVirtualEnd, this);
+    this.node.on(Input.EventType.TOUCH_CANCEL, this.onVirtualEnd, this);
 
     this.node.off(Input.EventType.TOUCH_END, this.onVirtualEnd, this);
     this.node.on(Input.EventType.TOUCH_END, this.onVirtualEnd, this);

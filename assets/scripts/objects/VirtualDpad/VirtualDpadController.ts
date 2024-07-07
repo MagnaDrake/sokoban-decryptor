@@ -13,6 +13,8 @@ export class VirtualDpadController extends Component {
 
   _isActive = false;
 
+  currentPressedPad: DPadType = DPadType.NONE;
+
   set active(value: boolean) {
     this._isActive = value;
     this.node.active = value;
@@ -38,9 +40,17 @@ export class VirtualDpadController extends Component {
     pad.on(VirtualDPadEvents.DPAD_LIFT, this.onPadLift, this);
   }
 
+  canHold(type: DPadType) {
+    return (
+      this.currentPressedPad === type ||
+      this.currentPressedPad === DPadType.NONE
+    );
+  }
+
   onPadPress(type: DPadType) {
     const gm = GameManager.Instance;
-    if (!this.active || gm.pm.isPause) return;
+    if (!this.active || gm.pm.isPause || !this.canHold(type)) return;
+    this.currentPressedPad = type;
     switch (type) {
       case DPadType.UP:
         gm.onMovementKeyInput(KeyCode.ARROW_UP);
@@ -69,6 +79,7 @@ export class VirtualDpadController extends Component {
   }
 
   onPadLift(type: DPadType) {
+    this.currentPressedPad = DPadType.NONE;
     switch (type) {
       case DPadType.UP:
       case DPadType.DOWN:
