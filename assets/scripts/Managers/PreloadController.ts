@@ -7,7 +7,7 @@ const { ccclass, property } = _decorator;
 @ccclass("PreloadController")
 export class PreloadController extends Component {
   start() {
-    console.log("start preload");
+    console.log("Save the Con, Jelly!");
     const ss = ScreenSwipeController.Instance;
 
     director.preloadScene("title");

@@ -50,7 +50,6 @@ export class LevelManager extends Component {
   }
 
   getTutorial(level: number) {
-    console.log(this.tutorialMap);
     return this.tutorialMap.get(level);
   }
 

@@ -46,7 +46,6 @@ export class LevelItem extends Component {
   }
 
   loadLevel() {
-    console.log("load level");
     this.levelSelector.loadLevel(parseInt(this.levelLabel.string) - 1);
     AudioManager.Instance.playOneShot(
       `${getAudioKeyString(AudioKeys.SFXUIClick)}`

@@ -45,7 +45,6 @@ export class SaveLoader extends Component {
     }
 
     const loadedData = load(levelCode);
-    console.log(loadedData);
     if (loadedData[0] === -1) {
       this.successNotif.string = "Invalid save code!";
     } else {
@@ -62,7 +61,6 @@ export class SaveLoader extends Component {
         return v === SaveFlags.HasWatchedEnding;
       });
 
-      console.log(levels, fc, we);
       const data = {
         completedLevels: levels,
         perfectLevels: [],

@@ -88,14 +88,9 @@ export class Player extends Entity {
   }
 
   onMove(): void {
-    console.log(GameManager.Instance.gameState);
-
-    // this.scheduleOnce(() => {
     if (GameManager.Instance.gameState === GameState.READY) {
-      console.log("walk");
       AudioManager.Instance.playOneShotRandom(AudioKeys.SFXWalk);
     }
-    // }, 3 * FRAME);
 
     this.anim.stop();
     this.unschedule(this.setToIdle);

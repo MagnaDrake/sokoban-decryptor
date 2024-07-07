@@ -112,8 +112,6 @@ export class UserDataManager {
   saveUserData(data: UserSaveData) {
     const hasFinishedGame = this.checkFinishGame(data.completedLevels);
 
-    console.log("has finished game!", hasFinishedGame);
-
     data.hasFinishedGame = hasFinishedGame;
 
     const hasClear = this.checkFullClear(data.completedLevels);
@@ -145,8 +143,6 @@ export class UserDataManager {
         "localStorage is not available! Progress will be lost once the game is closed."
       );
     }
-
-    console.log("saved user data", data);
   }
 
   checkFullClear(data: (number | string)[]) {

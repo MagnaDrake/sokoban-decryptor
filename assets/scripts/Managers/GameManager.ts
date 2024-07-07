@@ -291,14 +291,11 @@ export class GameManager extends Component {
   onWinLevel() {
     if (this.hasShownWin) return;
 
-    console.log(this.titleString);
     let worldId = parseInt(this.titleString.charAt(0));
-    console.log(worldId);
     this.gameState = GameState.WIN;
     this.saveWin();
 
     const page = worldId === 4 ? 1 : 0;
-    console.log("page", page);
 
     this.scheduleOnce(() => {
       if (
