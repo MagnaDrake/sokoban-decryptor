@@ -193,8 +193,11 @@ export class LevelSelector extends Component {
     AudioManager.Instance.playOneShot(
       `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     );
+    AudioManager.Instance.fadeBGM(0.2, 1);
+
     this.scheduleOnce(() => {
       director.loadScene("gameplay", (e, scene) => {
+        AudioManager.Instance.resetVolumesToCache();
         const gm = GameManager.Instance.loadLevelData(level);
         AudioManager.Instance.playOneShot(
           `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
@@ -204,10 +207,6 @@ export class LevelSelector extends Component {
     }, FRAME * 60);
   }
 
-  loadLevelGenerator() {
-    // AudioManager.Instance.stop();
-    director.loadScene("levelGen", (e, scene) => {});
-  }
   start() {}
 
   showPage(page: number) {
