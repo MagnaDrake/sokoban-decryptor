@@ -86,7 +86,10 @@ export class Emitter extends Entity {
         break;
       case EmitterTypes.ZERO:
         this.outputDirections = [];
-        this.emitterProngs[4].active = true;
+        let finalProng = this.emitterProngs[4];
+        if (finalProng?.isValid) {
+          this.emitterProngs[4].active = true;
+        }
         break;
     }
     this.outputDirections.forEach((dir) => {
