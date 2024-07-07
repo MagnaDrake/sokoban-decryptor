@@ -63,13 +63,17 @@ export class SaveLoader extends Component {
       });
 
       console.log(levels, fc, we);
-      UserDataManager.Instance.saveUserData({
+      const data = {
         completedLevels: levels,
         perfectLevels: [],
         hasFinishedGame: fc[0] !== undefined ? true : false,
         hasWatchedEnding: we[0] !== undefined ? true : false,
-      });
+      };
+      UserDataManager.Instance.saveUserData(data);
       this.levelSelector.updateLevelData();
+      // jank
+      // supposedly just call title screen manager to update values after data saving
+      // instead of save loader having a reference to tsm
     }
   }
 }

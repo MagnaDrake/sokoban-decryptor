@@ -117,22 +117,7 @@ export class TitleScreenUIManager extends Component {
       ? "On"
       : "Off";
 
-    const hasFinishedGame =
-      UserDataManager.Instance.getUserData().hasFinishedGame;
-
-    const hasWatchedEnding =
-      UserDataManager.Instance.getUserData().hasWatchedEnding;
-
-    this.toggleReplayEndingButtonVisibility(hasFinishedGame);
-
-    this.toggleNextPageButtonVisibility(hasFinishedGame);
-
-    this.toggleBackgroundChange(hasFinishedGame && hasWatchedEnding);
-
-    const hasShownEXPopup = localStorage.getItem("expopup");
-    if (hasWatchedEnding && !hasShownEXPopup) {
-      this.showExPopup();
-    }
+    this.updateLevelDisplay();
 
     //   this.blackScreen.toggleVisibility(false);
   }
@@ -349,5 +334,24 @@ export class TitleScreenUIManager extends Component {
 
   closeExPopup() {
     this.exPopup.active = false;
+  }
+
+  updateLevelDisplay() {
+    this.scheduleOnce(() => {
+      const hasFinishedGame =
+        UserDataManager.Instance.getUserData().hasFinishedGame;
+
+      const hasWatchedEnding =
+        UserDataManager.Instance.getUserData().hasWatchedEnding;
+
+      this.toggleNextPageButtonVisibility(hasFinishedGame);
+      this.toggleReplayEndingButtonVisibility(hasFinishedGame);
+      this.toggleBackgroundChange(hasFinishedGame && hasWatchedEnding);
+
+      const hasShownEXPopup = localStorage.getItem("expopup");
+      if (hasWatchedEnding && !hasShownEXPopup) {
+        this.showExPopup();
+      }
+    }, FRAME);
   }
 }
