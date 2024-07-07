@@ -69,11 +69,9 @@
       "__id__": 3
     },
     "levels": [
-      {
-        "__uuid__": "57c758bc-0b57-498f-aedc-622f85d4f57c",
-        "__expectedType__": "cc.JsonAsset"
-      }
+      null
     ],
+    "tutorialDialogues": [],
     "_id": ""
   },
   {
@@ -89,6 +87,7 @@
       "__id__": 0
     },
     "fileId": "f04wMeIGZKe5TCoTl6wtkY",
+    "instance": null,
     "targetOverrides": null
   }
 ]
