@@ -72,6 +72,13 @@ export class PauseMenuManager extends Component {
     this.settingsContainer.active = false;
   }
 
+  onClosePause() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
+    this.reset();
+  }
+
   reset() {
     this.isPause = false;
     moveToLocal(this.pauseMenuContainer, new Vec3(0, 800, 0), FRAME * 30);
