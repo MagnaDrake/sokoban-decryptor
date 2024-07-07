@@ -30,7 +30,9 @@ export class WinAnimationController extends Component {
   player: Player;
 
   triggerWin(sendToEnding = false, page = 0) {
-    AudioManager.Instance.playOneShotRandom(AudioKeys.SFXRotate);
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXFanfare)}`
+    );
 
     AudioManager.Instance.fadeBGM(0.2, 1);
 

@@ -12,19 +12,21 @@ export class PreloadController extends Component {
     director.preloadScene("title");
 
     director.preloadScene("intro", () => {
-      ss.enterTransition();
-      AudioManager.Instance.playOneShot(
-        `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
-      );
-
       this.scheduleOnce(() => {
-        director.loadScene("intro", () => {
-          AudioManager.Instance.playOneShot(
-            `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
-          );
-          ss.exitTransition();
-        });
-      }, 1 * FRAME * 60);
+        ss.enterTransition();
+        AudioManager.Instance.playOneShot(
+          `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
+        );
+
+        this.scheduleOnce(() => {
+          director.loadScene("intro", () => {
+            AudioManager.Instance.playOneShot(
+              `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+            );
+            ss.exitTransition();
+          });
+        }, 1 * FRAME * 60);
+      }, FRAME * 30);
     });
 
     director.preloadScene("ending");

@@ -64,7 +64,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 54
+      "__id__": 55
     },
     "_id": "b5061b83-4512-4e7c-9169-7bb40786299d"
   },
@@ -1496,6 +1496,9 @@
       },
       {
         "__id__": 53
+      },
+      {
+        "__id__": 54
       }
     ],
     "_prefab": null,
@@ -1786,27 +1789,46 @@
     "_id": "e2Y+Oon6hI96KxwBShyxeJ"
   },
   {
+    "__type__": "3e26brov1VNQb7FAVFnfIdd",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 42
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "key": 10,
+    "clips": [
+      {
+        "__uuid__": "ed8ed03d-12e1-4859-b88e-cab73185cf00",
+        "__expectedType__": "cc.AudioClip"
+      }
+    ],
+    "_id": "5dycdx82VEOJu+ZT6miwkQ"
+  },
+  {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 55
-    },
-    "shadows": {
       "__id__": 56
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 57
     },
-    "fog": {
+    "_skybox": {
       "__id__": 58
     },
-    "octree": {
+    "fog": {
       "__id__": 59
     },
-    "skin": {
+    "octree": {
       "__id__": 60
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 61
+    },
+    "lightProbeInfo": {
+      "__id__": 62
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
