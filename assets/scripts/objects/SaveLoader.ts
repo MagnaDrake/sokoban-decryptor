@@ -28,7 +28,7 @@ export class SaveLoader extends Component {
     const levelCode = UserDataManager.Instance.getSaveCode();
     this.textBox.string = levelCode;
     this.successNotif.string =
-      levelCode.length > 1 ? "Copied to clipboard!" : "No save data available.";
+      levelCode.length > 1 ? "Save code generated!" : "No save data available.";
 
     try {
       await navigator.clipboard.writeText(levelCode);

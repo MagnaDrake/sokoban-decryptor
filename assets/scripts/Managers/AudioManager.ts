@@ -251,7 +251,7 @@ export class AudioManager {
   fadeBGM(target: number, duration: number, onComplete?: any) {
     if (this.masterVolume < target) return;
     tween(this._audioSource)
-      .to(duration, { volume: target }, { onComplete })
+      .to(duration, { volume: target * this.volumeFactor }, { onComplete })
       .start();
   }
 
