@@ -122,7 +122,6 @@ export function readRawLevelData(json: any, id?: number) {
   //definitly can optimize/abstract this even further
   // do it later
 
-  if (id === 0) console.log(json);
   const { width, height, layers } = json;
 
   //console.log("reading width and height");
