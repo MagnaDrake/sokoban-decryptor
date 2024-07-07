@@ -9,7 +9,7 @@ export const FloorIDs = [64];
 export const WallIDs = [
   4, 5, 6, 7, 12, 13, 14, 15, 20, 21, 22, 23, 28, 29, 30, 31, 36, 37, 38, 39,
   44, 45, 46, 47, 52, 53, 54, 55, 60, 61, 62, 63, 65, 66, 67, 68, 69, 70, 71,
-  72, 73, 74, 75, 76, 77, 78, 79,
+  72, 73, 74, 75, 76, 77, 78, 79, -1,
 ];
 export const PanelIDs = [
   0, 1, 2, 3, 8, 9, 10, 11, 16, 17, 18, 19, 24, 25, 26, 27, 32, 33, 34, 35, 40,
@@ -118,11 +118,10 @@ export enum EntityLayerName {
   Emitters = "Emitters",
 }
 
-export function readRawLevelData(json: any) {
+export function readRawLevelData(json: any, id?: number) {
   //definitly can optimize/abstract this even further
   // do it later
 
-  //console.log(json);
   const { width, height, layers } = json;
 
   //console.log("reading width and height");
@@ -169,6 +168,7 @@ export function readRawLevelData(json: any) {
       const pos = { x: x, y: fixedY };
       // Tiled map editor exports index 1
       const tileID = terrainLayer[index] - 1;
+
       tileData.push({
         position: pos,
         type: getTileTypeFromID(tileID),
@@ -194,10 +194,12 @@ export function readRawLevelData(json: any) {
 
     const emitterProps = emitter.properties;
 
-    const outputType = emitterProps[0].value;
-    const isSplitter = emitterProps[1].value;
-    const movable = emitterProps[2].value;
-    const rotatable = emitterProps[3].value;
+    // null check for emitter props
+    // definitely will break when loading level but at least doesnt stop the level reader
+    const outputType = emitterProps[0]?.value;
+    const isSplitter = emitterProps[1]?.value;
+    const movable = emitterProps[2]?.value;
+    const rotatable = emitterProps[3]?.value;
     //const emitterType = emitterProps[1].value;
 
     const fixRot =

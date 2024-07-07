@@ -22,6 +22,7 @@ import {
   getAudioKeyString,
 } from "../Managers/AudioManager";
 import { GameManager, GameState } from "../Managers/GameManager";
+import { FRAME } from "../utils/anim";
 const { ccclass, property } = _decorator;
 
 export enum PlayerAnimKey {
@@ -90,6 +91,7 @@ export class Player extends Entity {
     if (GameManager.Instance.gameState === GameState.READY) {
       AudioManager.Instance.playOneShotRandom(AudioKeys.SFXWalk);
     }
+
     this.anim.stop();
     this.unschedule(this.setToIdle);
     let key;

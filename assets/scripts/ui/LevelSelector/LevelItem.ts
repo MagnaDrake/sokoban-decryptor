@@ -1,5 +1,10 @@
 import { _decorator, Button, Component, Input, Label, Node } from "cc";
 import { LevelSelector } from "./LevelSelector";
+import {
+  AudioKeys,
+  AudioManager,
+  getAudioKeyString,
+} from "../../Managers/AudioManager";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
@@ -41,8 +46,10 @@ export class LevelItem extends Component {
   }
 
   loadLevel() {
-    console.log("load level");
     this.levelSelector.loadLevel(parseInt(this.levelLabel.string) - 1);
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
   }
 
   toggleClear(value: boolean) {
@@ -55,12 +62,6 @@ export class LevelItem extends Component {
 
   setListener(levelSelector: LevelSelector) {
     this.levelSelector = levelSelector;
-    // this.node.on(Input.EventType.TOUCH_START, () => {
-    //   //   AudioManager.Instance.playOneShot(
-    //   //     `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    //   //   );
-    //   levelSelector.loadLevel(parseInt(this.levelLabel.string) - 1);
-    // });
   }
 
   start() {}

@@ -45,7 +45,6 @@ export class SaveLoader extends Component {
     }
 
     const loadedData = load(levelCode);
-    console.log(loadedData);
     if (loadedData[0] === -1) {
       this.successNotif.string = "Invalid save code!";
     } else {
@@ -62,14 +61,17 @@ export class SaveLoader extends Component {
         return v === SaveFlags.HasWatchedEnding;
       });
 
-      console.log(levels, fc, we);
-      UserDataManager.Instance.saveUserData({
+      const data = {
         completedLevels: levels,
         perfectLevels: [],
         hasFinishedGame: fc[0] !== undefined ? true : false,
         hasWatchedEnding: we[0] !== undefined ? true : false,
-      });
+      };
+      UserDataManager.Instance.saveUserData(data);
       this.levelSelector.updateLevelData();
+      // jank
+      // supposedly just call title screen manager to update values after data saving
+      // instead of save loader having a reference to tsm
     }
   }
 }

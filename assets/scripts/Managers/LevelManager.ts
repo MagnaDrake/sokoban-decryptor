@@ -56,7 +56,6 @@ export class LevelManager extends Component {
   readLevels() {
     this.levels.forEach((levelJson) => {
       if (levelJson !== undefined && levelJson !== null) {
-        //this.levelData.push(readRawLevelData(levelJson.json));
         this.levelData.push(readRawLevelData(levelJson.json));
       }
     });

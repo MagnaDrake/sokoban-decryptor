@@ -21,13 +21,13 @@ export class Grid extends Component {
   public splitters: Array<Splitter>;
 
   onLoad() {
-    this.tiles = [...Array(this.height)].map((e) => Array(this.width));
+    const rows = new Array(this.height).fill(undefined);
+    this.tiles = rows.map((e) => new Array(this.width));
     this.emitters = new Array<Emitter>();
     this.splitters = new Array<Splitter>();
   }
 
   getTile(x: number, y: number) {
-    // console.log(`${x},${y}`);
     if (!(y in this.tiles && x in this.tiles[y])) {
       return false;
     } else {
@@ -38,7 +38,8 @@ export class Grid extends Component {
   setSize(width: number, height: number) {
     this.width = width;
     this.height = height;
-    this.tiles = [...Array(this.height)].map((e) => Array(this.width));
+    const rows = new Array(this.height).fill(undefined);
+    this.tiles = rows.map((e) => new Array(this.width));
   }
 
   setTile(x: number, y: number, tile: Tile) {

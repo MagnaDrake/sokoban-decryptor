@@ -30,6 +30,10 @@ export class WinAnimationController extends Component {
   player: Player;
 
   triggerWin(sendToEnding = false, page = 0) {
+    AudioManager.Instance.playOneShotRandom(AudioKeys.SFXRotate);
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXLevelClear)}`
+    );
     this.scheduleOnce(() => {
       this.player.anim.stop();
       this.player.unschedule(this.player.setToIdle);
@@ -51,19 +55,13 @@ export class WinAnimationController extends Component {
       easing: easing.linear,
       onComplete: () => {
         this.scheduleOnce(() => {
-          moveToLocal(this.winGameScreen, new Vec3(0, 0, 0), 1, () => {
-            this.scheduleOnce(() => {
-              moveToLocal(this.winGameScreen, new Vec3(1000, 0, 0), 1);
-            }, 15 * FRAME);
-          });
-        }, 1.5);
-
-        this.scheduleOnce(() => {
           const ss = ScreenSwipeController.Instance;
           ss.flip = true;
           this.scheduleOnce(() => {
             if (sendToEnding) {
-              console.log("send to ending", sendToEnding);
+              AudioManager.Instance.playOneShot(
+                `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+              );
               director.loadScene("ending", (e, scene) => {
                 AudioManager.Instance.stop();
                 AudioManager.Instance.play(
@@ -74,11 +72,14 @@ export class WinAnimationController extends Component {
               });
             } else {
               director.loadScene("title", (e, scene) => {
+                AudioManager.Instance.playOneShot(
+                  `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+                );
+
                 const uiManager =
                   scene?.getComponentInChildren(TitleScreenUIManager);
                 uiManager!.fromGameplay = true;
                 uiManager?.toggleLoadingScreen(false);
-                console.log(page);
                 uiManager?.openLevelSelector(page);
 
                 AudioManager.Instance.stop();
@@ -93,13 +94,29 @@ export class WinAnimationController extends Component {
             ss.exitTransition();
           }, 1);
 
+          AudioManager.Instance.playOneShot(
+            `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
+          );
           ss.enterTransition();
-        }, 3.5);
+        }, 2.5);
       },
     };
 
-    tween(this.maskTransform)
-      .to(FRAME * 60, { width: 1800, height: 1800 }, easingProps)
-      .start();
+    const winScreenTransform = this.winGameScreen.getComponent(UITransform);
+
+    const tween1 = tween(winScreenTransform).to(
+      FRAME * 60,
+      { width: 0 },
+      easingProps
+    );
+
+    const tween2 = tween(this.maskTransform).to(
+      FRAME * 60,
+      { width: 1800, height: 1800 },
+      easingProps
+    );
+
+    tween1.start();
+    tween2.start();
   }
 }

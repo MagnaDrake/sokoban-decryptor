@@ -21,7 +21,6 @@ export class VolumeController extends Component {
   protected onLoad(): void {
     this.masterVolume = AudioManager.Instance.masterVolume;
     this.sfxVolume = AudioManager.Instance.sfxVolumeRatio;
-    console.log(this.sfxVolume);
 
     this.bgmSlider.progress = this.masterVolume;
     this.sfxSlider.progress = this.sfxVolume;

@@ -17,5 +17,11 @@
       "name": "EMITTER",
       "value": 131072
     }
-  ]
+  ],
+  "general": {
+    "designResolution": {
+      "fitHeight": true,
+      "fitWidth": false
+    }
+  }
 }

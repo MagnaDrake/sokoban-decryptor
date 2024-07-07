@@ -14,6 +14,8 @@ export enum AudioKeys {
   SFXWalk,
   SFXRotate,
   SFXUndo,
+  SFXReset,
+  SFXBookTurn,
 }
 
 export const AudioKeyStrings = [
@@ -32,6 +34,8 @@ export const AudioKeyStrings = [
   "walk",
   "rotate",
   "undo",
+  "reset",
+  "bookturn",
 ];
 
 export function getAudioKeyString(key: AudioKeys) {
@@ -103,10 +107,8 @@ export class AudioManager {
 
     const volSettings = UserDataManager.Instance.getVolumeSettings();
 
-    console.log(volSettings);
-
-    this.masterVolume = volSettings.mVol;
-    this.sfxVolume = volSettings.sVol;
+    this.adjustMusicVolume(volSettings.mVol);
+    this.adjustSFXVolume(volSettings.sVol);
   }
 
   public get audioSource() {
@@ -239,6 +241,6 @@ export class AudioManager {
   adjustSFXVolume(value: number) {
     this.sfxVolumeRatio = value;
     this.sfxVolume = this.sfxVolumeRatio / this.masterVolume;
-    UserDataManager.Instance.setVolume("sVol", this.sfxVolume);
+    UserDataManager.Instance.setVolume("sVol", this.sfxVolumeRatio);
   }
 }

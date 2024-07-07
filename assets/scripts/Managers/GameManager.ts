@@ -49,6 +49,7 @@ export enum GameState {
   LOADING,
   READY,
   WIN,
+  UNDO,
 }
 
 @ccclass("GameManager")
@@ -118,9 +119,16 @@ export class GameManager extends Component {
   }
 
   onUndoKeyInput() {
+    this.gameState = GameState.UNDO;
     CommandManager.Instance.undoCommandBatch();
     GridManager.Instance.updateGridState();
+    this.unschedule(this.undoSchedule);
+    this.scheduleOnce(this.undoSchedule, 10 * FRAME);
     // should not have to check for win if its undoing
+  }
+
+  undoSchedule() {
+    this.gameState = GameState.READY;
   }
 
   onInteractInput(keyCode: KeyCode) {
@@ -282,14 +290,11 @@ export class GameManager extends Component {
   onWinLevel() {
     if (this.hasShownWin) return;
 
-    console.log(this.titleString);
     let worldId = parseInt(this.titleString.charAt(0));
-    console.log(worldId);
     this.gameState = GameState.WIN;
     this.saveWin();
 
     const page = worldId === 4 ? 1 : 0;
-    console.log("page", page);
 
     this.scheduleOnce(() => {
       if (
@@ -312,6 +317,10 @@ export class GameManager extends Component {
     // then reinit the level
     // might need object pooling in the future
     if (this.gameState !== GameState.READY) return;
+
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXReset)}`
+    );
 
     const ss = ScreenSwipeController.Instance;
     ss.flip = true;

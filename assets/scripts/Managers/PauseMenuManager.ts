@@ -56,6 +56,9 @@ export class PauseMenuManager extends Component {
   }
 
   onPauseButtonClick() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     if (this.isPause) {
       this.reset();
     } else {
@@ -84,9 +87,15 @@ export class PauseMenuManager extends Component {
   // should have a helper function to do that instead
   // later
   onBackClick() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     const ss = ScreenSwipeController.Instance;
     ss.flip = true;
     ss.enterTransition();
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
+    );
     this.scheduleOnce(() => {
       director.loadScene("title", (e, scene) => {
         const uiManager = scene?.getComponentInChildren(TitleScreenUIManager);
@@ -101,20 +110,32 @@ export class PauseMenuManager extends Component {
         );
       });
       ss.exitTransition();
+      AudioManager.Instance.playOneShot(
+        `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+      );
     }, FRAME * 60);
   }
 
   onSettingsClick() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     this.pauseMenuContainer.active = false;
     this.settingsContainer.active = true;
   }
 
   onCloseSettingsClick() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     this.pauseMenuContainer.active = true;
     this.settingsContainer.active = false;
   }
 
   onVirtualDpadToggle() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     if (this.isVirtualDpadOn) {
       this.vdp.active = false;
       this.virtualDpadToggleLabel.string = "Off";

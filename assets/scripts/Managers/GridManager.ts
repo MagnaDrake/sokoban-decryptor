@@ -133,6 +133,7 @@ export class GridManager extends Component {
         this.grid.height
       );
       tileObject.setPosition(wPos.x, wPos.y);
+
       this.grid.setTile(
         tileData.position.x,
         tileData.position.y,

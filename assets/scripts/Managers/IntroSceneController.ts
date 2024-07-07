@@ -61,6 +61,8 @@ export class IntroSceneController extends Component {
         this.goToTitle();
       }
     } else {
+      AudioManager.Instance.playOneShotRandom(AudioKeys.SFXBookTurn);
+
       if (this.panelOrder === 0) {
         this.tapNotice.fadeIn();
       } else {
@@ -86,12 +88,21 @@ export class IntroSceneController extends Component {
     }
   }
 
+  onClickSkip() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
+  }
+
   goToTitle(delay = 1) {
     this.skipButton.active = false;
     const ss = ScreenSwipeController.Instance;
     ss.enterTransition();
     input.off(Input.EventType.KEY_DOWN, this.onKeyDown, this);
     this.node.off(Input.EventType.TOUCH_START, this.onScreenTap, this);
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
+    );
 
     // this.comicPanels.forEach((panel) => {
     //   panel.getComponent(ComicPanel).stopTween();
@@ -100,6 +111,9 @@ export class IntroSceneController extends Component {
 
     this.scheduleOnce(() => {
       director.loadScene("title", () => {
+        AudioManager.Instance.playOneShot(
+          `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+        );
         ss.exitTransition();
       });
     }, 1.5);
