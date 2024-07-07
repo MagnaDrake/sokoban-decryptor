@@ -63,6 +63,7 @@ import { UserDataManager } from "./UserDataManager";
  */
 
 export class AudioManager {
+  volumeFactor = 0.5;
   masterVolume = 1;
   sfxVolume = 1;
   sfxVolumeRatio = 1;
@@ -170,14 +171,14 @@ export class AudioManager {
     if (sound instanceof AudioClip) {
       this._audioSource.clip = sound;
       this._audioSource.play();
-      this.audioSource.volume = this.masterVolume;
+      this.audioSource.volume = this.masterVolume * this.volumeFactor;
     } else {
       const clip = this.audioClips.get(sound);
       if (clip) {
         this._audioSource.clip = clip;
         this.audioSource.play();
         this.audioSource.loop = loop;
-        this.audioSource.volume = this.masterVolume;
+        this.audioSource.volume = this.masterVolume * this.volumeFactor;
       } else {
         console.warn(`Audio Clip of key ${sound} not found`);
       }
@@ -230,18 +231,20 @@ export class AudioManager {
   }
 
   adjustMusicVolume(value: number) {
-    if (value <= 0.1) {
+    if (value <= 0.01) {
       value = 0.001;
     }
     this.masterVolume = value;
-    this.sfxVolume = this.sfxVolumeRatio / this.masterVolume;
-    this._audioSource.volume = this.masterVolume;
+    this.sfxVolume =
+      this.sfxVolumeRatio / (this.masterVolume * this.volumeFactor);
+    this._audioSource.volume = this.masterVolume * this.volumeFactor;
     UserDataManager.Instance.setVolume("mVol", this.masterVolume);
   }
 
   adjustSFXVolume(value: number) {
     this.sfxVolumeRatio = value;
-    this.sfxVolume = this.sfxVolumeRatio / this.masterVolume;
+    this.sfxVolume =
+      this.sfxVolumeRatio / (this.masterVolume * this.volumeFactor);
     UserDataManager.Instance.setVolume("sVol", this.sfxVolumeRatio);
   }
 
