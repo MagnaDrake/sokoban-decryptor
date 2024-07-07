@@ -45,7 +45,7 @@
                          "gid":85,
                          "height":128,
                          "id":1,
-                         "name":"3-3 Atrium Lights",
+                         "name":"4-2 Splitter Storage",
                          "rotation":0,
                          "type":"",
                          "visible":true,
@@ -199,7 +199,7 @@
                          "width":128,
                          "x":512,
                          "y":1024
-                        },
+                        }, 
                         {
                          "gid":90,
                          "height":128,
@@ -210,7 +210,7 @@
                                  "name":"EmitterOutputType",
                                  "propertytype":"EmitterOutputType",
                                  "type":"string",
-                                 "value":"T_JUNCTION"
+                                 "value":"L_CURVE"
                                 }, 
                                 {
                                  "name":"IsSplitter",
@@ -244,7 +244,7 @@
                                  "name":"EmitterOutputType",
                                  "propertytype":"EmitterOutputType",
                                  "type":"string",
-                                 "value":"L_CURVE"
+                                 "value":"SINGLE"
                                 }, 
                                 {
                                  "name":"IsSplitter",
@@ -301,6 +301,40 @@
                          "width":128,
                          "x":1024,
                          "y":896
+                        }, 
+                        {
+                         "gid":90,
+                         "height":128,
+                         "id":31,
+                         "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"DOUBLE"
+                                }, 
+                                {
+                                 "name":"IsSplitter",
+                                 "type":"bool",
+                                 "value":true
+                                }, 
+                                {
+                                 "name":"Movable",
+                                 "type":"bool",
+                                 "value":true
+                                }, 
+                                {
+                                 "name":"Rotatable",
+                                 "type":"bool",
+                                 "value":true
+                                }],
+                         "rotation":0,
+                         "type":"",
+                         "visible":true,
+                         "width":128,
+                         "x":512,
+                         "y":896
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -316,7 +350,7 @@
          "y":0
         }],
  "nextlayerid":6,
- "nextobjectid":31,
+ "nextobjectid":32,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
