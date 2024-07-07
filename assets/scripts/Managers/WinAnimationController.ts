@@ -30,6 +30,10 @@ export class WinAnimationController extends Component {
   player: Player;
 
   triggerWin(sendToEnding = false, page = 0) {
+    AudioManager.Instance.playOneShotRandom(AudioKeys.SFXRotate);
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXLevelClear)}`
+    );
     this.scheduleOnce(() => {
       this.player.anim.stop();
       this.player.unschedule(this.player.setToIdle);
@@ -55,6 +59,9 @@ export class WinAnimationController extends Component {
           ss.flip = true;
           this.scheduleOnce(() => {
             if (sendToEnding) {
+              AudioManager.Instance.playOneShot(
+                `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+              );
               console.log("send to ending", sendToEnding);
               director.loadScene("ending", (e, scene) => {
                 AudioManager.Instance.stop();
@@ -66,6 +73,10 @@ export class WinAnimationController extends Component {
               });
             } else {
               director.loadScene("title", (e, scene) => {
+                AudioManager.Instance.playOneShot(
+                  `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+                );
+
                 const uiManager =
                   scene?.getComponentInChildren(TitleScreenUIManager);
                 uiManager!.fromGameplay = true;
@@ -85,6 +96,9 @@ export class WinAnimationController extends Component {
             ss.exitTransition();
           }, 1);
 
+          AudioManager.Instance.playOneShot(
+            `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
+          );
           ss.enterTransition();
         }, 2.5);
       },

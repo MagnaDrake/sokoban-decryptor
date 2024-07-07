@@ -16,6 +16,11 @@ import { FRAME } from "../../utils/anim";
 import { UserDataManager } from "../../Managers/UserDataManager";
 import { WorldInfo } from "../../WorldInfo";
 import { LevelWorldContainer } from "../../objects/LevelWorldContainer";
+import {
+  AudioKeys,
+  AudioManager,
+  getAudioKeyString,
+} from "../../Managers/AudioManager";
 //import { GameManager } from "./GameManager";
 //import { TitleScreenUIManager } from "./TitleScreenUIManager";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
@@ -187,9 +192,15 @@ export class LevelSelector extends Component {
     // AudioManager.Instance.stop();
     const ss = ScreenSwipeController.Instance;
     ss.enterTransition();
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
+    );
     this.scheduleOnce(() => {
       director.loadScene("gameplay", (e, scene) => {
         const gm = GameManager.Instance.loadLevelData(level);
+        AudioManager.Instance.playOneShot(
+          `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+        );
         ss.exitTransition();
       });
     }, FRAME * 60);

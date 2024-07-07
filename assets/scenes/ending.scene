@@ -23,7 +23,7 @@
     "_active": true,
     "_components": [],
     "_prefab": {
-      "__id__": 187
+      "__id__": 188
     },
     "_lpos": {
       "__type__": "cc.Vec3",
@@ -54,7 +54,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 188
+      "__id__": 189
     },
     "_id": "177b43d5-eb4a-4295-9312-c1fbe492b405"
   },
@@ -80,13 +80,13 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 184
-      },
-      {
         "__id__": 185
       },
       {
         "__id__": 186
+      },
+      {
+        "__id__": 187
       }
     ],
     "_prefab": null,
@@ -368,10 +368,10 @@
     "_active": true,
     "_components": [
       {
-        "__id__": 182
+        "__id__": 183
       },
       {
-        "__id__": 183
+        "__id__": 184
       }
     ],
     "_prefab": null,
@@ -3065,6 +3065,9 @@
     "clickEvents": [
       {
         "__id__": 181
+      },
+      {
+        "__id__": 182
       }
     ],
     "_interactable": true,
@@ -3117,6 +3120,16 @@
     "_componentId": "ec9d990eBpCJ6yb+QDbjbqt",
     "handler": "goToTitle",
     "customEventData": "2"
+  },
+  {
+    "__type__": "cc.ClickEvent",
+    "target": {
+      "__id__": 8
+    },
+    "component": "",
+    "_componentId": "ec9d990eBpCJ6yb+QDbjbqt",
+    "handler": "onClickSkip",
+    "customEventData": ""
   },
   {
     "__type__": "cc.UITransform",
@@ -3301,25 +3314,25 @@
   {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 189
-    },
-    "shadows": {
       "__id__": 190
     },
-    "_skybox": {
+    "shadows": {
       "__id__": 191
     },
-    "fog": {
+    "_skybox": {
       "__id__": 192
     },
-    "octree": {
+    "fog": {
       "__id__": 193
     },
-    "skin": {
+    "octree": {
       "__id__": 194
     },
-    "lightProbeInfo": {
+    "skin": {
       "__id__": 195
+    },
+    "lightProbeInfo": {
+      "__id__": 196
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false

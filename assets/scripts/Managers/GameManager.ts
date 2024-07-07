@@ -322,6 +322,10 @@ export class GameManager extends Component {
     // might need object pooling in the future
     if (this.gameState !== GameState.READY) return;
 
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXReset)}`
+    );
+
     const ss = ScreenSwipeController.Instance;
     ss.flip = true;
     ss.enterTransition();

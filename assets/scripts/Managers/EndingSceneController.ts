@@ -3,6 +3,7 @@ import { IntroSceneController } from "./IntroSceneController";
 import { UserDataManager } from "./UserDataManager";
 import { ScreenSwipeController } from "./ScreenSwipeController";
 import { ComicPanel } from "../objects/ComicPanel";
+import { AudioKeys, AudioManager } from "./AudioManager";
 const { ccclass, property } = _decorator;
 
 @ccclass("EndingSceneController")
@@ -27,6 +28,8 @@ export class EndingSceneController extends IntroSceneController {
         this.goToTitle();
       }
     } else {
+      AudioManager.Instance.playOneShotRandom(AudioKeys.SFXBookTurn);
+
       if (this.panelOrder === 0) {
         this.tapNotice.fadeIn();
       } else {

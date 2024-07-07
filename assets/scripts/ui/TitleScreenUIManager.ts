@@ -16,6 +16,12 @@ import { isMobile } from "../utils/device";
 import { UserDataManager } from "../Managers/UserDataManager";
 import { ScreenSwipeController } from "../Managers/ScreenSwipeController";
 import { LevelSelector } from "./LevelSelector/LevelSelector";
+import {
+  AudioKeys,
+  AudioKeyStrings,
+  AudioManager,
+  getAudioKeyString,
+} from "../Managers/AudioManager";
 //import { BlackScreen } from "./BlackScreen";
 //import { AudioKeys, AudioManager, getAudioKeyString } from "./AudioManager";
 const { ccclass, property } = _decorator;
@@ -140,9 +146,9 @@ export class TitleScreenUIManager extends Component {
   }
 
   onClickCredits() {
-    // AudioManager.Instance.playOneShot(
-    //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    // );
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
 
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
@@ -156,9 +162,9 @@ export class TitleScreenUIManager extends Component {
   }
 
   onHideCredits() {
-    // AudioManager.Instance.playOneShot(
-    //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    // );
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     // );
@@ -168,22 +174,19 @@ export class TitleScreenUIManager extends Component {
 
   onStartGameClick() {
     this.openLevelSelector();
-    // AudioManager.Instance.playOneShot(
-    //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    // );
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
   }
 
   onBackLevelSelectorClick() {
     this.closeLevelSelector();
-    // AudioManager.Instance.playOneShot(
-    //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    // );
   }
 
   closeLevelSelector() {
-    // AudioManager.Instance.playOneShot(
-    //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
-    // );
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     this.showJellyMenu();
     moveTo(this.levelSelector, this.levelSelectorHiddenAnchor.worldPosition, 1);
   }
@@ -192,9 +195,9 @@ export class TitleScreenUIManager extends Component {
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
     // );
-    // AudioManager.Instance.playOneShot(
-    //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    // );
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     // this.hideJellyMenu();
     this.hideJellyMenu();
     moveTo(this.loadSave, this.levelSelectorVisibleAnchor.worldPosition, 1);
@@ -211,9 +214,9 @@ export class TitleScreenUIManager extends Component {
   }
 
   hideLoadSave() {
-    // AudioManager.Instance.playOneShot(
-    //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    // );
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     // );
@@ -231,9 +234,9 @@ export class TitleScreenUIManager extends Component {
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
     // );
-    // AudioManager.Instance.playOneShot(
-    //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    // );
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
 
     this.hideJellyMenu();
     moveTo(
@@ -244,9 +247,9 @@ export class TitleScreenUIManager extends Component {
   }
 
   hideSettingsPanel() {
-    // AudioManager.Instance.playOneShot(
-    //   `${getAudioKeyString(AudioKeys.SFXUIClick)}`
-    // );
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     // AudioManager.Instance.playOneShot(
     //   `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     // );
@@ -262,6 +265,10 @@ export class TitleScreenUIManager extends Component {
       this.vpadLabel.string = "On";
       UserDataManager.Instance.saveVpadSettings(true);
     }
+
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
   }
 
   toggleReplayEndingButtonVisibility(value: boolean) {
@@ -287,24 +294,45 @@ export class TitleScreenUIManager extends Component {
   }
 
   onReplayIntro() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
+
     const ss = ScreenSwipeController.Instance;
 
     ss.enterTransition();
 
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
+    );
+
     this.scheduleOnce(() => {
       director.loadScene("intro", () => {
+        AudioManager.Instance.playOneShot(
+          `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+        );
         ss.exitTransition();
       });
     }, 1 * FRAME * 60);
   }
 
   onReplayEnding() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     const ss = ScreenSwipeController.Instance;
 
     ss.enterTransition();
 
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
+    );
+
     this.scheduleOnce(() => {
       director.loadScene("ending", () => {
+        AudioManager.Instance.playOneShot(
+          `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
+        );
         ss.exitTransition();
       });
     }, 1 * FRAME * 60);
@@ -312,6 +340,9 @@ export class TitleScreenUIManager extends Component {
 
   onNextPage() {
     // todo read how many pages they are
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     this.activeLevelPage++;
     if (this.activeLevelPage > 1) this.activeLevelPage = 0;
     this.levelSelector
@@ -333,6 +364,9 @@ export class TitleScreenUIManager extends Component {
   }
 
   closeExPopup() {
+    AudioManager.Instance.playOneShot(
+      `${getAudioKeyString(AudioKeys.SFXUIClick)}`
+    );
     this.exPopup.active = false;
   }
 
