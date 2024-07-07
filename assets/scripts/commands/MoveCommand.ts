@@ -39,12 +39,9 @@ export class MoveCommand implements Command {
       this.originX,
       this.originY
     );
-
-    //this.entity.moveTo(x,y);
   }
 
   undo() {
-    // this.entity.moveTo(lastX, lastY)
     GridManager.Instance.moveEntityTo(this.entity, this.lastX, this.lastY);
     GridManager.Instance.addEntityToTile(this.entity, this.lastX, this.lastY);
     GridManager.Instance.removeEntityFromTile(this.entity, this.x, this.y);
