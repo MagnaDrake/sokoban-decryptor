@@ -62,7 +62,6 @@ export class WinAnimationController extends Component {
               AudioManager.Instance.playOneShot(
                 `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
               );
-              console.log("send to ending", sendToEnding);
               director.loadScene("ending", (e, scene) => {
                 AudioManager.Instance.stop();
                 AudioManager.Instance.play(
@@ -81,7 +80,6 @@ export class WinAnimationController extends Component {
                   scene?.getComponentInChildren(TitleScreenUIManager);
                 uiManager!.fromGameplay = true;
                 uiManager?.toggleLoadingScreen(false);
-                console.log(page);
                 uiManager?.openLevelSelector(page);
 
                 AudioManager.Instance.stop();

@@ -121,7 +121,6 @@ export class GameManager extends Component {
   onUndoKeyInput() {
     this.gameState = GameState.UNDO;
     CommandManager.Instance.undoCommandBatch();
-    console.log(this.gameState);
     GridManager.Instance.updateGridState();
     this.unschedule(this.undoSchedule);
     this.scheduleOnce(this.undoSchedule, 10 * FRAME);
