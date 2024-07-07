@@ -51,14 +51,6 @@ export class WinAnimationController extends Component {
       easing: easing.linear,
       onComplete: () => {
         this.scheduleOnce(() => {
-          moveToLocal(this.winGameScreen, new Vec3(0, 0, 0), 1, () => {
-            this.scheduleOnce(() => {
-              moveToLocal(this.winGameScreen, new Vec3(1000, 0, 0), 1);
-            }, 15 * FRAME);
-          });
-        }, 1.5);
-
-        this.scheduleOnce(() => {
           const ss = ScreenSwipeController.Instance;
           ss.flip = true;
           this.scheduleOnce(() => {
@@ -94,12 +86,25 @@ export class WinAnimationController extends Component {
           }, 1);
 
           ss.enterTransition();
-        }, 3.5);
+        }, 2.5);
       },
     };
 
-    tween(this.maskTransform)
-      .to(FRAME * 60, { width: 1800, height: 1800 }, easingProps)
-      .start();
+    const winScreenTransform = this.winGameScreen.getComponent(UITransform);
+
+    const tween1 = tween(winScreenTransform).to(
+      FRAME * 60,
+      { width: 0 },
+      easingProps
+    );
+
+    const tween2 = tween(this.maskTransform).to(
+      FRAME * 60,
+      { width: 1800, height: 1800 },
+      easingProps
+    );
+
+    tween1.start();
+    tween2.start();
   }
 }

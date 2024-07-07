@@ -206,18 +206,18 @@
     "node": {
       "__id__": 2
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 8
     },
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 9,
+      "g": 30,
+      "b": 114,
       "a": 255
     },
-    "_width": 1,
+    "_width": 6,
     "_id": ""
   },
   {
@@ -431,18 +431,18 @@
     "node": {
       "__id__": 11
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 17
     },
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 9,
+      "g": 30,
+      "b": 114,
       "a": 255
     },
-    "_width": 1,
+    "_width": 8,
     "_id": ""
   },
   {
@@ -1130,18 +1130,18 @@
     "node": {
       "__id__": 42
     },
-    "_enabled": false,
+    "_enabled": true,
     "__prefab": {
       "__id__": 48
     },
     "_color": {
       "__type__": "cc.Color",
-      "r": 0,
-      "g": 0,
-      "b": 0,
+      "r": 9,
+      "g": 30,
+      "b": 114,
       "a": 255
     },
-    "_width": 1,
+    "_width": 8,
     "_id": ""
   },
   {
