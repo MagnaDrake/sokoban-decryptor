@@ -7,15 +7,15 @@
          "layers":[
                 {
                  "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 47, 38, 38, 48, 0, 0, 47, 38, 38, 48, 0, 0, 0,
-                    0, 0, 40, 65, 65, 53, 38, 38, 54, 65, 65, 39, 0, 0, 0,
-                    0, 0, 40, 65, 42, 35, 35, 35, 35, 44, 65, 53, 48, 0, 0,
-                    0, 0, 63, 8, 49, 6, 7, 7, 8, 57, 65, 65, 39, 0, 0,
-                    0, 0, 40, 65, 50, 35, 35, 35, 36, 65, 65, 65, 39, 0, 0,
-                    0, 0, 40, 65, 49, 6, 7, 7, 8, 41, 45, 37, 56, 0, 0,
-                    0, 0, 40, 65, 58, 35, 35, 35, 35, 60, 39, 0, 0, 0, 0,
-                    0, 0, 55, 37, 37, 37, 37, 37, 37, 37, 56, 0, 0, 0, 0,
-                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+                    0, 0, 0, 0, 47, 38, 38, 38, 38, 38, 38, 38, 38, 38, 48,
+                    0, 0, 0, 47, 54, 34, 35, 36, 65, 41, 65, 34, 35, 36, 39,
+                    0, 0, 0, 40, 65, 65, 6, 8, 65, 49, 65, 6, 8, 65, 39,
+                    0, 0, 0, 40, 65, 34, 35, 36, 65, 49, 65, 34, 35, 36, 39,
+                    0, 0, 0, 40, 65, 65, 45, 46, 65, 49, 65, 45, 37, 37, 56,
+                    0, 0, 0, 55, 37, 37, 56, 55, 46, 49, 45, 56, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 40, 49, 39, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 40, 57, 39, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 55, 37, 56, 0, 0, 0, 0],
                  "height":10,
                  "id":1,
                  "name":"Tiles",
@@ -45,13 +45,13 @@
                          "gid":85,
                          "height":128,
                          "id":10,
-                         "name":"4-3 Handshake",
+                         "name":"1-10 Loopback",
                          "rotation":0,
                          "type":"",
                          "visible":true,
                          "width":128,
-                         "x":512,
-                         "y":384
+                         "x":1152,
+                         "y":1152
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -67,14 +67,14 @@
                         {
                          "gid":81,
                          "height":128,
-                         "id":22,
+                         "id":12,
                          "name":"",
                          "properties":[
                                 {
                                  "name":"EmitterOutputType",
                                  "propertytype":"EmitterOutputType",
                                  "type":"string",
-                                 "value":"T_JUNCTION"
+                                 "value":"SINGLE"
                                 }, 
                                 {
                                  "name":"IsSplitter",
@@ -89,60 +89,26 @@
                                 {
                                  "name":"Rotatable",
                                  "type":"bool",
-                                 "value":true
-                                }],
-                         "rotation":90,
-                         "type":"",
-                         "visible":true,
-                         "width":128,
-                         "x":512,
-                         "y":384
-                        }, 
-                        {
-                         "gid":81,
-                         "height":128,
-                         "id":23,
-                         "name":"",
-                         "properties":[
-                                {
-                                 "name":"EmitterOutputType",
-                                 "propertytype":"EmitterOutputType",
-                                 "type":"string",
-                                 "value":"T_JUNCTION"
-                                }, 
-                                {
-                                 "name":"IsSplitter",
-                                 "type":"bool",
                                  "value":false
-                                }, 
-                                {
-                                 "name":"Movable",
-                                 "type":"bool",
-                                 "value":true
-                                }, 
-                                {
-                                 "name":"Rotatable",
-                                 "type":"bool",
-                                 "value":true
                                 }],
                          "rotation":-90,
                          "type":"",
                          "visible":true,
                          "width":128,
-                         "x":1280,
-                         "y":768
+                         "x":1792,
+                         "y":512
                         }, 
                         {
                          "gid":81,
                          "height":128,
-                         "id":24,
+                         "id":13,
                          "name":"",
                          "properties":[
                                 {
                                  "name":"EmitterOutputType",
                                  "propertytype":"EmitterOutputType",
                                  "type":"string",
-                                 "value":"T_JUNCTION"
+                                 "value":"SINGLE"
                                 }, 
                                 {
                                  "name":"IsSplitter",
@@ -157,14 +123,116 @@
                                 {
                                  "name":"Rotatable",
                                  "type":"bool",
+                                 "value":false
+                                }],
+                         "rotation":0,
+                         "type":"",
+                         "visible":true,
+                         "width":128,
+                         "x":1152,
+                         "y":1024
+                        }, 
+                        {
+                         "gid":81,
+                         "height":128,
+                         "id":14,
+                         "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"SINGLE"
+                                }, 
+                                {
+                                 "name":"IsSplitter",
+                                 "type":"bool",
+                                 "value":false
+                                }, 
+                                {
+                                 "name":"Movable",
+                                 "type":"bool",
                                  "value":true
+                                }, 
+                                {
+                                 "name":"Rotatable",
+                                 "type":"bool",
+                                 "value":false
+                                }],
+                         "rotation":-90,
+                         "type":"",
+                         "visible":true,
+                         "width":128,
+                         "x":768,
+                         "y":512
+                        }, 
+                        {
+                         "gid":81,
+                         "height":128,
+                         "id":16,
+                         "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"SINGLE"
+                                }, 
+                                {
+                                 "name":"IsSplitter",
+                                 "type":"bool",
+                                 "value":false
+                                }, 
+                                {
+                                 "name":"Movable",
+                                 "type":"bool",
+                                 "value":true
+                                }, 
+                                {
+                                 "name":"Rotatable",
+                                 "type":"bool",
+                                 "value":false
                                 }],
                          "rotation":90,
                          "type":"",
                          "visible":true,
                          "width":128,
-                         "x":512,
-                         "y":896
+                         "x":1024,
+                         "y":512
+                        }, 
+                        {
+                         "gid":81,
+                         "height":128,
+                         "id":17,
+                         "name":"",
+                         "properties":[
+                                {
+                                 "name":"EmitterOutputType",
+                                 "propertytype":"EmitterOutputType",
+                                 "type":"string",
+                                 "value":"SINGLE"
+                                }, 
+                                {
+                                 "name":"IsSplitter",
+                                 "type":"bool",
+                                 "value":false
+                                }, 
+                                {
+                                 "name":"Movable",
+                                 "type":"bool",
+                                 "value":true
+                                }, 
+                                {
+                                 "name":"Rotatable",
+                                 "type":"bool",
+                                 "value":false
+                                }],
+                         "rotation":90,
+                         "type":"",
+                         "visible":true,
+                         "width":128,
+                         "x":1280,
+                         "y":512
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -180,7 +248,7 @@
          "y":0
         }],
  "nextlayerid":7,
- "nextobjectid":28,
+ "nextobjectid":22,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
