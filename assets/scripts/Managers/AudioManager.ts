@@ -51,6 +51,7 @@ import {
   Enum,
   randomRangeInt,
   random,
+  tween,
 } from "cc";
 import { UserDataManager } from "./UserDataManager";
 
@@ -242,5 +243,19 @@ export class AudioManager {
     this.sfxVolumeRatio = value;
     this.sfxVolume = this.sfxVolumeRatio / this.masterVolume;
     UserDataManager.Instance.setVolume("sVol", this.sfxVolumeRatio);
+  }
+
+  fadeBGM(target: number, duration: number, onComplete?: any) {
+    if (this.masterVolume < target) return;
+    tween(this._audioSource)
+      .to(duration, { volume: target }, { onComplete })
+      .start();
+  }
+
+  resetVolumesToCache() {
+    const { mVol } = UserDataManager.Instance.getVolumeSettings();
+    this.fadeBGM(mVol, 1, () => {
+      this.adjustMusicVolume(mVol);
+    });
   }
 }

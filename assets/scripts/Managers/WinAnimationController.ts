@@ -31,6 +31,9 @@ export class WinAnimationController extends Component {
 
   triggerWin(sendToEnding = false, page = 0) {
     AudioManager.Instance.playOneShotRandom(AudioKeys.SFXRotate);
+
+    AudioManager.Instance.fadeBGM(0.2, 1);
+
     AudioManager.Instance.playOneShot(
       `${getAudioKeyString(AudioKeys.SFXLevelClear)}`
     );
@@ -62,6 +65,7 @@ export class WinAnimationController extends Component {
               AudioManager.Instance.playOneShot(
                 `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
               );
+              AudioManager.Instance.resetVolumesToCache();
               director.loadScene("ending", (e, scene) => {
                 AudioManager.Instance.stop();
                 AudioManager.Instance.play(
@@ -72,6 +76,8 @@ export class WinAnimationController extends Component {
               });
             } else {
               director.loadScene("title", (e, scene) => {
+                AudioManager.Instance.resetVolumesToCache();
+
                 AudioManager.Instance.playOneShot(
                   `${getAudioKeyString(AudioKeys.SFXSweep)}-0`
                 );

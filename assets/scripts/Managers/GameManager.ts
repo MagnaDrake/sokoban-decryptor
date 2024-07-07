@@ -112,6 +112,8 @@ export class GameManager extends Component {
 
   gameState: GameState = GameState.LOADING;
 
+  resetCooldown = false;
+
   start() {
     // this.scheduleOnce(() => {
     //   this.loadLevelData(0);
@@ -119,6 +121,7 @@ export class GameManager extends Component {
   }
 
   onUndoKeyInput() {
+    if (this.gameState === GameState.WIN) return;
     this.gameState = GameState.UNDO;
     CommandManager.Instance.undoCommandBatch();
     GridManager.Instance.updateGridState();
@@ -317,15 +320,19 @@ export class GameManager extends Component {
     // then reinit the level
     // might need object pooling in the future
     if (this.gameState !== GameState.READY) return;
+    if (this.resetCooldown) return;
+
+    this.resetCooldown = true;
 
     AudioManager.Instance.playOneShot(
       `${getAudioKeyString(AudioKeys.SFXReset)}`
     );
 
     const ss = ScreenSwipeController.Instance;
+    this.gameState = GameState.RESET;
     ss.flip = true;
     ss.enterTransition();
-    this.gameState = GameState.RESET;
+
     this.scheduleOnce(() => {
       if (this.currentLevel < 0) return;
       GridManager.Instance.clearGrid();
@@ -339,7 +346,11 @@ export class GameManager extends Component {
       this.scheduleOnce(() => {
         this.gameState = GameState.READY;
         this.wac.player = this.player;
-      }, FRAME * 15);
+      }, FRAME * 30);
+
+      this.scheduleOnce(() => {
+        this.resetCooldown = false;
+      }, 90 * FRAME);
     }, FRAME * 60);
   }
 

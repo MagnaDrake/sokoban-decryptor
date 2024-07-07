@@ -96,8 +96,12 @@ export class PauseMenuManager extends Component {
     AudioManager.Instance.playOneShot(
       `${getAudioKeyString(AudioKeys.SFXSweep)}-1`
     );
+
+    AudioManager.Instance.fadeBGM(0.2, 1);
+
     this.scheduleOnce(() => {
       director.loadScene("title", (e, scene) => {
+        AudioManager.Instance.resetVolumesToCache();
         const uiManager = scene?.getComponentInChildren(TitleScreenUIManager);
         uiManager!.fromGameplay = true;
         uiManager?.toggleLoadingScreen(false);
