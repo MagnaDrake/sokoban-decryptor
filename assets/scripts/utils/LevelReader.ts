@@ -194,10 +194,12 @@ export function readRawLevelData(json: any) {
 
     const emitterProps = emitter.properties;
 
-    const outputType = emitterProps[0].value;
-    const isSplitter = emitterProps[1].value;
-    const movable = emitterProps[2].value;
-    const rotatable = emitterProps[3].value;
+    // null check for emitter props
+    // definitely will break when loading level but at least doesnt stop the level reader
+    const outputType = emitterProps[0]?.value;
+    const isSplitter = emitterProps[1]?.value;
+    const movable = emitterProps[2]?.value;
+    const rotatable = emitterProps[3]?.value;
     //const emitterType = emitterProps[1].value;
 
     const fixRot =
