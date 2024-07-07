@@ -88,10 +88,6 @@ export class Player extends Entity {
   }
 
   onMove(): void {
-    if (GameManager.Instance.gameState === GameState.READY) {
-      AudioManager.Instance.playOneShotRandom(AudioKeys.SFXWalk);
-    }
-
     this.anim.stop();
     this.unschedule(this.setToIdle);
     let key;

@@ -215,11 +215,15 @@ export class GameManager extends Component {
         targetDirection
       );
       batch.add(rotatePlayerCommand);
+
       changeDirection = true;
     }
 
     if (tile) {
       if (!tile.traversable) {
+        if (changeDirection) {
+          AudioManager.Instance.playOneShotRandom(AudioKeys.SFXWalk);
+        }
         this.executeCommand(batch);
         return;
       }
@@ -235,6 +239,7 @@ export class GameManager extends Component {
         if (changeDirection) {
           // console.log("only attempt to face the entity but not move towards");
           this.executeCommand(batch);
+          AudioManager.Instance.playOneShotRandom(AudioKeys.SFXWalk);
           return;
         }
 
@@ -277,6 +282,7 @@ export class GameManager extends Component {
       batch.add(movePlayerCommand);
     }
     this.executeCommand(batch);
+    AudioManager.Instance.playOneShotRandom(AudioKeys.SFXWalk);
   }
 
   executeCommand(batch: CommandBatch) {
