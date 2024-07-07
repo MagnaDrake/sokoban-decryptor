@@ -7,14 +7,14 @@
          "layers":[
                 {
                  "data":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-                    0, 0, 47, 38, 38, 48, 0, 0, 47, 38, 38, 48, 0, 0, 0,
-                    0, 0, 40, 65, 65, 53, 38, 38, 54, 65, 65, 39, 0, 0, 0,
-                    0, 0, 40, 65, 42, 35, 35, 35, 35, 44, 65, 53, 48, 0, 0,
-                    0, 0, 63, 8, 49, 6, 7, 7, 8, 57, 65, 65, 39, 0, 0,
-                    0, 0, 40, 65, 50, 35, 35, 35, 36, 65, 65, 65, 39, 0, 0,
-                    0, 0, 40, 65, 49, 6, 7, 7, 8, 41, 45, 37, 56, 0, 0,
-                    0, 0, 40, 65, 58, 35, 35, 35, 35, 60, 39, 0, 0, 0, 0,
-                    0, 0, 55, 37, 37, 37, 37, 37, 37, 37, 56, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 47, 38, 38, 38, 38, 38, 38, 48, 0, 0, 0, 0,
+                    0, 0, 0, 40, 42, 35, 35, 35, 35, 36, 39, 0, 0, 0, 0,
+                    0, 0, 0, 40, 57, 65, 65, 65, 65, 65, 39, 0, 0, 0, 0,
+                    0, 0, 0, 55, 37, 37, 37, 46, 65, 65, 39, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 55, 37, 37, 56, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+                    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
                     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
                  "height":10,
                  "id":1,
@@ -38,20 +38,20 @@
          "layers":[
                 {
                  "draworder":"topdown",
-                 "id":4,
+                 "id":5,
                  "name":"Player",
                  "objects":[
                         {
                          "gid":85,
                          "height":128,
-                         "id":10,
-                         "name":"4-3 Handshake",
+                         "id":1,
+                         "name":"1-5 Passing By",
                          "rotation":0,
                          "type":"",
                          "visible":true,
                          "width":128,
                          "x":512,
-                         "y":384
+                         "y":640
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -61,20 +61,20 @@
                 }, 
                 {
                  "draworder":"topdown",
-                 "id":5,
+                 "id":4,
                  "name":"Emitters",
                  "objects":[
                         {
-                         "gid":81,
+                         "gid":88,
                          "height":128,
-                         "id":22,
+                         "id":15,
                          "name":"",
                          "properties":[
                                 {
                                  "name":"EmitterOutputType",
                                  "propertytype":"EmitterOutputType",
                                  "type":"string",
-                                 "value":"T_JUNCTION"
+                                 "value":"SINGLE"
                                 }, 
                                 {
                                  "name":"IsSplitter",
@@ -89,60 +89,26 @@
                                 {
                                  "name":"Rotatable",
                                  "type":"bool",
-                                 "value":true
-                                }],
-                         "rotation":90,
-                         "type":"",
-                         "visible":true,
-                         "width":128,
-                         "x":512,
-                         "y":384
-                        }, 
-                        {
-                         "gid":81,
-                         "height":128,
-                         "id":23,
-                         "name":"",
-                         "properties":[
-                                {
-                                 "name":"EmitterOutputType",
-                                 "propertytype":"EmitterOutputType",
-                                 "type":"string",
-                                 "value":"T_JUNCTION"
-                                }, 
-                                {
-                                 "name":"IsSplitter",
-                                 "type":"bool",
                                  "value":false
-                                }, 
-                                {
-                                 "name":"Movable",
-                                 "type":"bool",
-                                 "value":true
-                                }, 
-                                {
-                                 "name":"Rotatable",
-                                 "type":"bool",
-                                 "value":true
                                 }],
                          "rotation":-90,
                          "type":"",
                          "visible":true,
                          "width":128,
-                         "x":1280,
-                         "y":768
+                         "x":768,
+                         "y":640
                         }, 
                         {
-                         "gid":81,
+                         "gid":88,
                          "height":128,
-                         "id":24,
+                         "id":16,
                          "name":"",
                          "properties":[
                                 {
                                  "name":"EmitterOutputType",
                                  "propertytype":"EmitterOutputType",
                                  "type":"string",
-                                 "value":"T_JUNCTION"
+                                 "value":"SINGLE"
                                 }, 
                                 {
                                  "name":"IsSplitter",
@@ -157,14 +123,14 @@
                                 {
                                  "name":"Rotatable",
                                  "type":"bool",
-                                 "value":true
+                                 "value":false
                                 }],
-                         "rotation":90,
+                         "rotation":180,
                          "type":"",
                          "visible":true,
                          "width":128,
-                         "x":512,
-                         "y":896
+                         "x":1152,
+                         "y":512
                         }],
                  "opacity":1,
                  "type":"objectgroup",
@@ -179,8 +145,8 @@
          "x":0,
          "y":0
         }],
- "nextlayerid":7,
- "nextobjectid":28,
+ "nextlayerid":6,
+ "nextobjectid":17,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.11.0",
@@ -193,6 +159,10 @@
         {
          "firstgid":81,
          "source":"..\/new tilesets\/sokoban_entities_128.tsx"
+        }, 
+        {
+         "firstgid":86,
+         "source":"..\/new tilesets\/sokoban_emitters_128.tsx"
         }],
  "tilewidth":128,
  "type":"map",
