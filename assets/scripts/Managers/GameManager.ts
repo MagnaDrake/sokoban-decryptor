@@ -49,6 +49,7 @@ export enum GameState {
   LOADING,
   READY,
   WIN,
+  UNDO,
 }
 
 @ccclass("GameManager")
@@ -118,9 +119,17 @@ export class GameManager extends Component {
   }
 
   onUndoKeyInput() {
+    this.gameState = GameState.UNDO;
     CommandManager.Instance.undoCommandBatch();
+    console.log(this.gameState);
     GridManager.Instance.updateGridState();
+    this.unschedule(this.undoSchedule);
+    this.scheduleOnce(this.undoSchedule, 10 * FRAME);
     // should not have to check for win if its undoing
+  }
+
+  undoSchedule() {
+    this.gameState = GameState.READY;
   }
 
   onInteractInput(keyCode: KeyCode) {

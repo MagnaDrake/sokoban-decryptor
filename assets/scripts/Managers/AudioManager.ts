@@ -14,6 +14,7 @@ export enum AudioKeys {
   SFXWalk,
   SFXRotate,
   SFXUndo,
+  SFXReset,
 }
 
 export const AudioKeyStrings = [
@@ -32,6 +33,7 @@ export const AudioKeyStrings = [
   "walk",
   "rotate",
   "undo",
+  "reset",
 ];
 
 export function getAudioKeyString(key: AudioKeys) {

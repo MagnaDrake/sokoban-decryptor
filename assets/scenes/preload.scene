@@ -64,7 +64,7 @@
     },
     "autoReleaseAssets": false,
     "_globals": {
-      "__id__": 48
+      "__id__": 50
     },
     "_id": "b5061b83-4512-4e7c-9169-7bb40786299d"
   },
@@ -1466,6 +1466,12 @@
       },
       {
         "__id__": 47
+      },
+      {
+        "__id__": 48
+      },
+      {
+        "__id__": 49
       }
     ],
     "_prefab": null,
@@ -1603,19 +1609,15 @@
     "key": 13,
     "clips": [
       {
-        "__uuid__": "0656ff32-8bc6-40ef-8086-75412befc375",
+        "__uuid__": "905acd08-cef7-46b7-bf4f-502b3e12b6f7",
         "__expectedType__": "cc.AudioClip"
       },
       {
-        "__uuid__": "fb7094c7-7fe7-4660-a67d-64f525f58f5a",
+        "__uuid__": "bfc5eaaa-bae9-490c-8b6d-78f4d6ba7d8d",
         "__expectedType__": "cc.AudioClip"
       },
       {
-        "__uuid__": "6c9c3e55-5455-4488-9649-af7847a3c8ac",
-        "__expectedType__": "cc.AudioClip"
-      },
-      {
-        "__uuid__": "6c9c3e55-5455-4488-9649-af7847a3c8ac",
+        "__uuid__": "e9e6d8dc-1d5b-4009-a121-103b87c5ef09",
         "__expectedType__": "cc.AudioClip"
       }
     ],
@@ -1649,27 +1651,65 @@
     "_id": "81hMR2p4NKC6N7C9wahkb2"
   },
   {
+    "__type__": "3e26brov1VNQb7FAVFnfIdd",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 41
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "key": 6,
+    "clips": [
+      {
+        "__uuid__": "18b777bb-2e78-4853-8887-a59d98e2b6c1",
+        "__expectedType__": "cc.AudioClip"
+      }
+    ],
+    "_id": "51rvEmDl1C4L9RmDbL8ck+"
+  },
+  {
+    "__type__": "3e26brov1VNQb7FAVFnfIdd",
+    "_name": "",
+    "_objFlags": 0,
+    "__editorExtras__": {},
+    "node": {
+      "__id__": 41
+    },
+    "_enabled": true,
+    "__prefab": null,
+    "key": 0,
+    "clips": [
+      {
+        "__uuid__": "7e299126-b7ce-4e30-b237-2ef1340f9339",
+        "__expectedType__": "cc.AudioClip"
+      }
+    ],
+    "_id": "bdRrEUIKxMyowkAMsMkDbc"
+  },
+  {
     "__type__": "cc.SceneGlobals",
     "ambient": {
-      "__id__": 49
-    },
-    "shadows": {
-      "__id__": 50
-    },
-    "_skybox": {
       "__id__": 51
     },
-    "fog": {
+    "shadows": {
       "__id__": 52
     },
-    "octree": {
+    "_skybox": {
       "__id__": 53
     },
-    "skin": {
+    "fog": {
       "__id__": 54
     },
-    "lightProbeInfo": {
+    "octree": {
       "__id__": 55
+    },
+    "skin": {
+      "__id__": 56
+    },
+    "lightProbeInfo": {
+      "__id__": 57
     },
     "bakedWithStationaryMainLight": false,
     "bakedWithHighpLightmap": false
