@@ -205,7 +205,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 370.5263157894737,
+    "_orthoHeight": 360,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -2271,7 +2271,7 @@
     "_string": "Back to Menu",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 160,
+    "_actualFontSize": 200.66666666666666,
     "_fontSize": 160,
     "_fontFamily": "",
     "_lineHeight": 80,
@@ -2671,7 +2671,7 @@
     "_string": "Load/Save",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 80,
+    "_actualFontSize": 100,
     "_fontSize": 80,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -2861,7 +2861,7 @@
     "_string": "sdadada",
     "_horizontalAlign": 0,
     "_verticalAlign": 1,
-    "_actualFontSize": 40,
+    "_actualFontSize": 50.166666666666664,
     "_fontSize": 40,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -3233,7 +3233,7 @@
     "_string": "Load Code",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 80,
+    "_actualFontSize": 100,
     "_fontSize": 80,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -3502,7 +3502,7 @@
     "_string": "",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 40,
+    "_actualFontSize": 50.166666666666664,
     "_fontSize": 40,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -3672,7 +3672,7 @@
     "_string": "Export Save",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 80,
+    "_actualFontSize": 100,
     "_fontSize": 80,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -4741,7 +4741,7 @@
     "_string": "You have cleared the base game!\nExtra levels are now unlocked for you.",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 70,
+    "_actualFontSize": 87.79166666666667,
     "_fontSize": 70,
     "_fontFamily": "Arial",
     "_lineHeight": 120,
@@ -4905,7 +4905,7 @@
     "_string": "Okay!",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 80,
+    "_actualFontSize": 100,
     "_fontSize": 80,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -5705,7 +5705,7 @@
       "21"
     ],
     "value": {
-      "__uuid__": "17593f67-7259-456e-a0c2-b111443f6821",
+      "__uuid__": "9e99694e-3faa-42d8-849b-c0764262568a",
       "__expectedType__": "cc.JsonAsset"
     }
   },
@@ -5719,7 +5719,7 @@
       "22"
     ],
     "value": {
-      "__uuid__": "9e99694e-3faa-42d8-849b-c0764262568a",
+      "__uuid__": "c39ff769-a407-4f2e-bfd9-30ee408885e4",
       "__expectedType__": "cc.JsonAsset"
     }
   },
@@ -5733,7 +5733,7 @@
       "23"
     ],
     "value": {
-      "__uuid__": "c39ff769-a407-4f2e-bfd9-30ee408885e4",
+      "__uuid__": "17593f67-7259-456e-a0c2-b111443f6821",
       "__expectedType__": "cc.JsonAsset"
     }
   },
