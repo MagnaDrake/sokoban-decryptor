@@ -202,7 +202,7 @@
     "_priority": 0,
     "_fov": 45,
     "_fovAxis": 0,
-    "_orthoHeight": 360,
+    "_orthoHeight": 401.06666666666666,
     "_near": 0,
     "_far": 1000,
     "_color": {
@@ -847,7 +847,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 531.0718994140625,
+      "width": 531.0719531249999,
       "height": 138
     },
     "_anchorPoint": {
@@ -880,7 +880,7 @@
     "_string": "Level Clear!",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 96,
+    "_actualFontSize": 100,
     "_fontSize": 96,
     "_fontFamily": "Arial",
     "_lineHeight": 100,
@@ -2182,7 +2182,7 @@
     "_string": "Restart",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 80,
+    "_actualFontSize": 100,
     "_fontSize": 80,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -2473,7 +2473,7 @@
     "_string": "Back to Level Select",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 80,
+    "_actualFontSize": 100,
     "_fontSize": 80,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -2504,7 +2504,7 @@
     "__prefab": null,
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 200,
+      "width": 400,
       "height": 80
     },
     "_anchorPoint": {
@@ -2764,7 +2764,7 @@
     "_string": "Settings",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 80,
+    "_actualFontSize": 100,
     "_fontSize": 80,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -4790,6 +4790,7 @@
     "instance": {
       "__id__": 153
     },
+    "targetOverrides": null,
     "nestedPrefabInstanceRoots": null
   },
   {
@@ -7724,7 +7725,7 @@
     "_string": "1-1 Level Name",
     "_horizontalAlign": 2,
     "_verticalAlign": 1,
-    "_actualFontSize": 80,
+    "_actualFontSize": 100,
     "_fontSize": 80,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
