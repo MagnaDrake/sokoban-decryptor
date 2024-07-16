@@ -9,9 +9,16 @@ export class PreloadController extends Component {
   start() {
     const ss = ScreenSwipeController.Instance;
 
-    director.preloadScene("title");
+    director.preloadScene("title", () => {
+      //    console.log("title loaded");
+    });
+
+    director.preloadScene("gameplay", () => {
+      //  console.log("gameplay loaded");
+    });
 
     director.preloadScene("intro", () => {
+      //  console.log("intro loaded");
       this.scheduleOnce(() => {
         ss.enterTransition();
         AudioManager.Instance.playOneShot(
@@ -29,6 +36,8 @@ export class PreloadController extends Component {
       }, FRAME * 30);
     });
 
-    director.preloadScene("ending");
+    director.preloadScene("ending", () => {
+      // console.log("ending loaded");
+    });
   }
 }
