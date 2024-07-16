@@ -16,6 +16,10 @@
     {
       "name": "EMITTER",
       "value": 131072
+    },
+    {
+      "name": "LOADING",
+      "value": 32
     }
   ],
   "general": {

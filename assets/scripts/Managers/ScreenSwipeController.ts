@@ -19,6 +19,9 @@ export class ScreenSwipeController extends Component {
   @property(Node)
   inputBlocker: Node;
 
+  @property(Node)
+  loadingText: Node;
+
   static _instance: ScreenSwipeController;
 
   public static get Instance(): ScreenSwipeController | undefined {
@@ -57,9 +60,14 @@ export class ScreenSwipeController extends Component {
 
   enterTransition() {
     //console.log("start enter transition");
+    this.loadingText.layer = 1 << 19;
     this.inputBlocker.active = true;
     const start = !this.flip ? this.startAnchor : this.endAnchor;
     this.transitionObject.setPosition(start.position);
+
+    this.scheduleOnce(() => {
+      this.loadingText.active = true;
+    }, FRAME * 5);
 
     moveToLocal(
       this.transitionObject,
@@ -73,7 +81,9 @@ export class ScreenSwipeController extends Component {
   }
 
   exitTransition() {
+    this.loadingText.layer = 1 << 5;
     this.scheduleOnce(() => {
+      this.loadingText.active = false;
       // console.log("start exit transition");
       this.inputBlocker.active = true;
       const end = this.flip ? this.startAnchor : this.endAnchor;

@@ -97,6 +97,7 @@ export class PauseMenuManager extends Component {
   // should have a helper function to do that instead
   // later
   onBackClick() {
+    this.pauseMenuContainer.active = false;
     AudioManager.Instance.playOneShot(
       `${getAudioKeyString(AudioKeys.SFXUIClick)}`
     );
