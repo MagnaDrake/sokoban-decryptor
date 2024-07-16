@@ -111,6 +111,7 @@ export class WinAnimationController extends Component {
     };
 
     const winScreenTransform = this.winGameScreen.getComponent(UITransform);
+    winScreenTransform.width = 500;
 
     const tween1 = tween(winScreenTransform).to(
       FRAME * 60,
