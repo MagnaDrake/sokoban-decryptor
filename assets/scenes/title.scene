@@ -5447,7 +5447,7 @@
   {
     "__type__": "TutorialDialogue",
     "level": 1,
-    "tutorialString": "Use arrow keys to move"
+    "tutorialString": "Use arrow keys to move."
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -5483,7 +5483,7 @@
   {
     "__type__": "TutorialDialogue",
     "level": 11,
-    "tutorialString": "Use A and S keys to rotate blocks"
+    "tutorialString": "Use A and S keys to rotate objects."
   },
   {
     "__type__": "CCPropertyOverrideInfo",
@@ -5795,7 +5795,7 @@
   {
     "__type__": "TutorialDialogue",
     "level": 16,
-    "tutorialString": "Use A and S keys to rotate blocks"
+    "tutorialString": "I think you know the drill."
   },
   {
     "__type__": "cc.PrefabInfo",
