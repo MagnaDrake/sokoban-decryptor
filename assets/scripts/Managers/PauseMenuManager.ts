@@ -28,6 +28,8 @@ export class PauseMenuManager extends Component {
 
   isPause = false;
 
+  isSettingsOpen = false;
+
   isVirtualDpadOn = false;
 
   // TODO
@@ -56,6 +58,7 @@ export class PauseMenuManager extends Component {
   }
 
   onPauseButtonClick() {
+    if (this.isSettingsOpen) return;
     AudioManager.Instance.playOneShot(
       `${getAudioKeyString(AudioKeys.SFXUIClick)}`
     );
@@ -133,6 +136,7 @@ export class PauseMenuManager extends Component {
     );
     this.pauseMenuContainer.active = false;
     this.settingsContainer.active = true;
+    this.isSettingsOpen = true;
   }
 
   onCloseSettingsClick() {
@@ -141,6 +145,7 @@ export class PauseMenuManager extends Component {
     );
     this.pauseMenuContainer.active = true;
     this.settingsContainer.active = false;
+    this.isSettingsOpen = false;
   }
 
   onVirtualDpadToggle() {
