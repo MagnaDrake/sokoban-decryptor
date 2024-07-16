@@ -173,7 +173,7 @@ export class TitleScreenUIManager extends Component {
   }
 
   onStartGameClick() {
-    this.openLevelSelector();
+    this.openLevelSelector(this.activeLevelPage);
     AudioManager.Instance.playOneShot(
       `${getAudioKeyString(AudioKeys.SFXUIClick)}`
     );
